@@ -1,0 +1,7 @@
+/*******************************
+         Site Overrides
+*******************************/
+
+@primaryColor: #002f4e;
+@pageBackground: #eff0f1;
+@hyundaiLogoColor: #0A1654;
