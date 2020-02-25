@@ -5,7 +5,7 @@ import { Menu, Image } from 'semantic-ui-react';
 const TopMenuBarView = () => (
     <Menu fixed='top' inverted>
         <Menu.Item>
-            <Image src={logo} size='tiny' fluid />
+            <Image src={logo} size='tiny' />
         </Menu.Item>
         <Menu.Item>
             <h4>Overview</h4>

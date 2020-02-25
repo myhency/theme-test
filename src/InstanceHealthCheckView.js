@@ -1,39 +1,22 @@
 import React from 'react';
-import { Table, Segment, Label } from 'semantic-ui-react';
+import StatusCheckCard from './components/StatusCheckCard';
 
-const TopMenuBarView = () => (
-    <Segment placeholder style={{ marginLeft: '2em' }}>
-        <h1>Service Status</h1>
-        <Table celled>
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell>Header</Table.HeaderCell>
-                    <Table.HeaderCell>Header</Table.HeaderCell>
-                    <Table.HeaderCell>Header</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
+const headers = ['Service Name','Site Name','Status'];
 
-            <Table.Body>
-                <Table.Row>
-                    <Table.Cell>
-                        <Label ribbon>First</Label>
-                    </Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                </Table.Row>
-            </Table.Body>
-        </Table>
-    </Segment>
+const data = {
+    cellData: [
+        ['재직증명서발급서비스','현대카드','OK'],
+        ['모바일사원증발급서비스','현대카드','OK'],
+        ['갑근세영수증발급서비스','현대카드','OK'],
+        ['법인카드발급서비스','현대카드','OK']
+    ]
+}
+
+const InstanceHealthCheckView = () => (
+    <StatusCheckCard 
+        title={'Instance Health Check'} 
+        headers={headers} 
+        data={data} />
 );
 
-export default TopMenuBarView;
+export default InstanceHealthCheckView;

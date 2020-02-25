@@ -17,7 +17,7 @@ const OverviewLayout = () => (
                     <ErrorCountingView />
                 </Grid.Column>
 
-                <Grid.Column style={{ marginLeft: '-2em' }}>
+                <Grid.Column width={11} style={{ marginLeft: '-2em' }}>
                     {/* Instance health-check view */}
                     <InstanceHealthCheckView />
                 </Grid.Column>
