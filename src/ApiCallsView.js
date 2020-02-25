@@ -1,6 +1,5 @@
 import React from 'react';
-import { Segment } from 'semantic-ui-react';
-import { Line } from 'react-chartjs-2';
+import LineGraphCard from './components/LineGraphCard';
 
 const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -30,16 +29,14 @@ const data = {
 };
 
 const options = {
-    maintainAspectRatio: false
+    legend: {
+        display: false
+    },
+    maintainAspectRatio: false,
 }
 
 const ApiCallsView = () => (
-    <Segment placeholder style={{ marginLeft: '2em', marginRight: '2em' }}>
-        <div>
-            <h1>API Calls</h1>
-            <Line data={data} height={30} option={options} />
-        </div>
-    </Segment>
+    <LineGraphCard title={'API Calls'} data={data} options={options} />
 );
 
 export default ApiCallsView;

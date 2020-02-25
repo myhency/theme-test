@@ -11,20 +11,20 @@ const OverviewLayout = () => (
         {/* Top menu bar */}
         <TopMenuBarView />
         <Grid>
-            <Grid.Row columns={2} style={{ marginTop: '3em' }}>
-                <Grid.Column width={5}>
+            <Grid.Row columns={2} style={{ marginTop: '4em' }}>
+                <Grid.Column width={5} style={{ paddingLeft: '3em' }}>
                     {/* Error counting view */}
                     <ErrorCountingView />
                 </Grid.Column>
 
-                <Grid.Column width={11} style={{ marginLeft: '-2em' }}>
+                <Grid.Column width={11} style={{ paddingLeft: '1em', paddingRight: '3em' }}>
                     {/* Instance health-check view */}
                     <InstanceHealthCheckView />
                 </Grid.Column>
             </Grid.Row>
 
-            <Grid.Row>
-                <Grid.Column>
+            <Grid.Row columns={1}>
+                <Grid.Column style={{ paddingLeft: '3em', paddingRight: '3em' }}>
                     {/* API Calls */}
                     <ApiCallsView />
                 </Grid.Column>

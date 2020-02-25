@@ -6,8 +6,10 @@ const StatusCheckCard = (props) => {
     let data = props.data;
 
     return (
-        <Segment placeholder style={{ marginLeft: '2em', justifyContent: 'start' }}>
-            <Header as='h1'>{props.title}</Header>
+        <Segment placeholder style={{ justifyContent: 'start' }}>
+            <div style={{ marginBottom: '2em' }}>
+                <Header as='h1'>{props.title}</Header>
+            </div>
             <div style={{ height: '18vh', overflowY: 'scroll' }}>
                 <Table celled>
                     <Table.Header>
