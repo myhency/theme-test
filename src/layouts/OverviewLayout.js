@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
-import TopMenuBarView from './views/TopMenuBarView';
-import InstanceHealthCheckView from './views/InstanceHealthCheckView';
-import ApiCallsView from './views/ApiCallsView';
-import ServiceStatusSliderView from './views/ServiceStatusSliderView';
-import ErrorCountingView from './views/ErrorCountingView';
+import TopMenuBarView from '../views/TopMenuBarView';
+import InstanceHealthCheckView from '../views/InstanceHealthCheckView';
+import ApiCallsView from '../views/ApiCallsView';
+import ServiceStatusSliderView from '../views/ServiceStatusSliderView';
+import ErrorCountingView from '../views/ErrorCountingView';
 
 const OverviewLayout = () => (
     <div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import 'semantic-ui-less/semantic.less';
-import OverviewLayout from './OverviewLayout';
+import OverviewLayout from './layouts/OverviewLayout';
 
 function App() {
   return (
