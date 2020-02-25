@@ -8,12 +8,12 @@ const StatusCheckCard = (props) => {
     return (
         <Segment placeholder style={{ marginLeft: '2em', justifyContent: 'start' }}>
             <Header as='h1'>{props.title}</Header>
-            <div style={{ height: '14vh', overflowY: 'scroll' }}>
+            <div style={{ height: '18vh', overflowY: 'scroll' }}>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
                             {headers.map((value, index) => {
-                                return <Table.HeaderCell key={index}>{value}</Table.HeaderCell>
+                                return <Table.HeaderCell style={{ fontSize: '20px', backgroundColor: 'Gainsboro' }} textAlign='center' key={index}>{value}</Table.HeaderCell>
                             })}
                         </Table.Row>
                     </Table.Header>
@@ -23,7 +23,7 @@ const StatusCheckCard = (props) => {
                             return (
                                 <Table.Row key={rowIndex}>
                                     {rowValue.map((cellValue, cellIndex) => {
-                                        return <Table.Cell key={cellIndex}>{cellValue}</Table.Cell>
+                                        return <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={cellIndex}>{cellValue}</Table.Cell>
                                     })}
                                 </Table.Row>
                             );
