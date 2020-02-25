@@ -5,8 +5,6 @@ const StatusCheckCard = (props) => {
     let headers = props.headers;
     let data = props.data;
 
-    console.log(props);
-
     return (
         <Segment placeholder style={{ marginLeft: '2em', justifyContent: 'start' }}>
             <Header as='h1'>{props.title}</Header>
