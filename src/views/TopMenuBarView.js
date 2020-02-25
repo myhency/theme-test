@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../hyundai-autoever-ci.png';
+import logo from '../assets/images/hyundai-autoever-ci.png';
 import { Menu, Image } from 'semantic-ui-react';
 
 const TopMenuBarView = () => (
