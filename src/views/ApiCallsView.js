@@ -1,5 +1,5 @@
 import React from 'react';
-import LineGraphCard from './components/LineGraphCard';
+import LineGraphCard from '../components/LineGraphCard';
 
 const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -30,9 +30,9 @@ const data = {
 
 const options = {
     legend: {
-        display: false
+        display: false,
     },
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
 }
 
 const ApiCallsView = () => (

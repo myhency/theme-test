@@ -1,5 +1,5 @@
 import React from 'react';
-import StatusCheckCard from './components/StatusCheckCard';
+import StatusCheckCard from '../components/StatusCheckCard';
 
 const headers = ['Service Name','Site Name','Status'];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Header, Container } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 
 const LineGraphCard = (props) => {
