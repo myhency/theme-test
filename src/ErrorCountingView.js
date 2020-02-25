@@ -3,15 +3,8 @@ import { Button, Header, Segment, Icon } from 'semantic-ui-react';
 
 const ErrorCountingView = () => (
 
-    <Segment placeholder style={{ marginLeft: '2em' }}>
-        <div>
-            <h1>Errors</h1>
-            <Header icon>
-                <Icon name='pdf file outline' />
-                No documents are listed for this customer.
-                        </Header>
-            <Button primary>Add Document</Button>
-        </div>
+    <Segment placeholder style={{ marginLeft: '2em', "justify-content": 'start' }}>
+        <div style={{ marginTop: '0em', fontSize: '30px' }}>Errors</div>
     </Segment>
 );
 

@@ -10,8 +10,8 @@ const OverviewLayout = () => (
     <div>
         {/* Top menu bar */}
         <TopMenuBarView />
-        <Grid style={{ marginTop: '3em' }}>
-            <Grid.Row columns={2}>
+        <Grid>
+            <Grid.Row columns={2} style={{ marginTop: '3em' }}>
                 <Grid.Column width={5}>
                     {/* Error counting view */}
                     <ErrorCountingView />
