@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
-import ErrorCountingView from './ErrorCountingView';
 import TopMenuBarView from './TopMenuBarView';
 import InstanceHealthCheckView from './InstanceHealthCheckView';
 import ApiCallsView from './ApiCallsView';
 import ServiceStatusSliderView from './ServiceStatusSliderView';
+import ErrorCountingView from './ErrorCountingView';
 
 const OverviewLayout = () => (
     <div>
@@ -17,7 +17,7 @@ const OverviewLayout = () => (
                     <ErrorCountingView />
                 </Grid.Column>
 
-                <Grid.Column>
+                <Grid.Column style={{ marginLeft: '-2em' }}>
                     {/* Instance health-check view */}
                     <InstanceHealthCheckView />
                 </Grid.Column>
