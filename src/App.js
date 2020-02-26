@@ -11,13 +11,11 @@ import "slick-carousel/slick/slick-theme.css";
 const App = (props) => {
 
   return (
-    <Router basename="/home">
+    <Router basename="/">
       <ScrollToTop>
         <div>
           <Switch>
-            {/* <PrivateRoute exact mainPath='/' /> */}
-            {/* <Route path='/overview' component={OverviewLayout} /> */}
-            <MainLayout />
+            <Route path="/" component={MainLayout} />
           </Switch>
         </div>
       </ScrollToTop>

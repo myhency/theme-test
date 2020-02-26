@@ -1,11 +1,12 @@
-import OverviewLayout from "../../layouts/MainLayout";
 import Overview from "../../pages/Overview";
+import SiteList from "../../pages/SiteList";
+import ServiceList from "../../pages/ServiceList";
 
 const contextPath = '/home/';
 
 const mainRoutes = [
     {
-        path: contextPath,
+        path: contextPath + 'overview',
         name: 'Home',
         component: Overview,
         topMenu: false
@@ -19,13 +20,13 @@ const mainRoutes = [
     {
         path: contextPath + 'sites',
         name: 'Sites',
-        component: Overview,
+        component: SiteList,
         topMenu: true
     },
     {
         path: contextPath + 'services',
         name: 'Services',
-        component: Overview,
+        component: ServiceList,
         topMenu: true
     },
     {
@@ -36,7 +37,13 @@ const mainRoutes = [
                 path: contextPath + 'overview',
                 name: 'Overview',
                 component: Overview,
-                topMenu: true
+                topMenu: false
+            },
+            {
+                path: contextPath + 'sites',
+                name: 'Sites',
+                component: SiteList,
+                topMenu: false
             }
         ]
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+// import { connect } from 'react-redux';
 import { Grid, Segment, Menu, Image } from 'semantic-ui-react';
 import TopMenuBarView from '../views/TopMenuBarView';
 import InstanceHealthCheckView from '../views/InstanceHealthCheckView';
@@ -13,7 +14,7 @@ const MainLayout = () => (
     <div>
         {/* Top menu bar */}
         <Menu fixed='top' inverted>
-            <NavLink to="/" >
+            <NavLink to="/home" >
                 <Menu.Item style={{ height: '5vh' }}>
                     <Image src={logo} size={'tiny'} />
                 </Menu.Item>
@@ -38,26 +39,35 @@ const MainLayout = () => (
         </Menu>
 
         {/* Contents */}
-        <Switch>
-            {mainRoutes.map((route, key) => {
-                if (route.subRoutes) {
-                    let subRoutes = [];
-                    route.subRoutes.map((subRoute, subKey) => {
-                        subRoutes.push(
-                            <Route path={subRoute.path} component={subRoute.component} key={subKey} />
+        <div>
+            <Switch>
+                {mainRoutes.map((route, key) => {
+                    if (route.subRoutes) {
+                        let subRoutes = [];
+                        route.subRoutes.map((subRoute, subKey) => {
+                            console.log(subRoute.path);
+                            subRoutes.push(
+                                <Route
+                                    path={subRoute.path}
+                                    component={subRoute.component}
+                                    key={subKey} />
+                            )
+                            return null;
+                        });
+                        return subRoutes;
+                    } else {
+                        return (
+                            <Route
+                                path={route.path}
+                                component={route.component}
+                                key={key} />
                         )
-                        return null;
-                    });
-                    return subRoutes;
-                } else {
-                    return (
-                        <Route path={route.path} component={route.component} key={key} />
-                    )
-                }
-            })}
-            {/* <Redirect to="/home/overview" /> */}
-        </Switch>
+                    }
+                })}
+                {/* <Redirect to="/home/overview" /> */}
+            </Switch>
+        </div>
     </div >
 );
 
-export default MainLayout;
+export default withRouter(MainLayout);
