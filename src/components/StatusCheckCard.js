@@ -1,6 +1,21 @@
 import React from 'react';
 import { Table, Segment, Header } from 'semantic-ui-react';
 
+const EmptyColumns = (data) => {
+
+    let rows = [];
+    for (let i = data.data.cellData.length; i < 11; i++) {
+        rows.push((
+            <Table.Row key={i}>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+            </Table.Row>
+        ))
+    }
+    return rows;
+}
+
 const StatusCheckCard = (props) => {
     let headers = props.headers;
     let data = props.data;
@@ -30,6 +45,7 @@ const StatusCheckCard = (props) => {
                                 </Table.Row>
                             );
                         })}
+                        <EmptyColumns data={data} />
                     </Table.Body>
                 </Table>
             </div>
