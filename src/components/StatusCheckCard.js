@@ -7,9 +7,9 @@ const EmptyColumns = (data) => {
     for (let i = data.data.cellData.length; i < 11; i++) {
         rows.push((
             <Table.Row key={i}>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i+1}>&nbsp;</Table.Cell>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i+2}>&nbsp;</Table.Cell>
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i+3}>&nbsp;</Table.Cell>
             </Table.Row>
         ))
     }
