@@ -1,6 +1,6 @@
 import React from 'react';
-import Carousel from 'semantic-ui-carousel-react';
-import { Grid, Header, Segment, Image, Container } from 'semantic-ui-react';
+import Slider from "react-slick";
+import { Grid, Header, Segment, Image, Container, Statistic } from 'semantic-ui-react';
 import logo from '../assets/images/01.20686250.1.jpg';
 import { Bar, defaults } from 'react-chartjs-2';
 
@@ -38,95 +38,179 @@ const options = {
 }
 
 const SliderCard = (props) => {
-    let elements = [
-        {
-            render: () => {
-                return (
-                    <div>
-                        <div style={{ overflow: 'hidden' }}>
-                            <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
-                                <Image src={logo} size={'small'} />
-                            </div>
-                            <div style={{ float: 'left' }}>
-                                <Header as='h1'>{props.title}</Header>
-                            </div>
-                        </div>
-                        <Grid style={{ marginTop: '1em' }}>
-                            <Grid.Row columns={2}>
-                                <Grid.Column width={5}>
-                                    <Segment placeholder style={{ justifyContent: 'start' }}>
-                                        <div style={{ marginBottom: '2em' }}>
-                                            <Header as='h2'>{props.firstCardTitle}</Header>
-                                        </div>
-                                        <div style={{ height: '1vh' }}>
-                                            <Container textAlign='center'>
-                                                <p style={{ fontSize: '100px', fontWeight: 'bold', color: 'blue' }}>{props.count}</p>
-                                            </Container>
-                                        </div>
-                                    </Segment>
-                                </Grid.Column>
-                                <Grid.Column width={11}>
-                                    <Segment placeholder style={{ justifyContent: 'start' }}>
-                                        <div style={{ marginBottom: '2em' }}>
-                                            <Header as='h2'>{props.secondCardTitle}</Header>
-                                        </div>
-                                        <Bar data={data} height={50} option={options} />
-                                    </Segment>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </div>);
-            }
-        },
-        {
-            render: () => {
-                return (
-                    <div>
-                        <div style={{ overflow: 'hidden' }}>
-                            <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
-                                <Image src={logo} size={'small'} />
-                            </div>
-                            <div style={{ float: 'left' }}>
-                                <Header as='h1'>{props.title}</Header>
-                            </div>
-                        </div>
-                        <Grid style={{ marginTop: '1em' }}>
-                            <Grid.Row columns={2}>
-                                <Grid.Column width={5}>
-                                    <Segment placeholder style={{ justifyContent: 'start' }}>
-                                        <div style={{ marginBottom: '2em' }}>
-                                            <Header as='h2'>{props.firstCardTitle}</Header>
-                                        </div>
-                                        <div style={{ height: '1vh' }}>
-                                            <Container textAlign='center'>
-                                                <p style={{ fontSize: '80px', fontWeight: 'bold', color: 'blue' }}>{props.count}</p>
-                                            </Container>
-                                        </div>
-                                    </Segment>
-                                </Grid.Column>
-                                <Grid.Column width={11}>
-                                    <Segment placeholder style={{ justifyContent: 'start' }}>
-                                        <div style={{ marginBottom: '2em' }}>
-                                            <Header as='h2'>{props.secondCardTitle}</Header>
-                                        </div>
-                                        <Bar data={data} height={50} option={options} />
-                                    </Segment>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </div>);
-            }
-        },
-    ]
+
+    let settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+    };
 
     return (
-        <Carousel style={{ marginLeft: '2em' }}
-            elements={elements}
-            duration={5000}
-            animation='slide left'
-            showNextPrev={false}
-            showIndicators={false}
-        />
+        <Slider {...settings}>
+            <Segment>
+                <div>
+                    <div style={{ overflow: 'hidden' }}>
+                        <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
+                            <Image src={logo} size={'small'} />
+                        </div>
+                        <div style={{ float: 'left' }}>
+                            <Header as='h1'>{props.title}</Header>
+                        </div>
+                    </div>
+                    <Grid style={{ marginTop: '1em' }}>
+                        <Grid.Row columns={2}>
+                            <Grid.Column width={8}>
+                                <Segment placeholder style={{ justifyContent: 'start' }}>
+                                    <div style={{ marginBottom: '2em' }}>
+                                        <Header as='h2'>{props.secondCardTitle}</Header>
+                                    </div>
+                                    <Bar data={data} height={50} option={options} />
+                                </Segment>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Grid style={{ display: 'inline-block' }}>
+                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='red'>
+                                                    <Statistic.Value>12,550</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='orange'>
+                                                    <Statistic.Value>5,650</Statistic.Value>
+                                                    <Statistic.Label>누적 DID 발급</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='yellow'>
+                                                    <Statistic.Value>20</Statistic.Value>
+                                                    <Statistic.Label>누적 DID 검증</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='green'>
+                                                    <Statistic.Value>1</Statistic.Value>
+                                                    <Statistic.Label>누적 장애 발생</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='blue'>
+                                                    <Statistic.Value>135,550</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='purple'>
+                                                    <Statistic.Value>45,556</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </div>
+            </Segment>
+            <Segment>
+                <div>
+                    <div style={{ overflow: 'hidden' }}>
+                        <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
+                            <Image src={logo} size={'small'} />
+                        </div>
+                        <div style={{ float: 'left' }}>
+                            <Header as='h1'>{props.title}</Header>
+                        </div>
+                    </div>
+                    <Grid style={{ marginTop: '1em' }}>
+                        <Grid.Row columns={2}>
+                            <Grid.Column width={8}>
+                                <Segment placeholder style={{ justifyContent: 'start' }}>
+                                    <div style={{ marginBottom: '2em' }}>
+                                        <Header as='h2'>{props.secondCardTitle}</Header>
+                                    </div>
+                                    <Bar data={data} height={50} option={options} />
+                                </Segment>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Grid style={{ display: 'inline-block' }}>
+                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>12,550</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>5,650</Statistic.Value>
+                                                    <Statistic.Label>누적 DID 발급</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>20</Statistic.Value>
+                                                    <Statistic.Label>누적 DID 검증</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>1</Statistic.Value>
+                                                    <Statistic.Label>누적 장애 발생</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>135,550</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                        <Grid.Column textAlign='center' verticalAlign='middle'>
+                                            <Container>
+                                                <Statistic size='huge' color='teal'>
+                                                    <Statistic.Value>45,556</Statistic.Value>
+                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
+                                                </Statistic>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </div>
+            </Segment>
+        </Slider>
     )
 };
 

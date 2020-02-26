@@ -10,7 +10,7 @@ const StatusCheckCard = (props) => {
             <div style={{ marginBottom: '2em' }}>
                 <Header as='h1'>{props.title}</Header>
             </div>
-            <div style={{ height: '18vh', overflowY: 'scroll' }}>
+            <div>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>

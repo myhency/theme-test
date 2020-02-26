@@ -3,10 +3,10 @@ import LineGraphCard from '../components/LineGraphCard';
 
 const data = (canvas) => {
     const ctx = canvas.getContext("2d");
-    const gradient = ctx.createLinearGradient(0,0,100,0);
+    const gradient = ctx.createLinearGradient(0, 0, 100, 0);
 
     return {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
             {
                 label: 'My First dataset',
@@ -27,7 +27,7 @@ const data = (canvas) => {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: [65, 59, 80, 81, 56, 55, 40]
+                data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40]
             }
         ]
     }
