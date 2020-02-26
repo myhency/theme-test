@@ -31,7 +31,7 @@ const OverviewLayout = () => (
             </Grid.Row>
 
             <Grid.Row>
-                <Grid.Column>
+                <Grid.Column style={{ paddingLeft: '3em', paddingRight: '3em' }}>
                     {/* Service status slider view */}
                     <ServiceStatusSliderView />
                 </Grid.Column>

@@ -5,7 +5,6 @@ import { Line, defaults } from 'react-chartjs-2';
 defaults.global.legend.display = false;
 
 const LineGraphCard = (props) => {
-    console.log(props);
     return (
         <Segment placeholder style={{ justifyContent: 'start' }}>
             <div style={{ marginBottom: '2em' }}>
