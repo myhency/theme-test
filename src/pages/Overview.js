@@ -4,6 +4,8 @@ import InstanceHealthCheckView from '../views/InstanceHealthCheckView';
 import ApiCallsView from '../views/ApiCallsView';
 import ServiceStatusSliderView from '../views/ServiceStatusSliderView';
 import ErrorCountingView from '../views/ErrorCountingView';
+import SiteCountingView from '../views/SiteCountingView';
+import ServiiceCountingView from '../views/ServiceCountingView';
 
 const Overview = () => (
     <Grid>
@@ -16,10 +18,10 @@ const Overview = () => (
                                 <ErrorCountingView />
                             </Grid.Column>
                             <Grid.Column>
-                                <ErrorCountingView />
+                                <SiteCountingView />
                             </Grid.Column>
                             <Grid.Column>
-                                <ErrorCountingView />
+                                <ServiiceCountingView />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
