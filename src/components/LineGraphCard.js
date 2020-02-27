@@ -10,7 +10,7 @@ const LineGraphCard = (props) => {
             <div style={{ marginBottom: '2em' }}>
                 <Header as='h1'>{props.title}</Header>
             </div>
-            <Line data={props.data} height={30} option={props.options} />
+            <Line data={props.data} height={60} option={props.options} />
         </Segment>
     )
 };
