@@ -2,7 +2,7 @@ import React from 'react';
 import { Segment, Container, Header } from 'semantic-ui-react';
 
 const getTextColor = (props) => {
-    if(props.type == 'info') return 'black';
+    if(props.type == 'info') return '#0A1654';
     return props.count > 0 ? 'red' : 'green';
 }
 
