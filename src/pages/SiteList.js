@@ -84,8 +84,8 @@ class SiteList extends Component {
                             <Grid.Column floated='right' textAlign='right'>
                                 <Menu.Menu position='right'>
                                     <Menu.Item>
-                                        <Button icon floated='right' positive>
-                                        <Icon name='plus square outline' size='large' onClick={this.closeConfigShow(true, false)}/>
+                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
+                                        <Icon name='plus square outline' size='large' />
                                         </Button>
                                     </Menu.Item>
                                 </Menu.Menu>
