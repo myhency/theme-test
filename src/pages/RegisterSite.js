@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Segment, Image } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
+import headerImage from '../assets/images/dns-site-verification.png';
 
 const headers = ['Site Name', 'Issued Credentials', 'Verified Credentials', 'Number of Services', 'Open Date'];
 
@@ -17,8 +18,8 @@ const data = {
 
 const RegisterSite = () => (
     <div style={{ marginTop: '4em' }}>
-        <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
-            
+        <Segment style={{ marginLeft: '2em', marginRight: '2em',  }}>
+            <Image src={headerImage} size='medium' centered />
         </Segment>
     </div>
 );
