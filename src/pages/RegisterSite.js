@@ -18,7 +18,7 @@ const data = {
 
 const RegisterSite = () => (
     <div style={{ marginTop: '4em' }}>
-        <Segment style={{ marginLeft: '2em', marginRight: '2em',  }}>
+        <Segment style={{ marginLeft: '2em', marginRight: '2em', backgroundColor: '#ffd265' }}>
             <Image src={headerImage} size='medium' centered />
         </Segment>
     </div>
