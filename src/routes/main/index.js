@@ -31,8 +31,14 @@ const mainRoutes = [
         topMenu: true
     },
     {
-        path: contextPath + 'register',
-        name: 'Register',
+        path: contextPath + 'instances',
+        name: 'Instances',
+        component: RegisterSite,
+        topMenu: true
+    },
+    {
+        path: contextPath + 'logs',
+        name: 'Logs',
         component: RegisterSite,
         topMenu: true
     },
