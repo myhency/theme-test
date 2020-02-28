@@ -36,7 +36,7 @@ class SiteList extends Component {
         const { open, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
-            <div style={{ marginTop: '4em' }}>
+            <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
                     <Form>
                         <Form.Group widths='equal'>
