@@ -51,7 +51,13 @@ const mainRoutes = [
                 name: 'Sites',
                 component: SiteList,
                 topMenu: false
-            }
+            },
+            {
+                path: contextPath + 'services',
+                name: 'Services',
+                component: ServiceList,
+                topMenu: true
+            },
         ]
     }
 ]
