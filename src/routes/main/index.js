@@ -1,6 +1,7 @@
 import Overview from "../../pages/Overview";
 import SiteList from "../../pages/SiteList";
 import ServiceList from "../../pages/ServiceList";
+import RegisterSite from "../../pages/RegisterSite";
 
 const contextPath = '/home/';
 
@@ -27,6 +28,12 @@ const mainRoutes = [
         path: contextPath + 'services',
         name: 'Services',
         component: ServiceList,
+        topMenu: true
+    },
+    {
+        path: contextPath + 'register',
+        name: 'Register',
+        component: RegisterSite,
         topMenu: true
     },
     {
