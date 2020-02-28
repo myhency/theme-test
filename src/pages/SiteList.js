@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 
-const headers = ['Site', 'Issued Credentials', 'Verified Credentials', 'Number of Services', 'Open Date'];
+const headers = ['Site Name', 'Issued Credentials', 'Verified Credentials', 'Number of Services', 'Open Date'];
 
 const data = {
     cellData: [
@@ -35,11 +35,11 @@ const SiteList = () => (
             </Form>
         </Segment>
         <div style={{ marginLeft: '2em', marginRight: '2em' }}>
-        <ListTable
-            title={'Site List'}
-            headers={headers}
-            data={data} />
-            </div>
+            <ListTable
+                title={'Site List'}
+                headers={headers}
+                data={data} />
+        </div>
     </div>
 );
 

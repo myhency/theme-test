@@ -2,20 +2,30 @@ import React from 'react';
 import { Table, Segment, Header, Menu, Icon } from 'semantic-ui-react';
 
 const EmptyColumns = (data) => {
-
     let rows = [];
-    for (let i = data.data.cellData.length; i < 11; i++) {
+    let columnLength = data.data.cellData.length;
+
+    for (let i = columnLength; i < 9; i++) {
         rows.push((
             <Table.Row key={i}>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 1}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 2}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 3}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 2}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 3}>&nbsp;</Table.Cell>
+                <EmptyCells data={data} />
             </Table.Row>
         ))
     }
     return rows;
+}
+
+const EmptyCells = (data) => {
+    console.log(data);
+    let cells = [];
+    let cellDataLength = data.data.data.cellData[0].length;
+
+    for (let i = 0; i < cellDataLength; i++) {
+        cells.push((
+                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+        ))
+    }
+    return cells;
 }
 
 const ListTable = (props) => {
@@ -28,7 +38,7 @@ const ListTable = (props) => {
                 <Header as='h1'>{props.title}</Header>
             </div>
             <div>
-                <Table celled>
+                <Table celled selectable>
                     
                     <Table.Header>
                         <Table.Row>
