@@ -2,6 +2,8 @@ import Overview from "../../pages/Overview";
 import SiteList from "../../pages/SiteList";
 import ServiceList from "../../pages/ServiceList";
 import RegisterSite from "../../pages/RegisterSite";
+import SiteDetails from "../../pages/SiteDetails";
+import ServiceDetails from "../../pages/ServiceDetails";
 
 const contextPath = '/home/';
 
@@ -43,29 +45,17 @@ const mainRoutes = [
         topMenu: true
     },
     {
-        name: 'Pages',
-        topMenu: false,
-        subRoutes: [
-            {
-                path: contextPath + 'overview',
-                name: 'Overview',
-                component: Overview,
-                topMenu: false
-            },
-            {
-                path: contextPath + 'sites',
-                name: 'Sites',
-                component: SiteList,
-                topMenu: false
-            },
-            {
-                path: contextPath + 'services',
-                name: 'Services',
-                component: ServiceList,
-                topMenu: true
-            },
-        ]
-    }
+        path: contextPath + 'sites/sitedetails',
+        name: 'SiteDetails',
+        component: SiteDetails,
+        topMenu: false
+    },
+    {
+        path: contextPath + 'services/servicedetails',
+        name: 'ServiceDetails',
+        component: ServiceDetails,
+        topMenu: false
+    },
 ]
 
 export default mainRoutes;

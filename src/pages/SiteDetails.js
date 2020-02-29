@@ -1,33 +1,62 @@
 import React, { Component } from 'react';
-import { useHistory, useParams } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import issuerIcon from '../assets/images/right-arrow.png';
+import verifierIcon from '../assets/images/left-arrow.png';
+import verissuerIcon from '../assets/images/up-arrow.png';
+import logo from '../assets/images/01.20686250.1.jpg';
 
-const headers = ['Site Name', 'Number of Services', 'Open Date'];
+const headers = ['Service Name', 'Role', 'Company', 'Open Date'];
 
 const data = {
     cellData: [
-        ['현대카드', '4', '2020-06-30'],
-        ['현대카드', '4', '2020-06-30'],
-        ['현대카드', '4', '2020-06-30'],
-        ['현대카드', '4', '2020-06-30'],
-        ['현대카드', '4', '2020-06-30'],
-        ['현대카드', '4', '2020-06-30'],
+        ['재직증명서발급', 'Issuer', '현대카드', '2020-06-30'],
+        ['갑근세영수증발급', 'Verissuer', '현대카드', '2020-06-30'],
+        ['모바일전자사원증발급', 'Verifier', '현대카드', '2020-06-30'],
+        ['법인카드발급증명서발급', 'Verissuer', '현대카드', '2020-07-30'],
     ]
 }
 
-class SiteList extends Component {
+const roleOptions = [
+    {
+        key: 'Issuer',
+        text: 'Issuer',
+        value: 'Issuer',
+        image: { avatar: true, src: issuerIcon }
+    },
+    {
+        key: 'Verifier',
+        text: 'Verifier',
+        value: 'Verifier',
+        image: { avatar: true, src: verifierIcon }
+    },
+    {
+        key: 'Verissuer',
+        text: 'Verissuer',
+        value: 'Verissuer',
+        image: { avatar: true, src: verissuerIcon }
+    },
+]
 
+class SiteDetails extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.state = {
             currentDate: null,
-            open: false
+            open: false,
+            companyName: this.props.location.state[0],
+            openDate: this.props.location.state[2],
         };
+    }
 
+    handleClick = rowValue => {
+        this.props.history.push({
+            pathname: '/home/services/servicedetails/',
+            state: rowValue
+        });
     }
 
     onChange = (event, data) => this.setState({ currentDate: data.value });
@@ -38,28 +67,25 @@ class SiteList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleClick = rowValue => {
-        this.props.history.push({
-            pathname: '/home/sites/sitedetails/',
-            state: rowValue
-        });
-    }
-
     render() {
-        const { open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { companyName, openDate, open, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
-                    <Form>
-                        <Form.Group widths='equal'>
-                            <Form.Input fluid label='Site name' placeholder='Site name' />
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                            <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                        </Form.Group>
-                        <Button type='submit'>Search</Button>
-                    </Form>
+                    <Grid>
+                        <Grid.Row>
+                        <Grid.Column verticalAlign='middle' width={2}>
+                            <Image src={logo} size={'small'} />
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                <Header as='h1'>{companyName}</Header>
+                            </Grid.Column>
+                            <Grid.Column floated='right' textAlign='right' verticalAlign='middle' width={3}>
+                                <h4>Since&nbsp;&nbsp;{openDate}</h4>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Segment>
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal
@@ -67,14 +93,28 @@ class SiteList extends Component {
                         onClose={this.close}
                         closeOnEscape={closeOnEscape}
                         closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add a Site</Modal.Header>
+                        <Modal.Header>Add a Service</Modal.Header>
                         <Modal.Content>
                             <Form>
                                 <Form.Group widths='equal'>
                                     <Form.Input fluid label='Site name' placeholder='Site name' />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
+                                    <Form.Input fluid label='Service name' placeholder='Service name' />
+                                </Form.Group>
+                                <Form.Group widths='equal'>
+                                    <Form.Field
+                                        control={Select}
+                                        label='Role'
+                                        options={roleOptions}
+                                        placeholder='Role'
+                                    />
+                                </Form.Group>
+                                <Form.Group widths='equal'>
                                     <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                                </Form.Group>
+                                <Form.Group widths='equal'>
+                                    <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
                                 </Form.Group>
                             </Form>
                         </Modal.Content>
@@ -92,7 +132,7 @@ class SiteList extends Component {
                     <Grid columns={2} style={{ marginBottom: '0em' }}>
                         <Grid.Row>
                             <Grid.Column floated='left'>
-                                <Header as='h1'>Site List</Header>
+                                <Header as='h1'>Service List</Header>
                             </Grid.Column>
                             <Grid.Column floated='right' textAlign='right'>
                                 <Menu.Menu position='right'>
@@ -107,6 +147,7 @@ class SiteList extends Component {
                     </Grid>
                     <ListTable
                         handleClick={(rowValue) => this.handleClick(rowValue)}
+                        title={'Service List'}
                         headers={headers}
                         data={data} />
                 </Segment>
@@ -115,4 +156,4 @@ class SiteList extends Component {
     }
 };
 
-export default (withRouter(SiteList));
+export default SiteDetails;

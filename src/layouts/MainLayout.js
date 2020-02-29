@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import { Menu, Image } from 'semantic-ui-react';
 import { Route, NavLink as RRNavLink, withRouter, Switch, NavLink } from "react-router-dom";
 import mainRoutes from '../routes/main';
@@ -59,6 +58,7 @@ const MainLayout = () => (
                     } else {
                         return (
                             <Route
+                                exact
                                 path={route.path}
                                 component={route.component}
                                 key={key} />

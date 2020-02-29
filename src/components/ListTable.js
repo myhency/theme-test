@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Segment, Header, Menu, Icon, Button, Grid, Modal, Image } from 'semantic-ui-react';
+import { Table, Menu, Icon } from 'semantic-ui-react';
 
 const EmptyColumns = (data) => {
     let rows = [];
@@ -53,13 +53,16 @@ const ListTable = (props) => {
                 <Table.Body>
                     {data.cellData.map((rowValue, rowIndex) => {
                         return (
-                            <Table.Row key={rowIndex}>
+                            <Table.Row
+                                key={rowIndex}
+                                onClick={() => props.handleClick(rowValue)}>
                                 {rowValue.map((cellValue, cellIndex) => {
-                                    return <Table.Cell
-                                        style={{ fontSize: '16px' }}
-                                        textAlign='center'
-                                        key={cellIndex}>{cellValue}
-                                    </Table.Cell>
+                                    return (
+                                        <Table.Cell
+                                            style={{ fontSize: '16px' }}
+                                            textAlign='center'
+                                            key={cellIndex}>{cellValue}
+                                        </Table.Cell>)
                                 })}
                             </Table.Row>
                         );
