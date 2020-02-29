@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { useHistory, useParams } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
