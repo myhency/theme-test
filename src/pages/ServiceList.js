@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Dropdown, Select, Menu, Modal, Grid, Header, Icon } from 'semantic-ui-react';
+import { Button, Form, Segment, Select, Menu, Modal, Grid, Header, Icon } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import ListTable from '../components/ListTable';
@@ -52,6 +52,13 @@ class ServiceList extends Component {
     }
 
     close = () => this.setState({ open: false });
+
+    handleClick = rowValue => {
+        this.props.history.push({
+            pathname: '/home/services/servicedetails/',
+            state: rowValue
+        });
+    }
 
     render() {
         const { open, closeOnEscape, closeOnDimmerClick } = this.state;
@@ -139,7 +146,7 @@ class ServiceList extends Component {
                         </Grid.Row>
                     </Grid>
                     <ListTable
-                        title={'Service List'}
+                        handleClick={(rowValue) => this.handleClick(rowValue)}
                         headers={headers}
                         data={data} />
                 </Segment>

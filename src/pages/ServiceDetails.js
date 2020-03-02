@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select, Divider } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
@@ -43,12 +43,15 @@ const roleOptions = [
 class ServiceDetails extends Component {
     constructor(props) {
         super(props);
-        
+
+        console.log(props);
+
         this.state = {
             currentDate: null,
             open: false,
-            companyName: this.props.location.state[0],
-            openDate: this.props.location.state[2],
+            serviceName: this.props.location.state[0],
+            openDate: this.props.location.state[3],
+            role: this.props.location.state[1] == 'Issuer' ? issuerIcon : this.props.location.state[1] == 'Verifier' ? verifierIcon : verissuerIcon 
         };
     }
 
@@ -67,25 +70,38 @@ class ServiceDetails extends Component {
 
     close = () => this.setState({ open: false });
 
+    // getRoleIcon = (role) => {
+    //     console.log(role);
+    //     if(role == 'Issuer') return issuerIcon;
+    //     else if(role == 'Verifier') return verifierIcon;
+    //     else return verissuerIcon;
+    // }
+
     render() {
-        const { companyName, openDate, open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { serviceName, openDate, role, open, closeOnEscape, closeOnDimmerClick } = this.state;
+
+        // let roleIcon = this.getRoleIcon(role);
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
                     <Grid>
                         <Grid.Row>
-                        <Grid.Column verticalAlign='middle' width={2}>
-                            <Image src={logo} size={'small'} />
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                <Image src={logo} size={'small'} />
                             </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                <Header as='h1'>{companyName}</Header>
+                            <Grid.Column verticalAlign='middle' textAlign='center'>
+                            <h1>{serviceName}</h1>
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={1}>
+                                <Image src={role} size={'tiny'} />
                             </Grid.Column>
                             <Grid.Column floated='right' textAlign='right' verticalAlign='middle' width={3}>
                                 <h4>Since&nbsp;&nbsp;{openDate}</h4>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <Divider />
                 </Segment>
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal

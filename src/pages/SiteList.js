@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon } from 'semantic-ui-react';
+import { withRouter, Link } from 'react-router-dom';
+import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon, Search, Card, Image } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
@@ -24,7 +24,8 @@ class SiteList extends Component {
         super(props);
         this.state = {
             currentDate: null,
-            open: false
+            open: false,
+            totalCount: 3
         };
 
     }
@@ -37,78 +38,194 @@ class SiteList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleClick = rowValue => {
-        this.props.history.push({
-            pathname: '/home/sites/sitedetails/',
-            state: rowValue
-        });
-    }
-
     render() {
-        const { open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { totalCount, open, closeOnEscape, closeOnDimmerClick } = this.state;
+
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
-                <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
-                    <Form>
-                        <Form.Group widths='equal'>
-                            <Form.Input fluid label='Site name' placeholder='Site name' />
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                            <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                        </Form.Group>
-                        <Button type='submit'>Search</Button>
-                    </Form>
-                </Segment>
-                <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
-                    <Modal
-                        open={open}
-                        onClose={this.close}
-                        closeOnEscape={closeOnEscape}
-                        closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add a Site</Modal.Header>
-                        <Modal.Content>
-                            <Form>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Site name' placeholder='Site name' />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
-                            <Button
-                                onClick={this.close}
-                                positive
-                                labelPosition='right'
-                                icon='checkmark'
-                                content='Yes'
-                            />
-                        </Modal.Actions>
-                    </Modal>
-                    <Grid columns={2} style={{ marginBottom: '0em' }}>
-                        <Grid.Row>
-                            <Grid.Column floated='left'>
-                                <Header as='h1'>Site List</Header>
-                            </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right'>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
-                                            <Icon name='plus square outline' size='large' />
-                                        </Button>
-                                    </Menu.Item>
-                                </Menu.Menu>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <ListTable
-                        handleClick={(rowValue) => this.handleClick(rowValue)}
-                        headers={headers}
-                        data={data} />
-                </Segment>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column floated='left' verticalAlign='middle' width={5}>
+                            <Header as='h1'>Sites</Header>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Search />
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column floated='left' verticalAlign='middle' width={5}>
+                            <Header as='h4' textAlign='left'>{'Total : '}{totalCount}</Header>
+                        </Grid.Column>
+                        <Grid.Column floated='right' verticalAlign='middle' width={5}>
+                            <Button floated='right'>Add site</Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Card.Group centered>
+                                <Link to={{ pathname: "/home/sites/sitedetails", state: ['1','2','3','4'] }}>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/steve.jpg'
+                                        />
+                                        <Card.Header>Steve Sanders</Card.Header>
+                                        <Card.Meta>Friends of Elliot</Card.Meta>
+                                        <Card.Description>
+                                            Steve wants to add you to the group <strong>best friends</strong>
+                                        </Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                </Link>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/molly.png'
+                                        />
+                                        <Card.Header>Molly Thomas</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>
+                                            Molly wants to add you to the group <strong>musicians</strong>
+                                        </Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/jenny.jpg'
+                                        />
+                                        <Card.Header>Jenny Lawrence</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>
+                                            Jenny requested permission to view your contact details</Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/jenny.jpg'
+                                        />
+                                        <Card.Header>Jenny Lawrence</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>Jenny requested permission to view your contact details</Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/steve.jpg'
+                                        />
+                                        <Card.Header>Steve Sanders</Card.Header>
+                                        <Card.Meta>Friends of Elliot</Card.Meta>
+                                        <Card.Description>
+                                            Steve wants to add you to the group <strong>best friends</strong>
+                                        </Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/molly.png'
+                                        />
+                                        <Card.Header>Molly Thomas</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>
+                                            Molly wants to add you to the group <strong>musicians</strong>
+                                        </Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/jenny.jpg'
+                                        />
+                                        <Card.Header>Jenny Lawrence</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>
+                                            Jenny requested permission to view your contact details</Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    <Card.Content>
+                                        <Image
+                                            floated='right'
+                                            size='mini'
+                                            src='/images/avatar/large/jenny.jpg'
+                                        />
+                                        <Card.Header>Jenny Lawrence</Card.Header>
+                                        <Card.Meta>New User</Card.Meta>
+                                        <Card.Description>Jenny requested permission to view your contact details</Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <div className='ui two buttons'>
+                                            <Button basic color='green'>Approve</Button>
+                                            <Button basic color='red'>Decline</Button>
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                            </Card.Group>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         )
     }

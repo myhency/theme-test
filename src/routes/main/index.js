@@ -1,5 +1,6 @@
 import Overview from "../../pages/Overview";
 import SiteList from "../../pages/SiteList";
+import SiteListNew from "../../pages/SiteList";
 import ServiceList from "../../pages/ServiceList";
 import RegisterSite from "../../pages/RegisterSite";
 import SiteDetails from "../../pages/SiteDetails";
