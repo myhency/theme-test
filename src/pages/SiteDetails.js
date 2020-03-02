@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select, Divider } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
@@ -75,17 +75,35 @@ class SiteDetails extends Component {
                 <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
                     <Grid>
                         <Grid.Row>
-                        <Grid.Column verticalAlign='middle' width={2}>
-                            <Image src={logo} size={'small'} />
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                <Image src={logo} size={'small'} />
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
                                 <Header as='h1'>{companyName}</Header>
                             </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right' verticalAlign='middle' width={3}>
-                                <h4>Since&nbsp;&nbsp;{openDate}</h4>
+                        </Grid.Row>
+                    </Grid>
+                    <Header as='h3'>Detail</Header>
+                    {/* <Divider /> */}
+                    <Grid celled='internally'>
+                        <Grid.Row>
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                Site Name
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                현대카드
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                Open Date
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                2020-06-01
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    {/* <Divider /> */}
                 </Segment>
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal
