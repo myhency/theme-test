@@ -33,8 +33,6 @@ class SiteList extends Component {
     render() {
         const { totalCount, open, closeOnEscape, closeOnDimmerClick } = this.state;
 
-        console.log(Gellery.getLogoImage('현대카드'));
-
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Modal

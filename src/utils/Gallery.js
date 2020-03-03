@@ -4,7 +4,7 @@ import shinhanLogo from '../assets/images/shinhan-logo.jpg';
 import kmiLogo from '../assets/images/kmi-logo.jpeg';
 import createReactClass from 'create-react-class';
 
-const Gellery = createReactClass({
+const Gallery = createReactClass({
     statics: {
         /**
          * get company logo image by company name
@@ -28,4 +28,4 @@ const Gellery = createReactClass({
     },
 });
 
-export default Gellery;
+export default Gallery;
