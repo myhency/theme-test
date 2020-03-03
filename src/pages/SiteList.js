@@ -1,42 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon, Search, Card, Image, Dropdown } from 'semantic-ui-react';
-import ListTable from '../components/ListTable';
+import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon, Search, Card, Image, Dropdown, Select } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import hyundaiCardLogo from '../assets/images/01.20686250.1.jpg';
-import nonghyubLogo from '../assets/images/nonghyub-logo.jpeg';
-import shinhanLogo from '../assets/images/shinhan-logo.jpg';
-import kmiLogo from '../assets/images/kmi-logo.jpeg';
-
-const data = {
-    siteList: [
-        {
-            name: '현대카드',
-            openDate: '2020-01-01',
-            numberOfServices: 3,
-            logo: hyundaiCardLogo
-        },
-        {
-            name: '농협',
-            openDate: '2020-01-01',
-            numberOfServices: 3,
-            logo: nonghyubLogo
-        },
-        {
-            name: '신한은행',
-            openDate: '2020-01-01',
-            numberOfServices: 3,
-            logo: shinhanLogo
-        },
-        {
-            name: 'KMI',
-            openDate: '2020-01-01',
-            numberOfServices: 3,
-            logo: kmiLogo
-        }
-    ]
-}
+import siteData from '../assets/data/SiteData.json';
+import roleData from '../assets/data/RoleData.json';
+import Gallery from '../utils/Gallery';
 
 class SiteList extends Component {
 
@@ -47,7 +16,6 @@ class SiteList extends Component {
             open: false,
             totalCount: 3
         };
-
     }
 
     onChange = (event, data) => this.setState({ currentDate: data.value });
@@ -58,12 +26,58 @@ class SiteList extends Component {
 
     close = () => this.setState({ open: false });
 
+    handleAddSiteButton = (v, e) => {
+        if (e) this.setState({ open: true });
+    }
+
     render() {
         const { totalCount, open, closeOnEscape, closeOnDimmerClick } = this.state;
 
+        console.log(Gellery.getLogoImage('현대카드'));
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+                <Modal
+                    open={open}
+                    onClose={this.close}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Add a Site</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Site name' placeholder='Site name' />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Service name' placeholder='Service name' />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Field
+                                    control={Select}
+                                    label='Role'
+                                    options={roleData.roles}
+                                    placeholder='Role'
+                                />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button onClick={this.close} negative>No</Button>
+                        <Button
+                            onClick={this.close}
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Yes'
+                        />
+                    </Modal.Actions>
+                </Modal>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column floated='left' verticalAlign='middle' width={5}>
@@ -80,14 +94,14 @@ class SiteList extends Component {
                             <Header as='h4' textAlign='left'>{'Total : '}{totalCount}</Header>
                         </Grid.Column>
                         <Grid.Column floated='right' verticalAlign='middle' width={5}>
-                            <Button floated='right'>Add site</Button>
+                            <Button floated='right' onClick={(v, e) => this.handleAddSiteButton(v, e)}>Add site</Button>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
                             <Card.Group centered>
                                 {/* Card #1 */}
-                                {data.siteList.map((cardValue, index) => {
+                                {siteData.siteList.map((cardValue, index) => {
                                     return (
                                         <Card style={{ width: '300px', marginLeft: 'auto', marginRight: 'auto' }}>
                                             <Image
@@ -98,7 +112,7 @@ class SiteList extends Component {
                                                     paddingRight: '5px'
                                                 }}
                                                 size='medium'
-                                                src={cardValue.logo}
+                                                src={Gallery.getLogoImage(cardValue.name)}
                                                 as={Link}
                                                 to={{
                                                     pathname: "/home/sites/sitedetails",
@@ -154,7 +168,7 @@ class SiteList extends Component {
                                     );
                                 })}
                                 {/* Card #2 */}
-                                {data.siteList.map((cardValue, index) => {
+                                {siteData.siteList.map((cardValue, index) => {
                                     return (
                                         <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
                                             <Grid
@@ -169,7 +183,7 @@ class SiteList extends Component {
                                                     <Image
                                                         floated='left'
                                                         size='small'
-                                                        src={cardValue.logo}
+                                                        src={Gallery.getLogoImage(cardValue.name)}
                                                         as={Link}
                                                         to={{
                                                             pathname: "/home/sites/sitedetails",
@@ -221,23 +235,24 @@ class SiteList extends Component {
                                     );
                                 })}
                                 {/* Card #3 */}
-                                {data.siteList.map((cardValue, index) => {
+                                {siteData.siteList.map((cardValue, index) => {
                                     return (
                                         <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
                                             <Grid columns={3} style={{ paddingTop: '5px', paddingBottom: '5px', paddingLeft: '5px', paddingRight: '5px' }}>
                                                 <Grid.Column floated='left' verticalAlign='middle'>
-                                                    <Header as='h3' style={{  
-                                                        paddingTop: '5px', 
-                                                        paddingBottom: '5px', 
-                                                        paddingLeft: '5px', 
-                                                        paddingRight: '5px' }}>{cardValue.name}</Header>
+                                                    <Header as='h3' style={{
+                                                        paddingTop: '5px',
+                                                        paddingBottom: '5px',
+                                                        paddingLeft: '5px',
+                                                        paddingRight: '5px'
+                                                    }}>{cardValue.name}</Header>
                                                 </Grid.Column>
                                                 <Grid.Column floated='left' verticalAlign='middle'>
                                                     <Image
                                                         style={{ marginLeft: '-2em' }}
                                                         floated='left'
                                                         size='large'
-                                                        src={cardValue.logo}
+                                                        src={Gallery.getLogoImage(cardValue.name)}
                                                         as={Link}
                                                         to={{
                                                             pathname: "/home/sites/sitedetails",
@@ -261,7 +276,7 @@ class SiteList extends Component {
                                                 </Grid.Column>
                                             </Grid>
                                             <Card.Content>
-                                                <Header as='h3'>Services : {cardValue.numberOfServices}</Header>
+                                            <Card.Meta>{cardValue.openDate}</Card.Meta>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <Grid columns={2}>

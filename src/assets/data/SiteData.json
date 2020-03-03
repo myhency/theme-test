@@ -1,0 +1,24 @@
+{
+    "siteList": [
+        {
+            "name": "현대카드",
+            "openDate": "2020-01-01",
+            "numberOfServices": 3
+        },
+        {
+            "name": "농협",
+            "openDate": "2020-01-01",
+            "numberOfServices": 3
+        },
+        {
+            "name": "신한은행",
+            "openDate": "2020-01-01",
+            "numberOfServices": 3
+        },
+        {
+            "name": "KMI",
+            "openDate": "2020-01-01",
+            "numberOfServices": 3
+        }
+    ]
+}

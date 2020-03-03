@@ -1,0 +1,19 @@
+{
+    "roles": [
+        {
+            "key": "Issuer",
+            "text": "Issuer",
+            "value": "Issuer"
+        },
+        {
+            "key": "Verifier",
+            "text": "Verifier",
+            "value": "Verifier"
+        },
+        {
+            "key": "Verissuer",
+            "text": "Verissuer",
+            "value": "Verissuer"
+        }
+    ]
+}
