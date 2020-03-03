@@ -1,12 +1,6 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-import { Grid, Segment, Menu, Image } from 'semantic-ui-react';
-import TopMenuBarView from '../views/TopMenuBarView';
-import InstanceHealthCheckView from '../views/InstanceHealthCheckView';
-import ApiCallsView from '../views/ApiCallsView';
-import ServiceStatusSliderView from '../views/ServiceStatusSliderView';
-import ErrorCountingView from '../views/ErrorCountingView';
-import { Route, Link, NavLink as RRNavLink, withRouter, Redirect, Switch, NavLink } from "react-router-dom";
+import { Menu, Image } from 'semantic-ui-react';
+import { Route, NavLink as RRNavLink, withRouter, Switch, NavLink } from "react-router-dom";
 import mainRoutes from '../routes/main';
 import logo from '../assets/images/hyundai-autoever-ci.png';
 
@@ -17,6 +11,12 @@ const MainLayout = () => (
             <NavLink to="/home" >
                 <Menu.Item style={{ height: '5vh' }}>
                     <Image src={logo} size={'tiny'} />
+                    {/* <div style={{ 
+                        display: 'block', 
+                        marginLeft: 'auto', 
+                        marginRight: 'auto' }}>
+                            <img src={logo} style={{ width: '60%'}}/>
+                    </div> */}
                 </Menu.Item>
             </NavLink>
             {mainRoutes.map((route, key) => {
@@ -26,8 +26,8 @@ const MainLayout = () => (
                             activeStyle={{ background: 'Gray' }}
                             tag={RRNavLink}
                             key={key}>
-                            <Menu.Item style={{ height: '5vh' }}>
-                                <h4>{route.name}</h4>
+                            <Menu.Item style={{ height: '5vh', width: '100px' }}>
+                                <h4 style={{ margin: 'auto' }}>{route.name}</h4>
                             </Menu.Item>
                         </NavLink>
                     );
@@ -58,6 +58,7 @@ const MainLayout = () => (
                     } else {
                         return (
                             <Route
+                                exact
                                 path={route.path}
                                 component={route.component}
                                 key={key} />
