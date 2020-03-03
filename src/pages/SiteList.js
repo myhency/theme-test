@@ -71,7 +71,7 @@ class SiteList extends Component {
                                         icon: 'file image',
                                         onClick: this.handleFileSelect
                                     }}
-                                    label='Site Logo'
+                                    label='Site Logo Image'
                                     placeholder='Logo file...' />
                             </Form.Group>
                             {/* <InputFile 
