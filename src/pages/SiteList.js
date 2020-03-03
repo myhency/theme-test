@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Form, Segment, Header, Modal, Grid, Menu, Icon, Search, Card, Image, Dropdown, Select } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, Card, Image, Dropdown, Select } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import siteData from '../assets/data/SiteData.json';
 import roleData from '../assets/data/RoleData.json';
 import Gallery from '../utils/Gallery';
+import { InputFile } from 'semantic-ui-react-input-file';
+
+const fileSelector = document.createElement('input');
 
 class SiteList extends Component {
 
@@ -16,6 +19,14 @@ class SiteList extends Component {
             open: false,
             totalCount: 3
         };
+
+        fileSelector.setAttribute('type', 'file');
+        fileSelector.setAttribute('multiple', 'multiple');
+    }
+
+    handleFileSelect = (e) => {
+        e.preventDefault();
+        fileSelector.click();
     }
 
     onChange = (event, data) => this.setState({ currentDate: data.value });
@@ -28,6 +39,10 @@ class SiteList extends Component {
 
     handleAddSiteButton = (v, e) => {
         if (e) this.setState({ open: true });
+    }
+
+    alarm = () => {
+        alert('aaa')
     }
 
     render() {
@@ -47,22 +62,26 @@ class SiteList extends Component {
                                 <Form.Input fluid label='Site name' placeholder='Site name' />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Service name' placeholder='Service name' />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Field
-                                    control={Select}
-                                    label='Role'
-                                    options={roleData.roles}
-                                    placeholder='Role'
-                                />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
                                 <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
+                                <Form.Input
+                                    ref={(ref) => this.upload = ref}
+                                    action={{
+                                        icon: 'file image',
+                                        onClick: this.handleFileSelect
+                                    }}
+                                    label='Site Logo'
+                                    placeholder='Logo file...' />
                             </Form.Group>
+                            {/* <InputFile 
+                            label='Logo image'
+                            button={{ }}
+                            input={{
+                                id: 'input-control-id',
+
+                            }} /> */}
+
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>
@@ -274,7 +293,7 @@ class SiteList extends Component {
                                                 </Grid.Column>
                                             </Grid>
                                             <Card.Content>
-                                            <Card.Meta>{cardValue.openDate}</Card.Meta>
+                                                <Card.Meta>{cardValue.openDate}</Card.Meta>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <Grid columns={2}>
