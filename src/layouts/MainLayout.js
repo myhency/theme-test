@@ -39,7 +39,7 @@ const MainLayout = () => (
         </Menu>
 
         {/* Contents */}
-        <div>
+        <div style={{ marginTop: '5em' }}>
             <Switch>
                 {mainRoutes.map((route, key) => {
                     if (route.subRoutes) {

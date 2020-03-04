@@ -6,8 +6,8 @@ defaults.global.legend.display = false;
 
 const LineGraphCard = (props) => {
     return (
-        <Segment placeholder style={{ justifyContent: 'start' }}>
-            <div style={{ marginBottom: '2em' }}>
+        <Segment style={{ justifyContent: 'start' }}>
+            <div style={{ marginBottom: '1em' }}>
                 <Header as='h1'>{props.title}</Header>
             </div>
             <Line data={props.data} height={60} option={props.options} />

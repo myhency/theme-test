@@ -60,7 +60,7 @@ const SliderCard = (props) => {
                             <Header as='h1'>{props.title}</Header>
                         </div>
                     </div>
-                    <Grid style={{ marginTop: '1em' }}>
+                    <Grid style={{ marginTop: '0em' }}>
                         <Grid.Row columns={2}>
                             <Grid.Column width={8}>
                                 <Segment placeholder style={{ justifyContent: 'start' }}>
@@ -71,11 +71,12 @@ const SliderCard = (props) => {
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <Grid style={{ display: 'inline-block' }}>
+                                <Grid>
+                                    {/* <Grid style={{ display: 'inline-block' }}> */}
                                     <Grid.Row columns={3} style={{ marginTop: '1em' }}>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='red'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>12,550</Statistic.Value>
                                                     <Statistic.Label>누적 Pairwise DID</Statistic.Label>
                                                 </Statistic>
@@ -83,7 +84,7 @@ const SliderCard = (props) => {
                                         </Grid.Column>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='orange'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>5,650</Statistic.Value>
                                                     <Statistic.Label>누적 DID 발급</Statistic.Label>
                                                 </Statistic>
@@ -91,7 +92,7 @@ const SliderCard = (props) => {
                                         </Grid.Column>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='yellow'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>20</Statistic.Value>
                                                     <Statistic.Label>누적 DID 검증</Statistic.Label>
                                                 </Statistic>
@@ -101,7 +102,7 @@ const SliderCard = (props) => {
                                     <Grid.Row columns={3} style={{ marginTop: '1em' }}>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='green'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>1</Statistic.Value>
                                                     <Statistic.Label>누적 장애 발생</Statistic.Label>
                                                 </Statistic>
@@ -109,7 +110,7 @@ const SliderCard = (props) => {
                                         </Grid.Column>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='blue'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>135,550</Statistic.Value>
                                                     <Statistic.Label>누적 Pairwise DID</Statistic.Label>
                                                 </Statistic>
@@ -117,87 +118,7 @@ const SliderCard = (props) => {
                                         </Grid.Column>
                                         <Grid.Column textAlign='center' verticalAlign='middle'>
                                             <Container>
-                                                <Statistic size='huge' color='purple'>
-                                                    <Statistic.Value>45,556</Statistic.Value>
-                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </div>
-            </Segment>
-            <Segment>
-                <div>
-                    <div style={{ overflow: 'hidden' }}>
-                        <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
-                            <Image src={logo} size={'small'} />
-                        </div>
-                        <div style={{ float: 'left' }}>
-                            <Header as='h1'>{props.title}</Header>
-                        </div>
-                    </div>
-                    <Grid style={{ marginTop: '1em' }}>
-                        <Grid.Row columns={2}>
-                            <Grid.Column width={8}>
-                                <Segment placeholder style={{ justifyContent: 'start' }}>
-                                    <div style={{ marginBottom: '2em' }}>
-                                        <Header as='h2'>{props.secondCardTitle}</Header>
-                                    </div>
-                                    <Bar data={data} height={50} option={options} />
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Grid style={{ display: 'inline-block' }}>
-                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
-                                                    <Statistic.Value>12,550</Statistic.Value>
-                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
-                                                    <Statistic.Value>5,650</Statistic.Value>
-                                                    <Statistic.Label>누적 DID 발급</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
-                                                    <Statistic.Value>20</Statistic.Value>
-                                                    <Statistic.Label>누적 DID 검증</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                    <Grid.Row columns={3} style={{ marginTop: '1em' }}>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
-                                                    <Statistic.Value>1</Statistic.Value>
-                                                    <Statistic.Label>누적 장애 발생</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
-                                                    <Statistic.Value>135,550</Statistic.Value>
-                                                    <Statistic.Label>누적 Pairwise DID</Statistic.Label>
-                                                </Statistic>
-                                            </Container>
-                                        </Grid.Column>
-                                        <Grid.Column textAlign='center' verticalAlign='middle'>
-                                            <Container>
-                                                <Statistic size='huge' color='teal'>
+                                                <Statistic size='large' color='teal'>
                                                     <Statistic.Value>45,556</Statistic.Value>
                                                     <Statistic.Label>누적 Pairwise DID</Statistic.Label>
                                                 </Statistic>

@@ -9,26 +9,22 @@ import ServiiceCountingView from '../views/ServiceCountingView';
 
 const Overview = () => (
     <Grid>
-        <Grid.Row stretched columns={2} style={{ marginTop: '4em' }}>
+        <Grid.Row stretched columns={2}>
             <Grid.Column style={{ paddingLeft: '3em' }}>
-                <Segment>
-                    <Grid columns={3}>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <ErrorCountingView />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <SiteCountingView />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <ServiiceCountingView />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
-                <Segment>
-                    <ApiCallsView />
-                </Segment>
+                <Grid columns={3}>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <ErrorCountingView />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <SiteCountingView />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <ServiiceCountingView />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                <ApiCallsView />
             </Grid.Column>
             <Grid.Column style={{ paddingRight: '3em' }}>
                 <InstanceHealthCheckView />
