@@ -47,7 +47,7 @@ class SiteList extends Component {
         const { totalCount, open, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
-            <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+            <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Modal
                     open={open}
                     onClose={this.close}
