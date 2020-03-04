@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+최적의 해상도는 1920 x 1080 입니다.
+
 ## Available Scripts
 
 In the project directory, you can run:
