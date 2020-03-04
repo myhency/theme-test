@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, Card, Image, Dropdown, Select } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, Card, Image, Dropdown, Select, Statistic, Label, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import siteData from '../assets/data/SiteData.json';
@@ -15,7 +15,13 @@ class SiteList extends Component {
         this.state = {
             currentDate: null,
             open: false,
-            totalCount: 3
+            addSiteModalOpen: false,
+            modifySiteModalOpen: false,
+            totalCount: 3,
+            modifiedCard: {
+                name: '',
+                openDate: ''
+            }
         };
 
         fileSelector.setAttribute('type', 'file');
@@ -33,10 +39,17 @@ class SiteList extends Component {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
     }
 
-    close = () => this.setState({ open: false });
+    addSiteModalClose = () => this.setState({ addSiteModalOpen: false });
+
+    modifySiteModalClose = () => this.setState({ modifySiteModalOpen: false });
 
     handleAddSiteButton = (v, e) => {
-        if (e) this.setState({ open: true });
+        if (e) this.setState({ addSiteModalOpen: true });
+    }
+
+    handleModifySiteMenuItem = (v, e) => {
+        console.log(v);
+        if (e) this.setState({ modifySiteModalOpen: true, modifiedCard: { ...v } });
     }
 
     alarm = () => {
@@ -44,72 +57,36 @@ class SiteList extends Component {
     }
 
     render() {
-        const { totalCount, open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { totalCount, addSiteModalOpen, modifySiteModalOpen, closeOnEscape, closeOnDimmerClick, modifiedCard } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
-                <Modal
-                    open={open}
-                    onClose={this.close}
-                    closeOnEscape={closeOnEscape}
-                    closeOnDimmerClick={closeOnDimmerClick}>
-                    <Modal.Header>Add a Site</Modal.Header>
-                    <Modal.Content>
-                        <Form>
-                            <Form.Group widths='equal'>
-                                <Form.Input fluid label='Site name' placeholder='Site name' />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input
-                                    ref={(ref) => this.upload = ref}
-                                    action={{
-                                        icon: 'file image',
-                                        onClick: this.handleFileSelect
-                                    }}
-                                    label='Site Logo Image'
-                                    placeholder='Logo file...' />
-                            </Form.Group>
-                            {/* <InputFile 
-                            label='Logo image'
-                            button={{ }}
-                            input={{
-                                id: 'input-control-id',
-
-                            }} /> */}
-
-                        </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button onClick={this.close} negative>No</Button>
-                        <Button
-                            onClick={this.close}
-                            positive
-                            labelPosition='right'
-                            icon='checkmark'
-                            content='Yes'
-                        />
-                    </Modal.Actions>
-                </Modal>
                 <Grid>
                     <Grid.Row>
-                        <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                            <Header as='h1'>Sites</Header>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
                         <Grid.Column>
-                            <Search />
+                            <Grid columns={2}>
+                                <Grid.Row>
+                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
+                                        <Header as='h1'><Icon name='building outline' />Sites</Header>
+                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Site들을 보여줍니다.</p>
+                                    </Grid.Column>
+                                    <Grid.Column verticalAlign='top' width={5}>
+                                        <Search placeholder='Search' style={{ float: 'right' }} />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
                         </Grid.Column>
                     </Grid.Row>
+                    <Divider />
                     <Grid.Row>
-                        <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                            <Header as='h4' textAlign='left'>{'Total : '}{totalCount}</Header>
+                        <Grid.Column floated='left' verticalAlign='bottom' width={5}>
+                            <Label color='blue' size='large'>
+                                <Icon name='building outline' />Total
+                                <Label.Detail>{totalCount}</Label.Detail>
+                            </Label>
                         </Grid.Column>
-                        <Grid.Column floated='right' verticalAlign='middle' width={5}>
-                            <Button floated='right' onClick={(v, e) => this.handleAddSiteButton(v, e)}>Add site</Button>
+                        <Grid.Column floated='right' verticalAlign='bottom' width={5}>
+                            <Button color='blue' icon='plus' content='Add site' floated='right' onClick={(v, e) => this.handleAddSiteButton(v, e)} />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -153,11 +130,14 @@ class SiteList extends Component {
                                                             </Card.Header>
                                                         </Grid.Column>
                                                         <Grid.Column floated='right' verticalAlign='middle'>
-                                                            {/* <Icon name='ellipsis vertical' style={{ float: 'right' }} /> */}
                                                             <Menu secondary style={{ float: 'right' }}>
                                                                 <Dropdown item icon='ellipsis vertical' simple>
                                                                     <Dropdown.Menu>
-                                                                        <Dropdown.Item>Modify</Dropdown.Item>
+                                                                        <Dropdown.Item
+                                                                            onClick={(v, e) => this.handleModifySiteMenuItem({
+                                                                                name: cardValue.name,
+                                                                                openDate: cardValue.openDate
+                                                                            }, e)}>Modify</Dropdown.Item>
                                                                         <Dropdown.Item>Delete</Dropdown.Item>
                                                                     </Dropdown.Menu>
                                                                 </Dropdown>
@@ -312,6 +292,80 @@ class SiteList extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
+                <Modal
+                    open={addSiteModalOpen}
+                    onClose={this.addSiteModalClose}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Add Site</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Site name' placeholder='Site name' />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input
+                                    ref={(ref) => this.upload = ref}
+                                    action={{
+                                        icon: 'file image',
+                                        onClick: this.handleFileSelect
+                                    }}
+                                    label='Site Logo Image'
+                                    placeholder='Logo file...' />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button onClick={this.addSiteModalClose} negative>No</Button>
+                        <Button
+                            onClick={this.addSiteModalClose}
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Yes'
+                        />
+                    </Modal.Actions>
+                </Modal>
+                <Modal
+                    open={modifySiteModalOpen}
+                    onClose={this.modifySiteModalClose}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Modify Site</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Site name' value={modifiedCard.name} />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} value={modifiedCard.openDate}/>
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input
+                                    ref={(ref) => this.upload = ref}
+                                    action={{
+                                        icon: 'file image',
+                                        onClick: this.handleFileSelect
+                                    }}
+                                    label='Site Logo Image'
+                                    placeholder='Logo file...' />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button onClick={this.addSiteModalClose} negative>No</Button>
+                        <Button
+                            onClick={this.addSiteModalClose}
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Yes'
+                        />
+                    </Modal.Actions>
+                </Modal>
             </div>
         )
     }
