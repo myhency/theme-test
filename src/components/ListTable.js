@@ -3,7 +3,7 @@ import { Table, Menu, Icon } from 'semantic-ui-react';
 
 const EmptyColumns = (data) => {
     let rows = [];
-    let columnLength = data.data.cellData.length;
+    let columnLength = data.data.cellData.length > 0 ? data.data.cellData.length : 3;
 
     for (let i = columnLength; i < 9; i++) {
         rows.push((

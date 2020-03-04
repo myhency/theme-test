@@ -1,6 +1,11 @@
 {
     "roles": [
         {
+            "key": "All",
+            "text": "All",
+            "value": "All"
+        },
+        {
             "key": "Issuer",
             "text": "Issuer",
             "value": "Issuer"
@@ -11,9 +16,9 @@
             "value": "Verifier"
         },
         {
-            "key": "Verissuer",
-            "text": "Verissuer",
-            "value": "Verissuer"
+            "key": "Verifier + Issuer",
+            "text": "Verifier + Issuer",
+            "value": "Verifier + Issuer"
         }
     ]
 }

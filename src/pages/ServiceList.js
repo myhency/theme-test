@@ -1,49 +1,52 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Select, Menu, Modal, Grid, Header, Icon } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, Card, Image, Dropdown, Select, Statistic, Label, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import ListTable from '../components/ListTable';
-import issuerIcon from '../assets/images/right-arrow.png';
-import verifierIcon from '../assets/images/left-arrow.png';
-import verissuerIcon from '../assets/images/up-arrow.png';
+import ServiceData from '../assets/data/ServiceData.json';
+import SiteData from '../assets/data/SiteData.json';
+import RoleData from '../assets/data/RoleData.json';
 
 const headers = ['Service Name', 'Role', 'Company', 'Open Date'];
 
-const data = {
-    cellData: [
-        ['재직증명서발급', 'Issuer', '현대카드', '2020-06-30'],
-        ['갑근세영수증발급', 'Verissuer', '현대카드', '2020-06-30'],
-        ['모바일전자사원증발급', 'Verifier', '현대카드', '2020-06-30'],
-        ['법인카드발급증명서발급', 'Verissuer', '현대카드', '2020-07-30'],
-    ]
-}
-
-const roleOptions = [
-    {
-        key: 'Issuer',
-        text: 'Issuer',
-        value: 'Issuer',
-        image: { avatar: true, src: issuerIcon }
-    },
-    {
-        key: 'Verifier',
-        text: 'Verifier',
-        value: 'Verifier',
-        image: { avatar: true, src: verifierIcon }
-    },
-    {
-        key: 'Verissuer',
-        text: 'Verissuer',
-        value: 'Verissuer',
-        image: { avatar: true, src: verissuerIcon }
-    },
-]
-
 class ServiceList extends Component {
-    state = {
-        currentDate: null,
-        open: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentDate: null,
+            open: false,
+            totalCount: 4,
+            addServiceModalOpen: false,
+            data: {
+                cellData: []
+            },
+            siteOption: []
+        };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+
+        let { data, siteOption } = state;
+        data.cellData.splice(0,data.cellData.length);
+        let currentServiceData = ServiceData.serviceList.map((value, index) => {
+            let arr = [];
+            arr.push(value.name, value.role, value.siteName, value.openDate);
+            data.cellData.push(arr);
+        });
+        
+        siteOption.splice(0,siteOption.length);
+        SiteData.siteList.map((value, index) => {
+            siteOption.push({
+                key: value.name,
+                text: value.name,
+                value: value.name
+            });
+        });
+
+        return {
+            ...data, ...siteOption
+        }
+    }
 
     onChange = (event, data) => this.setState({ currentDate: data.value });
 
@@ -60,96 +63,127 @@ class ServiceList extends Component {
         });
     }
 
-    render() {
-        const { open, closeOnEscape, closeOnDimmerClick } = this.state;
+    handleAddServiceButton = (v, e) => {
+        if (e) this.setState({ addServiceModalOpen: true });
+    }
 
+    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
+
+    render() {
+        const { data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        console.log(siteOption);
+        console.log(RoleData.roles);
         return (
-            <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
-                <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
-                    <Form>
-                        <Form.Group widths='equal'>
-                            <Form.Input fluid label='Site name' placeholder='Site name' />
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                            <SemanticDatepicker
-                                label='Open date'
-                                datePickerOnly={true}
-                                onChange={this.onChange} />
-                        </Form.Group>
-                        <Form.Group widths='equal'>
-                            <Form.Field
-                                control={Select}
-                                label='Role'
-                                options={roleOptions}
-                                placeholder='Role'
-                            />
-                        </Form.Group>
-                        <Button type='submit'>Search</Button>
-                    </Form>
-                </Segment>
-                <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
-                    <Modal
-                        open={open}
-                        onClose={this.close}
-                        closeOnEscape={closeOnEscape}
-                        closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add a Service</Modal.Header>
-                        <Modal.Content>
-                            <Form>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Site name' placeholder='Site name' />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Service name' placeholder='Service name' />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Field
-                                        control={Select}
-                                        label='Role'
-                                        options={roleOptions}
-                                        placeholder='Role'
-                                    />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
-                            <Button
-                                onClick={this.close}
-                                positive
-                                labelPosition='right'
-                                icon='checkmark'
-                                content='Yes'
-                            />
-                        </Modal.Actions>
-                    </Modal>
-                    <Grid columns={2} style={{ marginBottom: '0em' }}>
-                        <Grid.Row>
-                            <Grid.Column floated='left'>
-                                <Header as='h1'>Service List</Header>
-                            </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right'>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
-                                            <Icon name='plus square outline' size='large' />
-                                        </Button>
-                                    </Menu.Item>
-                                </Menu.Menu>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <ListTable
-                        handleClick={(rowValue) => this.handleClick(rowValue)}
-                        headers={headers}
-                        data={data} />
-                </Segment>
+            <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Grid>
+                                <Grid.Row>
+                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
+                                        <Header as='h1'><Icon name='setting' />Services</Header>
+                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.</p>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>
+                                <Form>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            control={Select}
+                                            label='Site Name'
+                                            options={siteOption}
+                                            placeholder='Site name'
+                                        />
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <SemanticDatepicker
+                                            label='Open date'
+                                            datePickerOnly={true}
+                                            onChange={this.onChange} />
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            control={Select}
+                                            label='Role'
+                                            options={RoleData.roles}
+                                            placeholder='Role'
+                                        />
+                                    </Form.Group>
+                                    <Button type='submit'>Search</Button>
+                                    <Button type='submit'>Clear</Button>
+                                </Form>
+                            </Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                    <Grid.Row>
+                        <Grid.Column floated='left' verticalAlign='bottom' width={5}>
+                            <Header as='h3'><Icon name='list alternate outline'/>Service List</Header>
+                        </Grid.Column>
+                        <Grid.Column floated='right' verticalAlign='bottom' width={5}>
+                            <Button color='blue' icon='plus' content='Add service' floated='right' onClick={(v, e) => this.handleAddServiceButton(v, e)} />
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <ListTable
+                                handleClick={(rowValue) => this.handleClick(rowValue)}
+                                headers={headers}
+                                data={data} />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                <Modal
+                    open={addServiceModalOpen}
+                    onClose={this.addSiteModalClose}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Add Service</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Field
+                                    control={Select}
+                                    label='Site Name'
+                                    options={siteOption}
+                                    placeholder='Site name'
+                                />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Service name' placeholder='Service name' />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Field
+                                    control={Select}
+                                    label='Role'
+                                    options={RoleData.roles}
+                                    placeholder='Role'
+                                />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button onClick={this.addSiteModalClose} negative>No</Button>
+                        <Button
+                            onClick={this.close}
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Yes'
+                        />
+                    </Modal.Actions>
+                </Modal>
             </div>
         );
     }
