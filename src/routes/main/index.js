@@ -5,6 +5,7 @@ import ServiceList from "../../pages/ServiceList";
 import RegisterSite from "../../pages/RegisterSite";
 import SiteDetails from "../../pages/SiteDetails";
 import ServiceDetails from "../../pages/ServiceDetails";
+import InstanceList from "../../pages/InstanceList";
 
 const contextPath = '/home/';
 
@@ -36,7 +37,7 @@ const mainRoutes = [
     {
         path: contextPath + 'instances',
         name: 'Instances',
-        component: RegisterSite,
+        component: InstanceList,
         topMenu: true
     },
     {
