@@ -4,9 +4,7 @@ import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, 
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import siteData from '../assets/data/SiteData.json';
-import roleData from '../assets/data/RoleData.json';
 import Gallery from '../utils/Gallery';
-import { InputFile } from 'semantic-ui-react-input-file';
 
 const fileSelector = document.createElement('input');
 
