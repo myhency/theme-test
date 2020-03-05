@@ -174,7 +174,7 @@ class InstanceList extends Component {
                     onClose={this.addSiteModalClose}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
-                    <Modal.Header>Add Service</Modal.Header>
+                    <Modal.Header>Add Instance</Modal.Header>
                     <Modal.Content>
                         <Form>
                             <Form.Group widths='equal'>
@@ -197,7 +197,7 @@ class InstanceList extends Component {
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                                <Form.Input fluid label='Instance name' placeholder='service name + instance name + #x'/>
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
