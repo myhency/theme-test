@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ba09d9b74d9de6765d2ca33617ca95ae",
+    "revision": "b122645caa6a2f328f473abc08d8c947",
     "url": "/theme-test/index.html"
   },
   {
-    "revision": "4552fba082c1ba68e055",
+    "revision": "93f7369dd7b95f672d69",
     "url": "/theme-test/static/css/2.c9a75f4d.chunk.css"
   },
   {
-    "revision": "952ac873a99013a15869",
+    "revision": "8d8eda7e1a13dfe54986",
     "url": "/theme-test/static/css/main.d1b05096.chunk.css"
   },
   {
-    "revision": "4552fba082c1ba68e055",
-    "url": "/theme-test/static/js/2.3e4733b8.chunk.js"
+    "revision": "93f7369dd7b95f672d69",
+    "url": "/theme-test/static/js/2.601591ee.chunk.js"
   },
   {
     "revision": "4d615ce6082eec6ec101d23a8b250971",
-    "url": "/theme-test/static/js/2.3e4733b8.chunk.js.LICENSE.txt"
+    "url": "/theme-test/static/js/2.601591ee.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "952ac873a99013a15869",
-    "url": "/theme-test/static/js/main.a966bcdb.chunk.js"
+    "revision": "8d8eda7e1a13dfe54986",
+    "url": "/theme-test/static/js/main.3031a090.chunk.js"
   },
   {
     "revision": "205e2e44d17af302a2ad",
