@@ -46,7 +46,7 @@ class SiteDetails extends Component {
         console.log(this.props);
         this.state = {
             currentDate: null,
-            open: false,
+            addServiceModalOpen: false,
             companyName: this.props.location.state[0],
             openDate: this.props.location.state[2],
         };
@@ -67,8 +67,14 @@ class SiteDetails extends Component {
 
     close = () => this.setState({ open: false });
 
+    addServiceModalclose = () => this.setState({ addServiceModalOpen: false });
+
+    handleAddServiceButton = (v, e) => {
+        if (e) this.setState({ addServiceModalOpen: true });
+    }
+
     render() {
-        const { companyName, openDate, open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { companyName, openDate, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -107,8 +113,8 @@ class SiteDetails extends Component {
                 </Segment>
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal
-                        open={open}
-                        onClose={this.close}
+                        open={addServiceModalOpen}
+                        onClose={this.addServiceModalclose}
                         closeOnEscape={closeOnEscape}
                         closeOnDimmerClick={closeOnDimmerClick}>
                         <Modal.Header>Add a Service</Modal.Header>
@@ -137,9 +143,9 @@ class SiteDetails extends Component {
                             </Form>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
+                            <Button onClick={this.addServiceModalclose} negative>No</Button>
                             <Button
-                                onClick={this.close}
+                                onClick={this.addServiceModalclose}
                                 positive
                                 labelPosition='right'
                                 icon='checkmark'
@@ -149,6 +155,19 @@ class SiteDetails extends Component {
                     </Modal>
                     <Grid columns={2} style={{ marginBottom: '0em' }}>
                         <Grid.Row>
+                            <Grid.Column floated='left' verticalAlign='bottom' width={5}>
+                                <Header as='h3'><Icon name='list alternate outline' />Service List</Header>
+                            </Grid.Column>
+                            <Grid.Column floated='right' verticalAlign='bottom' width={5}>
+                                <Button
+                                    color='blue'
+                                    icon='plus'
+                                    content='Add service'
+                                    floated='right'
+                                    onClick={(v, e) => this.handleAddServiceButton(v, e)} />
+                            </Grid.Column>
+                        </Grid.Row>
+                        {/* <Grid.Row>
                             <Grid.Column floated='left'>
                                 <Header as='h1'>Service List</Header>
                             </Grid.Column>
@@ -161,7 +180,7 @@ class SiteDetails extends Component {
                                     </Menu.Item>
                                 </Menu.Menu>
                             </Grid.Column>
-                        </Grid.Row>
+                        </Grid.Row> */}
                     </Grid>
                     <ListTable
                         handleClick={(rowValue) => this.handleClick(rowValue)}

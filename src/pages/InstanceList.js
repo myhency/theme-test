@@ -95,7 +95,7 @@ class InstanceList extends Component {
         if (e) this.setState({ addServiceModalOpen: true });
     }
 
-    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
+    addInstanceModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
         const { data, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;

@@ -1,30 +1,25 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select, Divider, Breadcrumb } from 'semantic-ui-react';
+import { 
+    Button, 
+    Form, 
+    Segment, 
+    Header, 
+    Image, 
+    Modal, 
+    Grid, 
+    Icon, 
+    Select, 
+    Divider, 
+    Breadcrumb } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
-import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import logo from '../assets/images/01.20686250.1.jpg';
 import InstanceData from '../assets/data/InstanceData.json';
+import SiteData from '../assets/data/SiteData.json';
+import ServiceData from '../assets/data/ServiceData.json';
+import RoleData from '../assets/data/RoleData.json';
 
 const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
-
-const roleOptions = [
-    {
-        key: 'Issuer',
-        text: 'Issuer',
-        value: 'Issuer'
-    },
-    {
-        key: 'Verifier',
-        text: 'Verifier',
-        value: 'Verifier'
-    },
-    {
-        key: 'Verissuer',
-        text: 'Verissuer',
-        value: 'Verissuer'
-    },
-]
 
 class ServiceDetails extends Component {
     constructor(props) {
@@ -33,7 +28,7 @@ class ServiceDetails extends Component {
 
         this.state = {
             currentDate: null,
-            open: false,
+            addInstanceModalOpen: false,
             serviceName: this.props.location.state[0],
             openDate: this.props.location.state[3],
             role: this.props.location.state[1],
@@ -41,11 +36,13 @@ class ServiceDetails extends Component {
             data: {
                 cellData: []
             },
+            siteOption: [],
+            serviceOption: []
         };
     }
 
     static getDerivedStateFromProps(props, state) {
-        let { data } = state;
+        let { data, siteOption, serviceOption } = state;
         data.cellData.splice(0, data.cellData.length);
         InstanceData.instanceList.map((value, index) => {
             let arr = [];
@@ -58,6 +55,40 @@ class ServiceDetails extends Component {
             );
             data.cellData.push(arr);
         });
+
+        // set site name search condition
+        siteOption.splice(0, siteOption.length);
+        SiteData.siteList.map((value, index) => {
+            siteOption.push({
+                key: value.name,
+                text: value.name,
+                value: value.name
+            });
+        });
+        siteOption.unshift({
+            key: 'All',
+            text: 'All',
+            value: 'All'
+        })
+
+        // set service name search condition
+        serviceOption.splice(0, serviceOption.length);
+        ServiceData.serviceList.map((value, index) => {
+            serviceOption.push({
+                key: value.name,
+                text: value.name,
+                value: value.name
+            })
+        });
+        serviceOption.unshift({
+            key: 'All',
+            text: 'All',
+            value: 'All'
+        })
+
+        return {
+            ...data, ...siteOption, ...serviceOption
+        }
     }
 
     handleClick = rowValue => {
@@ -73,10 +104,27 @@ class ServiceDetails extends Component {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
     }
 
-    close = () => this.setState({ open: false });
+    addInstanceModalclose = () => this.setState({ addInstanceModalOpen: false });
+
+    handleAddInstanceButton = (v, e) => {
+        if (e) this.setState({ addInstanceModalOpen: true });
+    }
+
+    addInstanceModalClose = () => this.setState({ addInstanceModalOpen: false });
 
     render() {
-        const { serviceName, openDate, role, endPoint, data, open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { 
+            serviceName, 
+            openDate, 
+            role, 
+            endPoint, 
+            data, 
+            addInstanceModalOpen, 
+            closeOnEscape, 
+            closeOnDimmerClick,
+            siteOption,
+            serviceOption
+         } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -134,15 +182,20 @@ class ServiceDetails extends Component {
                 </Segment>
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal
-                        open={open}
-                        onClose={this.close}
+                        open={addInstanceModalOpen}
+                        onClose={this.addInstanceModalClose}
                         closeOnEscape={closeOnEscape}
                         closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add a Service</Modal.Header>
+                        <Modal.Header>Add Instance</Modal.Header>
                         <Modal.Content>
                             <Form>
                                 <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Site name' placeholder='Site name' />
+                                    <Form.Field
+                                        control={Select}
+                                        label='Site Name'
+                                        options={siteOption}
+                                        placeholder='Site name'
+                                    />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
                                     <Form.Input fluid label='Service name' placeholder='Service name' />
@@ -151,12 +204,12 @@ class ServiceDetails extends Component {
                                     <Form.Field
                                         control={Select}
                                         label='Role'
-                                        options={roleOptions}
+                                        options={RoleData.roles}
                                         placeholder='Role'
                                     />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
-                                    <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                                    <Form.Input fluid label='Instance name' placeholder='service name + instance name + #x' />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
                                     <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
@@ -164,7 +217,7 @@ class ServiceDetails extends Component {
                             </Form>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
+                            <Button onClick={this.addInstanceModalClose} negative>No</Button>
                             <Button
                                 onClick={this.close}
                                 positive
@@ -176,6 +229,14 @@ class ServiceDetails extends Component {
                     </Modal>
                     <Grid columns={2} style={{ marginBottom: '0em' }}>
                         <Grid.Row>
+                            <Grid.Column floated='left' verticalAlign='bottom' width={5}>
+                                <Header as='h3'><Icon name='list alternate outline' />Instance List</Header>
+                            </Grid.Column>
+                            <Grid.Column floated='right' verticalAlign='bottom' width={5}>
+                                <Button color='blue' icon='plus' content='Add instance' floated='right' onClick={(v, e) => this.handleAddInstanceButton(v, e)} />
+                            </Grid.Column>
+                        </Grid.Row>
+                        {/* <Grid.Row>
                             <Grid.Column floated='left'>
                                 <Header as='h1'>Instance List</Header>
                             </Grid.Column>
@@ -188,7 +249,7 @@ class ServiceDetails extends Component {
                                     </Menu.Item>
                                 </Menu.Menu>
                             </Grid.Column>
-                        </Grid.Row>
+                        </Grid.Row> */}
                     </Grid>
                     <ListTable
                         title={'Service List'}
