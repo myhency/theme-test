@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Segment, Header, Card, Label } from 'semantic-ui-react';
+import { Table, Header, Card, Label } from 'semantic-ui-react';
 
 const EmptyColumns = (data) => {
 
