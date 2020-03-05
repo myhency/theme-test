@@ -3,13 +3,16 @@ import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, 
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import ListTable from '../components/ListTable';
-import ServiceData from '../assets/data/ServiceData.json';
 import SiteData from '../assets/data/SiteData.json';
+import ServiceData from '../assets/data/ServiceData.json';
+import InstanceData from '../assets/data/InstanceData.json';
 import RoleData from '../assets/data/RoleData.json';
+import InstanceStatusData from '../assets/data/InstanceStatusData.json';
 
-const headers = ['Service Name', 'Role', 'Company', 'Open Date'];
+const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
 
 class InstanceList extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -20,21 +23,27 @@ class InstanceList extends Component {
             data: {
                 cellData: []
             },
-            siteOption: []
+            siteOption: [],
+            serviceOption: []
         };
+
     }
-
+    
     static getDerivedStateFromProps(props, state) {
+        console.log(InstanceData);
+        
+        let { data, siteOption, serviceOption } = state;
 
-        let { data, siteOption } = state;
-        data.cellData.splice(0,data.cellData.length);
-        let currentServiceData = ServiceData.serviceList.map((value, index) => {
+        // set instance list table data
+        data.cellData.splice(0, data.cellData.length);
+        InstanceData.instanceList.map((value, index) => {
             let arr = [];
-            arr.push(value.name, value.role, value.siteName, value.openDate);
+            arr.push(value.siteName, value.serviceName, value.name, value.endPoint, value.status);
             data.cellData.push(arr);
         });
-        
-        siteOption.splice(0,siteOption.length);
+
+        // set site name search condition
+        siteOption.splice(0, siteOption.length);
         SiteData.siteList.map((value, index) => {
             siteOption.push({
                 key: value.name,
@@ -42,9 +51,29 @@ class InstanceList extends Component {
                 value: value.name
             });
         });
+        siteOption.unshift({
+            key: 'All',
+            text: 'All',
+            value: 'All'
+        })
+
+        // set service name search condition
+        serviceOption.splice(0, serviceOption.length);
+        ServiceData.serviceList.map((value, index) => {
+            serviceOption.push({
+                key: value.name,
+                text: value.name,
+                value: value.name
+            })
+        });
+        serviceOption.unshift({
+            key: 'All',
+            text: 'All',
+            value: 'All'
+        })
 
         return {
-            ...data, ...siteOption
+            ...data, ...siteOption, ...serviceOption
         }
     }
 
@@ -70,7 +99,7 @@ class InstanceList extends Component {
     addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
-        const { data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { data, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
         console.log(siteOption);
         console.log(RoleData.roles);
         return (
@@ -80,9 +109,9 @@ class InstanceList extends Component {
                         <Grid.Column>
                             <Grid>
                                 <Grid.Row>
-                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                                        <Header as='h1'><Icon name='setting' />Services</Header>
-                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.</p>
+                                    <Grid.Column floated='left' verticalAlign='middle'>
+                                        <Header as='h1'><Icon name='server' />Instances</Header>
+                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Instance들을 보여줍니다. Instance는 Host VM의 Docker container 단위를 의미합니다.</p>
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
@@ -101,17 +130,19 @@ class InstanceList extends Component {
                                         />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
-                                        <SemanticDatepicker
-                                            label='Open date'
-                                            datePickerOnly={true}
-                                            onChange={this.onChange} />
+                                        <Form.Field
+                                            control={Select}
+                                            label='Service Name'
+                                            options={serviceOption}
+                                            placeholder='Service name'
+                                        />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
                                         <Form.Field
                                             control={Select}
-                                            label='Role'
-                                            options={RoleData.roles}
-                                            placeholder='Role'
+                                            label='Status'
+                                            options={InstanceStatusData.status}
+                                            placeholder='Status'
                                         />
                                     </Form.Group>
                                     <Button type='submit'>Search</Button>
@@ -123,10 +154,10 @@ class InstanceList extends Component {
                     <Divider />
                     <Grid.Row>
                         <Grid.Column floated='left' verticalAlign='bottom' width={5}>
-                            <Header as='h3'><Icon name='list alternate outline'/>Service List</Header>
+                            <Header as='h3'><Icon name='list alternate outline' />Instance List</Header>
                         </Grid.Column>
                         <Grid.Column floated='right' verticalAlign='bottom' width={5}>
-                            <Button color='blue' icon='plus' content='Add service' floated='right' onClick={(v, e) => this.handleAddServiceButton(v, e)} />
+                            <Button color='blue' icon='plus' content='Add instance' floated='right' onClick={(v, e) => this.handleAddServiceButton(v, e)} />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>

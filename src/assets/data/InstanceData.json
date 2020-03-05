@@ -1,0 +1,60 @@
+{
+    "instanceList": [
+        {
+            "name": "재직증명서 발급 서비스 인스턴스 #1",
+            "serviceName": "재직증명서 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.56:8080"
+        },
+        {
+            "name": "재직증명서 발급 서비스 인스턴스 #2",
+            "serviceName": "재직증명서 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.78:8090"
+        },
+        {
+            "name": "갑근세영수증 발급 서비스 인스턴스 #1",
+            "serviceName": "갑근세영수증 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.56:8081"
+        },
+        {
+            "name": "갑근세영수증 발급 서비스 인스턴스 #2",
+            "serviceName": "갑근세영수증 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.78:8091"
+        },
+        {
+            "name": "모바일전자사원증 발급 서비스 인스턴스 #1",
+            "serviceName": "모바일전자사원증 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.56:8082"
+        },
+        {
+            "name": "모바일전자사원증 발급 서비스 인스턴스 #2",
+            "serviceName": "모바일전자사원증 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.78:8092"
+        },
+        {
+            "name": "법인카드발급증명서 발급 서비스 인스턴스 #1",
+            "serviceName": "법인카드발급증명서 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.56:8083"
+        },
+        {
+            "name": "법인카드발급증명서 발급 서비스 인스턴스 #2",
+            "serviceName": "법인카드발급증명서 발급 서비스",
+            "siteName": "현대카드",
+            "status": "OK",
+            "endPoint": "https://10.12.34.78:8093"
+        }
+    ]
+}

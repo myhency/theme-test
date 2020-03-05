@@ -1,0 +1,19 @@
+{
+    "status": [
+        {
+            "key": "All",
+            "text": "All",
+            "value": "All"
+        },
+        {
+            "key": "OK",
+            "text": "OK",
+            "value": "OK"
+        },
+        {
+            "key": "ERROR",
+            "text": "ERROR",
+            "value": "ERROR"
+        }
+    ]
+}
