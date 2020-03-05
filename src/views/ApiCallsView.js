@@ -6,20 +6,20 @@ const data = {
     datasets: [
         {
             label: 'My First dataset',
-            fill: false,
+            fill: true,
             lineTension: 0.1,
-            backgroundColor: 'rgba(0,0,0,1)',
-            borderColor: 'green',
+            backgroundColor: 'lightskyblue',
+            borderColor: 'lightskyblue',
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: 'lightskyblue',
+            pointBackgroundColor: 'lightskyblue',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: 'lightskyblue',
+            pointHoverBorderColor: 'lightskyblue',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
@@ -33,7 +33,11 @@ const options = {
         display: false
     },
     scales: {
-        xAxes: [{ gridLines: { display: false } }]
+        xAxes: [{ 
+            gridLines: { 
+                display: false 
+            } 
+        }],
     },
     maintainAspectRatio: true,
 }

@@ -1,20 +1,26 @@
 import React from 'react';
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Card, Label } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 
 const LineGraphCard = (props) => {
-    console.log(props.options);
+
     return (
-        <Segment style={{ justifyContent: 'start' }}>
-            <div style={{ marginBottom: '1em' }}>
-                <Header as='h1'>{props.title}</Header>
-            </div>
-            <Line
-                data={props.data}
-                height={60}
-                options={props.options}
-            />
-        </Segment>
+        <Card style={{ width: '100%' }}>
+            <Header as='h1' style={{ marginTop: '14px', marginLeft: '14px' }}>
+                {props.title}
+                <Label attached='top right' size='mini'>60m</Label>
+            </Header>
+            <Card.Content>
+                <Card.Description>
+                    <Line
+                        data={props.data}
+                        height={60}
+                        options={props.options}
+                    />
+                </Card.Description>
+            </Card.Content>
+        </Card>
+
     )
 };
 
