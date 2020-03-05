@@ -6,6 +6,7 @@ import RegisterSite from "../../pages/RegisterSite";
 import SiteDetails from "../../pages/SiteDetails";
 import ServiceDetails from "../../pages/ServiceDetails";
 import InstanceList from "../../pages/InstanceList";
+import LogList from "../../pages/LogList";
 
 const contextPath = '/home/';
 
@@ -43,7 +44,7 @@ const mainRoutes = [
     {
         path: contextPath + 'logs',
         name: 'Logs',
-        component: RegisterSite,
+        component: LogList,
         topMenu: true
     },
     {
