@@ -80,7 +80,7 @@ class SiteList extends Component {
                     <Divider />
                     <Grid.Row>
                         <Grid.Column floated='left' verticalAlign='bottom' width={5}>
-                            <Label color='blue' size='large'>
+                            <Label color='grey' size='large'>
                                 <Icon name='building outline' />Total
                                 <Label.Detail>{totalCount}</Label.Detail>
                             </Label>
