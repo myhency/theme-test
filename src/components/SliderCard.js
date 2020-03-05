@@ -6,7 +6,8 @@ import Gallery from '../utils/Gallery';
 
 const options = {
     legend: {
-        display: false
+        display: true,
+        position: 'right'
     },
     scales: {
         xAxes: [{
@@ -114,7 +115,7 @@ class SliderCard extends Component {
                                                 <div style={{ marginBottom: '2em' }}>
                                                     <Header as='h3'>{this.props.graphTitle}</Header>
                                                 </div>
-                                                <Bar data={data} height={50} options={options} />
+                                                <Bar data={data} height={60} options={options} />
                                             </Segment>
                                         </Grid.Column>
                                         <Grid.Column width={8}>

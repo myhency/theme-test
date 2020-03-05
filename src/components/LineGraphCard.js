@@ -2,6 +2,20 @@ import React from 'react';
 import { Segment, Header, Card, Label } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 
+const options = {
+    legend: {
+        display: false
+    },
+    scales: {
+        xAxes: [{
+            gridLines: {
+                display: false
+            }
+        }],
+    },
+    maintainAspectRatio: true,
+}
+
 const LineGraphCard = (props) => {
 
     return (
@@ -15,7 +29,7 @@ const LineGraphCard = (props) => {
                     <Line
                         data={props.data}
                         height={60}
-                        options={props.options}
+                        options={options}
                     />
                 </Card.Description>
             </Card.Content>

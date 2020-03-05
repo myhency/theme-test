@@ -1,53 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 import LineGraphCard from '../components/LineGraphCard';
+import ApiCallsData from '../assets/data/ApiCallsData.json';
 
-const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-        {
-            label: 'My First dataset',
-            fill: true,
-            lineTension: 0.1,
-            backgroundColor: 'lightskyblue',
-            borderColor: 'lightskyblue',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'lightskyblue',
-            pointBackgroundColor: 'lightskyblue',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'lightskyblue',
-            pointHoverBorderColor: 'lightskyblue',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40]
+class ApiCallsView extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: {
+                labels: [],
+                apiCallData: []
+            }
         }
-    ]
-};
+    }
 
-const options = {
-    legend: {
-        display: false
-    },
-    scales: {
-        xAxes: [{ 
-            gridLines: { 
-                display: false 
-            } 
-        }],
-    },
-    maintainAspectRatio: true,
+    static getDerivedStateFromProps(props, state) {
+        let { data } = state;
+        let labels = [];
+        let apiCallData = [];
+
+        ApiCallsData.result.map((value, index) => {
+            labels.push(value.timestamp);
+            apiCallData.push(value.count);
+        });
+
+        return {
+            data: {
+                labels, 
+                apiCallData
+            }
+        }
+    }
+
+    render() {
+        const { data } = this.state;
+        let graphData = {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: 'My First dataset',
+                    fill: true,
+                    lineTension: 0.1,
+                    backgroundColor: 'lightskyblue',
+                    borderColor: 'lightskyblue',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: 'lightskyblue',
+                    pointBackgroundColor: 'lightskyblue',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: 'lightskyblue',
+                    pointHoverBorderColor: 'lightskyblue',
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: data.apiCallData
+                }
+            ]
+        }
+
+        return (
+            <LineGraphCard
+                title={'API Calls'}
+                data={graphData}
+            />
+        );
+    }
 }
-
-const ApiCallsView = () => (
-    <LineGraphCard
-        title={'API Calls'}
-        data={data}
-        options={options}
-    />
-);
 
 export default ApiCallsView;
