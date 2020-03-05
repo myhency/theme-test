@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "eee000e4bd0b7c737b044a0bab73fcbe",
+    "revision": "24f2da00a4d8f1ed1163305e21b83597",
     "url": "/theme-test/index.html"
   },
   {
-    "revision": "3953f9df95248d86d9e7",
+    "revision": "df2942f382d157957403",
     "url": "/theme-test/static/css/2.c9a75f4d.chunk.css"
   },
   {
-    "revision": "64e082c0eff9c58434a0",
+    "revision": "e0210af8a83c40870db3",
     "url": "/theme-test/static/css/main.d1b05096.chunk.css"
   },
   {
-    "revision": "3953f9df95248d86d9e7",
-    "url": "/theme-test/static/js/2.dd27cb2d.chunk.js"
+    "revision": "df2942f382d157957403",
+    "url": "/theme-test/static/js/2.5bd435e8.chunk.js"
   },
   {
     "revision": "4d615ce6082eec6ec101d23a8b250971",
-    "url": "/theme-test/static/js/2.dd27cb2d.chunk.js.LICENSE.txt"
+    "url": "/theme-test/static/js/2.5bd435e8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "64e082c0eff9c58434a0",
-    "url": "/theme-test/static/js/main.fbfa2b18.chunk.js"
+    "revision": "e0210af8a83c40870db3",
+    "url": "/theme-test/static/js/main.ccf81260.chunk.js"
   },
   {
     "revision": "205e2e44d17af302a2ad",
@@ -50,10 +50,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "e8c322de9658cbeb8a774b6624167c2c",
     "url": "/theme-test/static/media/brand-icons.e8c322de.woff2"
-  },
-  {
-    "revision": "45fd6b84897553caedd2f34ab92882d7",
-    "url": "/theme-test/static/media/dns-site-verification.45fd6b84.png"
   },
   {
     "revision": "9c74e172f87984c48ddf5c8108cabe67",
