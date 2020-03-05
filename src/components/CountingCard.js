@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Container, Header } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 
 const getTextColor = (props) => {
     if (props.type == 'info') return '#0A1654';

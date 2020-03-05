@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, TextArea, Search, Card, Image, Dropdown, Select, Statistic, Label, Divider } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Icon, TextArea, Select, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import ListTable from '../components/ListTable';
 import SiteData from '../assets/data/SiteData.json';
 import ServiceData from '../assets/data/ServiceData.json';
-import InstanceData from '../assets/data/InstanceData.json';
-import RoleData from '../assets/data/RoleData.json';
 import LogData from '../assets/data/LogData.json';
-import InstanceStatusData from '../assets/data/InstanceStatusData.json';
 
 const headers = [
     'Date',

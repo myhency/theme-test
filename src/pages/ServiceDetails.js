@@ -3,11 +3,7 @@ import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select, 
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import issuerIcon from '../assets/images/right-arrow.png';
-import verifierIcon from '../assets/images/left-arrow.png';
-import verissuerIcon from '../assets/images/up-arrow.png';
 import logo from '../assets/images/01.20686250.1.jpg';
-import RoleData from '../assets/data/RoleData.json';
 import InstanceData from '../assets/data/InstanceData.json';
 
 const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
