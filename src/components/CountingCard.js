@@ -12,8 +12,10 @@ const CountingCard = (props) => {
 
     return (
         <Card>
-            <Header as='h1' style={{ marginTop: '14px', marginLeft: '14px' }}>{props.title} <Label attached='top right' size='mini'>60m
-                </Label></Header>
+            <Header as='h1' style={{ marginTop: '14px', marginLeft: '14px' }}>
+                {props.title}
+                <Label attached='top right' size='mini'>60m</Label>
+            </Header>
             <Card.Content>
                 <Card.Description>
                     <p style={{
