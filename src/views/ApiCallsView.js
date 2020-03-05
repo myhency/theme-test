@@ -29,11 +29,21 @@ const data = {
 };
 
 const options = {
+    legend: {
+        display: false
+    },
+    scales: {
+        xAxes: [{ gridLines: { display: false } }]
+    },
     maintainAspectRatio: true,
 }
 
 const ApiCallsView = () => (
-    <LineGraphCard title={'API Calls'} data={data} options={options} />
+    <LineGraphCard
+        title={'API Calls'}
+        data={data}
+        options={options}
+    />
 );
 
 export default ApiCallsView;
