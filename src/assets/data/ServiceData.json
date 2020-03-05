@@ -5,28 +5,32 @@
             "openDate": "2020-01-01",
             "numberOfInstances": 2,
             "role": "Issuer",
-            "siteName": "현대카드"
+            "siteName": "현대카드",
+            "endPoint": "https://autoever.did.api.com/comm/credencial1"
         },
         {
             "name": "갑근세영수증 발급 서비스",
             "openDate": "2020-01-01",
             "numberOfInstances": 2,
             "role": "Verissuer",
-            "siteName": "현대카드"
+            "siteName": "현대카드",
+            "endPoint": "https://autoever.did.api.com/comm/credencial1"
         },
         {
             "name": "모바일전자사원증 발급 서비스",
             "openDate": "2020-01-01",
             "numberOfInstances": 2,
             "role": "Verifier",
-            "siteName": "현대카드"
+            "siteName": "현대카드",
+            "endPoint": "https://autoever.did.api.com/comm/credencial1"
         },
         {
             "name": "법인카드발급증명서 발급 서비스",
             "openDate": "2020-01-01",
             "numberOfInstances": 2,
             "role": "Verissuer",
-            "siteName": "현대카드"
+            "siteName": "현대카드",
+            "endPoint": "https://autoever.did.api.com/comm/credencial1"
         }
     ]
 }

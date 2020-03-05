@@ -6,6 +6,7 @@ import RegisterSite from "../../pages/RegisterSite";
 import SiteDetails from "../../pages/SiteDetails";
 import ServiceDetails from "../../pages/ServiceDetails";
 import InstanceList from "../../pages/InstanceList";
+import InstanceDetails from "../../pages/InstanceDetails";
 import LogList from "../../pages/LogList";
 
 const contextPath = '/home/';
@@ -59,6 +60,12 @@ const mainRoutes = [
         component: ServiceDetails,
         topMenu: false
     },
+    {
+        path: contextPath + 'instances/instancedetails',
+        name: 'InstanceDetails',
+        component: InstanceDetails,
+        topMenu: false
+    }
 ]
 
 export default mainRoutes;

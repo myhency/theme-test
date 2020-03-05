@@ -30,7 +30,7 @@ const roleOptions = [
     },
 ]
 
-class ServiceDetails extends Component {
+class InstanceDetails extends Component {
     constructor(props) {
         super(props);
         console.log(props);
@@ -38,10 +38,11 @@ class ServiceDetails extends Component {
         this.state = {
             currentDate: null,
             open: false,
-            serviceName: this.props.location.state[0],
-            openDate: this.props.location.state[3],
-            role: this.props.location.state[1],
-            endPoint: this.props.location.state[4],
+            siteName: this.props.location.state[0],
+            serviceName: this.props.location.state[1],
+            instanceName: this.props.location.state[2],
+            endPoint: this.props.location.state[3],
+            status: this.props.location.state[4],
             data: {
                 cellData: []
             },
@@ -80,7 +81,17 @@ class ServiceDetails extends Component {
     close = () => this.setState({ open: false });
 
     render() {
-        const { serviceName, openDate, role, endPoint, data, open, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { 
+            siteName, 
+            serviceName, 
+            instanceName,
+            endPoint,
+            status, 
+            data, 
+            open, 
+            closeOnEscape, 
+            closeOnDimmerClick 
+        } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -90,11 +101,13 @@ class ServiceDetails extends Component {
                             <Grid.Column verticalAlign='middle' width={2}>
                                 <Image src={logo} size={'small'} />
                             </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                            <Grid.Column floated='left' verticalAlign='middle' width={14}>
                                 <Breadcrumb size='massive'>
-                                    <Breadcrumb.Section link>Home</Breadcrumb.Section>
+                                    <Breadcrumb.Section link>{siteName}</Breadcrumb.Section>
                                     <Breadcrumb.Divider icon='right angle' />
-                                    <Breadcrumb.Section>{serviceName}</Breadcrumb.Section>
+                                    <Breadcrumb.Section link>{serviceName}</Breadcrumb.Section>
+                                    <Breadcrumb.Divider icon='right angle' />
+                                    <Breadcrumb.Section>{instanceName}</Breadcrumb.Section>
                                 </Breadcrumb>
                             </Grid.Column>
                         </Grid.Row>
@@ -104,26 +117,10 @@ class ServiceDetails extends Component {
                     <Grid celled='internally'>
                         <Grid.Row>
                             <Grid.Column verticalAlign='middle' width={2}>
-                                Service Name
+                                Instance Name
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {serviceName}
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                Role
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {role}
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                Open Date
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {openDate}
+                                {instanceName}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -134,74 +131,27 @@ class ServiceDetails extends Component {
                                 {endPoint}
                             </Grid.Column>
                         </Grid.Row>
-                    </Grid>
-                </Segment>
-                <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
-                    <Modal
-                        open={open}
-                        onClose={this.close}
-                        closeOnEscape={closeOnEscape}
-                        closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add a Service</Modal.Header>
-                        <Modal.Content>
-                            <Form>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Site name' placeholder='Site name' />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Service name' placeholder='Service name' />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Field
-                                        control={Select}
-                                        label='Role'
-                                        options={roleOptions}
-                                        placeholder='Role'
-                                    />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
-                            <Button
-                                onClick={this.close}
-                                positive
-                                labelPosition='right'
-                                icon='checkmark'
-                                content='Yes'
-                            />
-                        </Modal.Actions>
-                    </Modal>
-                    <Grid columns={2} style={{ marginBottom: '0em' }}>
                         <Grid.Row>
-                            <Grid.Column floated='left'>
-                                <Header as='h1'>Instance List</Header>
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                Status
                             </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right'>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
-                                            <Icon name='plus square outline' size='large' />
-                                        </Button>
-                                    </Menu.Item>
-                                </Menu.Menu>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                {status}
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                Logs
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                <Button>View Logs</Button>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <ListTable
-                        title={'Service List'}
-                        headers={headers}
-                        data={data} />
                 </Segment>
             </div>
         )
     }
 };
 
-export default ServiceDetails;
+export default InstanceDetails;

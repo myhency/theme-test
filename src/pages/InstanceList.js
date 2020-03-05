@@ -87,7 +87,7 @@ class InstanceList extends Component {
 
     handleClick = rowValue => {
         this.props.history.push({
-            pathname: '/home/services/servicedetails/',
+            pathname: '/home/instances/instancedetails/',
             state: rowValue
         });
     }

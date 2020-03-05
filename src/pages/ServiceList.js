@@ -7,7 +7,7 @@ import ServiceData from '../assets/data/ServiceData.json';
 import SiteData from '../assets/data/SiteData.json';
 import RoleData from '../assets/data/RoleData.json';
 
-const headers = ['Service Name', 'Role', 'Company', 'Open Date'];
+const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
 
 class ServiceList extends Component {
     constructor(props) {
@@ -28,9 +28,9 @@ class ServiceList extends Component {
 
         let { data, siteOption } = state;
         data.cellData.splice(0,data.cellData.length);
-        let currentServiceData = ServiceData.serviceList.map((value, index) => {
+        ServiceData.serviceList.map((value, index) => {
             let arr = [];
-            arr.push(value.name, value.role, value.siteName, value.openDate);
+            arr.push(value.name, value.role, value.siteName, value.openDate, value.endPoint);
             data.cellData.push(arr);
         });
         

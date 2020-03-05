@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, Search, Card, Image, Dropdown, Select, Statistic, Label, Divider } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Modal, Grid, Input, Menu, Icon, TextArea, Search, Card, Image, Dropdown, Select, Statistic, Label, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import ListTable from '../components/ListTable';
@@ -28,18 +28,19 @@ class LogList extends Component {
             currentDate: null,
             open: false,
             totalCount: 4,
-            addServiceModalOpen: false,
+            logDetailModalOpen: false,
             data: {
                 cellData: []
             },
             siteOption: [],
-            serviceOption: []
+            serviceOption: [],
+            logData: {}
         };
 
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log(InstanceData);
+        console.log(state.logData);
 
         let { data, siteOption, serviceOption } = state;
 
@@ -103,22 +104,26 @@ class LogList extends Component {
     close = () => this.setState({ open: false });
 
     handleClick = rowValue => {
-        this.props.history.push({
-            pathname: '/home/services/servicedetails/',
-            state: rowValue
-        });
+        if (rowValue) this.setState({ logDetailModalOpen: true, logData: rowValue });
     }
 
     handleAddServiceButton = (v, e) => {
-        if (e) this.setState({ addServiceModalOpen: true });
+        if (e) this.setState({ logDetailModalOpen: true });
     }
 
-    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
+    logDetailModalClose = () => this.setState({ logDetailModalOpen: false });
 
     render() {
-        const { data, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
-        console.log(siteOption);
-        console.log(RoleData.roles);
+        const {
+            logData,
+            data,
+            siteOption,
+            serviceOption,
+            logDetailModalOpen,
+            closeOnEscape,
+            closeOnDimmerClick
+        } = this.state;
+
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Grid>
@@ -254,42 +259,52 @@ class LogList extends Component {
                     </Grid.Row>
                 </Grid>
                 <Modal
-                    open={addServiceModalOpen}
-                    onClose={this.addSiteModalClose}
+                    open={logDetailModalOpen}
+                    onClose={this.logDetailModalClose}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
-                    <Modal.Header>Add Instance</Modal.Header>
+                    <Modal.Header>Log Detail</Modal.Header>
                     <Modal.Content>
-                        <Form>
-                            <Form.Group widths='equal'>
-                                <Form.Field
-                                    control={Select}
-                                    label='Site Name'
-                                    options={siteOption}
-                                    placeholder='Site name'
-                                />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input fluid label='Service name' placeholder='Service name' />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Field
-                                    control={Select}
-                                    label='Role'
-                                    options={RoleData.roles}
-                                    placeholder='Role'
-                                />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input fluid label='Instance name' placeholder='service name + instance name + #x' />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
-                            </Form.Group>
-                        </Form>
+                        <Grid celled='internally'>
+                            <Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    Date
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    {logData[0]}
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    Log Level
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    {logData[4]}
+                            </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    Log Name
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    {logData[5]}
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    Log Detail
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    <Form>
+                                <TextArea style={{ minHeight: 300, width: '100%' }}
+                                    value={logData[6]} />
+                                </Form>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.addSiteModalClose} negative>No</Button>
+                        <Button onClick={this.logDetailModalClose} negative>No</Button>
                         <Button
                             onClick={this.close}
                             positive

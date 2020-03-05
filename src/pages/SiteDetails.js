@@ -83,8 +83,8 @@ class SiteDetails extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <Divider />
                     <Header as='h3'>Detail</Header>
-                    {/* <Divider /> */}
                     <Grid celled='internally'>
                         <Grid.Row>
                             <Grid.Column verticalAlign='middle' width={2}>
