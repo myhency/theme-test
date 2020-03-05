@@ -1,0 +1,44 @@
+{
+    "staticticsDataList": [
+        {
+            "serviceId": 1,
+            "name": "재직증명서 발급 서비스",
+            "cumulativePairwisedid": 28,
+		    "cumulativeCredentialIssuance": 87,
+		    "cumulativeCredentialVerification": 87,
+		    "todayPairwisedid": 3,
+		    "todayCredentialIssuance": 12,
+		    "todayCredentialVerification": 12
+        },
+        {
+            "serviceId": 2,
+            "name": "갑근세영수증 발급 서비스",
+            "cumulativePairwisedid": 28,
+		    "cumulativeCredentialIssuance": 87,
+		    "cumulativeCredentialVerification": 87,
+		    "todayPairwisedid": 3,
+		    "todayCredentialIssuance": 12,
+		    "todayCredentialVerification": 12
+        },
+        {
+            "serviceId": 3,
+            "name": "모바일전자사원증 발급 서비스",
+            "cumulativePairwisedid": 28,
+		    "cumulativeCredentialIssuance": 87,
+		    "cumulativeCredentialVerification": 87,
+		    "todayPairwisedid": 3,
+		    "todayCredentialIssuance": 12,
+		    "todayCredentialVerification": 12
+        },
+        {
+            "serviceId": 4,
+            "name": "법인카드발급증명서 발급 서비스",
+            "cumulativePairwisedid": 28,
+		    "cumulativeCredentialIssuance": 87,
+		    "cumulativeCredentialVerification": 87,
+		    "todayPairwisedid": 3,
+		    "todayCredentialIssuance": 12,
+		    "todayCredentialVerification": 12
+        }
+    ]
+}

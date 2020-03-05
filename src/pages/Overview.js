@@ -33,7 +33,6 @@ const Overview = () => (
 
         <Grid.Row>
             <Grid.Column style={{ paddingLeft: '3em', paddingRight: '3em' }}>
-                {/* Service status slider view */}
                 <ServiceStatusSliderView />
             </Grid.Column>
         </Grid.Row>
