@@ -44,7 +44,7 @@ class ServiceDetails extends Component {
     static getDerivedStateFromProps(props, state) {
         let { data, siteOption, serviceOption } = state;
         data.cellData.splice(0, data.cellData.length);
-        InstanceData.instanceList.map((value, index) => {
+        Array.prototype.forEach.call(InstanceData.instanceList, value => {
             let arr = [];
             arr.push(
                 value.name,
@@ -54,17 +54,17 @@ class ServiceDetails extends Component {
                 value.endPoint
             );
             data.cellData.push(arr);
-        });
+        })
 
         // set site name search condition
         siteOption.splice(0, siteOption.length);
-        SiteData.siteList.map((value, index) => {
+        Array.prototype.forEach.call(SiteData.siteList, value => {
             siteOption.push({
                 key: value.name,
                 text: value.name,
                 value: value.name
             });
-        });
+        })
         siteOption.unshift({
             key: 'All',
             text: 'All',
@@ -73,12 +73,12 @@ class ServiceDetails extends Component {
 
         // set service name search condition
         serviceOption.splice(0, serviceOption.length);
-        ServiceData.serviceList.map((value, index) => {
+        Array.prototype.forEach.call(ServiceData.serviceList, value => {
             serviceOption.push({
                 key: value.name,
                 text: value.name,
                 value: value.name
-            })
+            });
         });
         serviceOption.unshift({
             key: 'All',
@@ -93,7 +93,7 @@ class ServiceDetails extends Component {
 
     handleClick = rowValue => {
         this.props.history.push({
-            pathname: '/home/services/servicedetails/',
+            pathname: '/home/instances/instancedetails/',
             state: rowValue
         });
     }
@@ -122,8 +122,7 @@ class ServiceDetails extends Component {
             addInstanceModalOpen, 
             closeOnEscape, 
             closeOnDimmerClick,
-            siteOption,
-            serviceOption
+            siteOption
          } = this.state;
 
         return (
@@ -236,23 +235,10 @@ class ServiceDetails extends Component {
                                 <Button color='blue' icon='plus' content='Add instance' floated='right' onClick={(v, e) => this.handleAddInstanceButton(v, e)} />
                             </Grid.Column>
                         </Grid.Row>
-                        {/* <Grid.Row>
-                            <Grid.Column floated='left'>
-                                <Header as='h1'>Instance List</Header>
-                            </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right'>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
-                                            <Icon name='plus square outline' size='large' />
-                                        </Button>
-                                    </Menu.Item>
-                                </Menu.Menu>
-                            </Grid.Column>
-                        </Grid.Row> */}
                     </Grid>
                     <ListTable
                         title={'Service List'}
+                        handleClick={(rowValue) => this.handleClick(rowValue)}
                         headers={headers}
                         data={data} />
                 </Segment>

@@ -19,8 +19,8 @@ const MainLayout = () => (
                     </div> */}
                 </Menu.Item>
             </NavLink>
-            {mainRoutes.map((route, key) => {
-                if (route.topMenu) {
+            {
+                mainRoutes.filter(route => route.topMenu).map((route, key) => {
                     return (
                         <NavLink to={route.path}
                             activeStyle={{ background: 'Gray' }}
@@ -31,8 +31,23 @@ const MainLayout = () => (
                             </Menu.Item>
                         </NavLink>
                     );
-                }
-            })}
+
+                })
+            }
+            {/* {mainRoutes.map((route, key) => {
+                if (route.topMenu)
+                    return (
+                        <NavLink to={route.path}
+                            activeStyle={{ background: 'Gray' }}
+                            tag={RRNavLink}
+                            key={key}>
+                            <Menu.Item style={{ height: '5vh', width: '100px' }}>
+                                <h4 style={{ margin: 'auto' }}>{route.name}</h4>
+                            </Menu.Item>
+                        </NavLink>
+                    );
+
+            })} */}
             <Menu.Item position='right' style={{ height: '5vh' }}>
                 <h4>Avatar</h4>
             </Menu.Item>

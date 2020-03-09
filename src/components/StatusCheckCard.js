@@ -57,29 +57,3 @@ const StatusCheckCard = (props) => {
 };
 
 export default StatusCheckCard;
-
-{/* <Segment style={{ justifyContent: 'start' }}>
-            <Header as='h1'>{props.title}</Header>
-            <Table celled style={{ height: '100px', overflowY: 'scroll' }}>
-                <Table.Header>
-                    <Table.Row>
-                        {headers.map((value, index) => {
-                            return <Table.HeaderCell style={{ fontSize: '18px', backgroundColor: 'Gainsboro' }} textAlign='center' key={index}>{value}</Table.HeaderCell>
-                        })}
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                    {data.cellData.map((rowValue, rowIndex) => {
-                        return (
-                            <Table.Row key={rowIndex}>
-                                {rowValue.map((cellValue, cellIndex) => {
-                                    return <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={cellIndex}>{cellValue}</Table.Cell>
-                                })}
-                            </Table.Row>
-                        );
-                    })}
-                    <EmptyColumns data={data} />
-                </Table.Body>
-            </Table>
-        </Segment> */}

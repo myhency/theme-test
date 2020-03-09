@@ -26,7 +26,7 @@ class InstanceDetails extends Component {
     static getDerivedStateFromProps(props, state) {
         let { data } = state;
         data.cellData.splice(0, data.cellData.length);
-        InstanceData.instanceList.map((value, index) => {
+        Array.prototype.forEach.call(InstanceData.instanceList, value => {
             let arr = [];
             arr.push(
                 value.name,

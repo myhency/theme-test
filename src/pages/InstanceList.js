@@ -35,15 +35,15 @@ class InstanceList extends Component {
 
         // set instance list table data
         data.cellData.splice(0, data.cellData.length);
-        InstanceData.instanceList.map((value, index) => {
+        Array.prototype.forEach.call(InstanceData.instanceList, value => {
             let arr = [];
             arr.push(value.siteName, value.serviceName, value.name, value.endPoint, value.status);
             data.cellData.push(arr);
         });
-
+        
         // set site name search condition
         siteOption.splice(0, siteOption.length);
-        SiteData.siteList.map((value, index) => {
+        Array.prototype.forEach.call(SiteData.siteList, value => {
             siteOption.push({
                 key: value.name,
                 text: value.name,
@@ -58,12 +58,12 @@ class InstanceList extends Component {
 
         // set service name search condition
         serviceOption.splice(0, serviceOption.length);
-        ServiceData.serviceList.map((value, index) => {
+        Array.prototype.forEach.call(ServiceData.serviceList, value => {
             serviceOption.push({
                 key: value.name,
                 text: value.name,
                 value: value.name
-            })
+            });
         });
         serviceOption.unshift({
             key: 'All',

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CountingCard from '../components/CountingCard';
-import Fetch from '../utils/Fetch';
 import axios from 'axios';
 
 const url = `/api/sites/count`;

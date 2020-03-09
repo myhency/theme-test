@@ -23,8 +23,7 @@ class InstanceHealthCheckView extends Component {
         try {
             let cellData = [];
             return axios.get(url).then(response => {
-                console.log(response);
-                response.data.result.map((value, index) => {
+                Array.prototype.forEach.call(response.data.result, value => {
                     let data = [];
                     data.push(value.instanceName, value.siteName, value.status.toString());
                     cellData.push(data);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Menu, Icon, Select, Divider } from 'semantic-ui-react';
+import { Button, Form, Segment, Header, Image, Modal, Grid, Icon, Select, Divider } from 'semantic-ui-react';
 import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
@@ -74,7 +74,7 @@ class SiteDetails extends Component {
     }
 
     render() {
-        const { companyName, openDate, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { companyName, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>

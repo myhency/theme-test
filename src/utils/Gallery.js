@@ -20,6 +20,7 @@ const Gallery = createReactClass({
                     return shinhanLogo;
                 case 'KMI':
                     return kmiLogo;
+                default:
             }
         },
     },

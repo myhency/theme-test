@@ -23,8 +23,7 @@ class ApiCallsView extends Component {
             let labels = [];
             let apiCallData = [];
             return axios.get(url).then(response => {
-                console.log(response);
-                response.data.result.map((value, index) => {
+                Array.prototype.forEach.call(response.data.result, value => {
                     labels.push(value.timestamp);
                     apiCallData.push(value.count);
                 });

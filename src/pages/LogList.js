@@ -43,7 +43,7 @@ class LogList extends Component {
 
         // set log list table data
         data.cellData.splice(0, data.cellData.length);
-        LogData.logList.map((value, index) => {
+        Array.prototype.forEach.call(LogData.logList, value => {
             let arr = [];
             arr.push(
                 value.date,
@@ -59,7 +59,7 @@ class LogList extends Component {
 
         // set site name search condition
         siteOption.splice(0, siteOption.length);
-        SiteData.siteList.map((value, index) => {
+        Array.prototype.forEach.call(SiteData.siteList, value => {
             siteOption.push({
                 key: value.name,
                 text: value.name,
@@ -70,16 +70,16 @@ class LogList extends Component {
             key: 'All',
             text: 'All',
             value: 'All'
-        })
+        });
 
         // set service name search condition
         serviceOption.splice(0, serviceOption.length);
-        ServiceData.serviceList.map((value, index) => {
+        Array.prototype.forEach.call(ServiceData.serviceList, value => {
             serviceOption.push({
                 key: value.name,
                 text: value.name,
                 value: value.name
-            })
+            });
         });
         serviceOption.unshift({
             key: 'All',
@@ -115,7 +115,6 @@ class LogList extends Component {
             logData,
             data,
             siteOption,
-            serviceOption,
             logDetailModalOpen,
             closeOnEscape,
             closeOnDimmerClick

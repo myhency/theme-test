@@ -26,17 +26,15 @@ class ServiceStatusSliderView extends Component {
     componentDidMount() {
         let { sliderCardData } = this.state;
         sliderCardData.splice(0, sliderCardData.length);
-        ServiceData.serviceList.map((value, index) => {
+        Array.prototype.forEach.call(ServiceData.serviceList, value => {
             sliderCardData.push({
                 siteName: value.siteName,
                 serviceName: value.name,
                 serviceId: value.id,
                 statisticsData: this.getServiceStatisticsData(value.id),
                 transitionData: this.getServiceTransitionData(value.id)
-            })
+            });
         });
-
-        console.log(sliderCardData);
 
         this.setState({ sliderCardData });
     }
@@ -49,8 +47,8 @@ class ServiceStatusSliderView extends Component {
         let todayCredentialIssuance = 0;
         let todayCredentialVerification = 0;
 
-        ServiceStatisticsData.staticticsDataList.map((value, index) => {
-            if (value.serviceId == id) {
+        ServiceStatisticsData.staticticsDataList.forEach(value => {
+            if (value.serviceId === id) {
                 cumulativePairwisedid = value.cumulativePairwisedid;
                 cumulativeCredentialIssuance = value.cumulativeCredentialIssuance;
                 cumulativeCredentialVerification = value.cumulativeCredentialVerification;
@@ -75,9 +73,9 @@ class ServiceStatusSliderView extends Component {
         let issuanceData = [];
         let verificationData = [];
 
-        ServiceTransitionData.transitionDataList.map((value, index) => {
-            if (value.serviceId == id) {
-                value.result.map((v, i) => {
+        Array.prototype.forEach.call(ServiceTransitionData.transitionDataList, value => {
+            if (value.serviceId === id) {
+                Array.prototype.forEach.call(value.result, v => {
                     labels.push(v.timestamp);
                     issuanceData.push(v.issuance);
                     verificationData.push(v.verification);

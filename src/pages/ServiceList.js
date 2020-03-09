@@ -28,14 +28,14 @@ class ServiceList extends Component {
 
         let { data, siteOption } = state;
         data.cellData.splice(0,data.cellData.length);
-        ServiceData.serviceList.map((value, index) => {
+        Array.prototype.forEach.call(ServiceData.serviceList, value => {
             let arr = [];
             arr.push(value.name, value.role, value.siteName, value.openDate, value.endPoint);
             data.cellData.push(arr);
         });
         
         siteOption.splice(0,siteOption.length);
-        SiteData.siteList.map((value, index) => {
+        Array.prototype.forEach.call(SiteData.siteList, value => {
             siteOption.push({
                 key: value.name,
                 text: value.name,
