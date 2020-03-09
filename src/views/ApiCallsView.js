@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import LineGraphCard from '../components/LineGraphCard';
-import ApiCallsData from '../assets/data/ApiCallsData.json';
+import axios from 'axios';
+
+const url = `/api/logs/info/apicall/transition`;
 
 class ApiCallsView extends Component {
     constructor(props) {
@@ -12,24 +14,37 @@ class ApiCallsView extends Component {
                 apiCallData: []
             }
         }
+
+        this.getApiCallTransition();
     }
 
-    static getDerivedStateFromProps(props, state) {
-        let { data } = state;
-        let labels = [];
-        let apiCallData = [];
-
-        ApiCallsData.result.map((value, index) => {
-            labels.push(value.timestamp);
-            apiCallData.push(value.count);
-        });
-
-        return {
-            data: {
-                labels, 
-                apiCallData
-            }
+    getApiCallTransition = () => {
+        try {
+            let labels = [];
+            let apiCallData = [];
+            return axios.get(url).then(response => {
+                console.log(response);
+                response.data.result.map((value, index) => {
+                    labels.push(value.timestamp);
+                    apiCallData.push(value.count);
+                });
+                this.setState({
+                    data: {
+                        labels, apiCallData
+                    }
+                });
+            });
+        } catch (error) {
+            console.log(error);
         }
+    }
+
+    componentDidMount() {
+        setInterval(this.getApiCallTransition, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getApiCallTransition);
     }
 
     render() {

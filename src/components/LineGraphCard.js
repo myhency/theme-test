@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Header, Card, Label } from 'semantic-ui-react';
+import { Header, Card, Label } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 
 const options = {
@@ -12,6 +12,11 @@ const options = {
                 display: false
             }
         }],
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
     },
     maintainAspectRatio: true,
 }
