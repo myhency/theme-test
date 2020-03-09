@@ -15,10 +15,10 @@ class SiteCountingView extends Component {
     }
 
     componentDidMount() {
-        setInterval(this.getSiteCount, 3000);
+        setInterval(this.getCount, 3000);
     }
 
-    getSiteCount = () => {
+    getCount = () => {
         try {
             return axios.get(url).then(response => {
                 this.setState({

@@ -15,10 +15,10 @@ class ErrorCountingView extends Component {
     }
 
     componentDidMount() {
-        setInterval(this.getErrorCount, 3000);
+        setInterval(this.getCount, 3000);
     }
 
-    getErrorCount = () => {
+    getCount = () => {
         try {
             return axios.get(url).then(response => {
                 this.setState({
