@@ -12,7 +12,7 @@ class SiteCountingView extends Component {
         this.state = {
             count: 0
         }
-        
+
         this.getCount();
     }
 
@@ -34,16 +34,6 @@ class SiteCountingView extends Component {
         } catch (error) {
             console.log(error);
         }
-        // Fetch.GET(url)
-        //     .then((res) => {
-        //         res.json()
-        //     })
-        //     .then(response => {
-        //         console.log(response)
-        //         // this.setState({
-        //         //     count: res.result
-        //         // })
-        //     });
     }
 
     render() {
