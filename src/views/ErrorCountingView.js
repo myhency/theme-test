@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import CountingCard from '../components/CountingCard';
 import Fetch from '../utils/Fetch';
+import axios from 'axios';
 
-const url = '/sites/count';
+const url = `/api/logs/error/count`;
 
 class ErrorCountingView extends Component {
     constructor(props) {
@@ -13,14 +14,30 @@ class ErrorCountingView extends Component {
         }
     }
 
+    componentDidMount() {
+        setInterval(this.getErrorCount, 3000);
+    }
+
     getErrorCount = () => {
-        Fetch.GET(url)
-            .then((res) => res.json())
-            .then(res => {
+        try {
+            return axios.get(url).then(response => {
                 this.setState({
-                    count: res.result
+                    count: response.data.result
                 })
             });
+        } catch (error) {
+            console.log(error);
+        }
+        // Fetch.GET(url)
+        //     .then((res) => {
+        //         res.json()
+        //     })
+        //     .then(response => {
+        //         console.log(response)
+        //         // this.setState({
+        //         //     count: res.result
+        //         // })
+        //     });
     }
 
     render() {
