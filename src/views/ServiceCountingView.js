@@ -12,10 +12,16 @@ class ServiiceCountingView extends Component {
         this.state = {
             count: 0
         }
+        
+        this.getCount();
     }
 
     componentDidMount() {
         setInterval(this.getCount, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getCount);
     }
 
     getCount = () => {
