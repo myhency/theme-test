@@ -1,26 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import StatusCheckCard from '../components/StatusCheckCard';
+import axios from 'axios';
 
 const headers = ['Service Name', 'Site Name', 'Status'];
 
-const data = {
-    cellData: [
-        ['재직증명서발급서비스', '현대카드', 'OK'],
-        ['모바일사원증발급서비스', '현대카드', 'OK'],
-        ['갑근세영수증발급서비스', '현대카드', 'OK'],
-        ['법인카드발급서비스', '현대카드', 'OK'],
-        ['재직증명서발급서비스', '현대카드', 'OK'],
-        ['모바일사원증발급서비스', '현대카드', 'OK'],
-        ['갑근세영수증발급서비스', '현대카드', 'OK'],
-        ['법인카드발급서비스', '현대카드', 'OK']
-    ]
-}
+const url = `/api/instances/health`;
 
-const InstanceHealthCheckView = () => (
-    <StatusCheckCard
-        title={'Instance Health Check'}
-        headers={headers}
-        data={data} />
-);
+class InstanceHealthCheckView extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: {
+                cellData: []
+            }
+        }
+
+        this.getInstanceHealth();
+    }
+
+    getInstanceHealth = () => {
+        try {
+            let cellData = [];
+            return axios.get(url).then(response => {
+                console.log(response);
+                response.data.result.map((value, index) => {
+                    let data = [];
+                    data.push(value.instanceName, value.siteName, value.status.toString());
+                    cellData.push(data);
+                });
+                this.setState({
+                    data: {
+                        cellData
+                    }
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    componentDidMount() {
+        setInterval(this.getInstanceHealth, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getInstanceHealth);
+    }
+
+    render() {
+        const { data } = this.state;
+        return (
+            <StatusCheckCard
+                title={'Instance Health Check'}
+                headers={headers}
+                data={data} />
+        );
+    }
+
+}
 
 export default InstanceHealthCheckView;
