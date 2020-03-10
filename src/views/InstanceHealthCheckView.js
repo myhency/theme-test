@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StatusCheckCard from '../components/StatusCheckCard';
 import axios from 'axios';
 
-const headers = ['Service Name', 'Site Name', 'Status'];
+const headers = ['Instance Name', 'Site Name', 'Status'];
 
 const url = `/api/instances/health`;
 
