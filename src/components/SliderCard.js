@@ -39,6 +39,14 @@ class SliderCard extends Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        // 전형적인 사용 사례 (props 비교를 잊지 마세요)
+        if (this.props !== prevProps) {
+            this.setState({
+                ...this.props
+            });
+        }
+    }
 
 
     render() {
@@ -100,7 +108,7 @@ class SliderCard extends Component {
                     }
 
                     return (
-                        <Segment>
+                        <Segment key={index}>
                             <div>
                                 <div style={{ overflow: 'hidden' }}>
                                     <div style={{ float: 'left', marginRight: '1em', marginTop: '-0.3em' }}>
