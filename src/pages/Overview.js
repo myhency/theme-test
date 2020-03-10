@@ -7,7 +7,7 @@ import ErrorCountingView from '../views/ErrorCountingView';
 import SiteCountingView from '../views/SiteCountingView';
 import ServiiceCountingView from '../views/ServiceCountingView';
 
-const Overview = () => (
+const Overview = (props) => (
     <Grid>
         <Grid.Row stretched columns={2}>
             <Grid.Column style={{ paddingLeft: '3em' }}>
@@ -27,7 +27,7 @@ const Overview = () => (
                 <ApiCallsView />
             </Grid.Column>
             <Grid.Column style={{ paddingRight: '3em' }}>
-                <InstanceHealthCheckView />
+                <InstanceHealthCheckView history={props.history}/>
             </Grid.Column>
         </Grid.Row>
 

@@ -10,6 +10,8 @@ class InstanceHealthCheckView extends Component {
     constructor(props) {
         super(props);
 
+        console.log(props)
+
         this.state = {
             data: {
                 cellData: []
@@ -39,6 +41,14 @@ class InstanceHealthCheckView extends Component {
         }
     }
 
+    handleClick = rowValue => {
+        console.log(rowValue)
+        this.props.history.push({
+            pathname: '/home/instances/instancedetails/',
+            state: rowValue
+        });
+    }
+
     componentDidMount() {
         let intervalId = setInterval(this.getCount, 3000);
         this.setState({ intervalId: intervalId});
@@ -54,7 +64,8 @@ class InstanceHealthCheckView extends Component {
             <StatusCheckCard
                 title={'Instance Health Check'}
                 headers={headers}
-                data={data} />
+                data={data}
+                handleClick={(rowValue) => this.handleClick(rowValue)} />
         );
     }
 
