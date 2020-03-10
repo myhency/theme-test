@@ -95,7 +95,7 @@ class SiteList extends Component {
                                 {/* Card #1 */}
                                 {siteData.siteList.map((cardValue, index) => {
                                     return (
-                                        <Card style={{ width: '300px', marginLeft: 'auto', marginRight: 'auto' }}>
+                                        <Card style={{ width: '300px', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
                                             <Image
                                                 style={{
                                                     paddingTop: '5px',
@@ -165,7 +165,7 @@ class SiteList extends Component {
                                 {/* Card #2 */}
                                 {siteData.siteList.map((cardValue, index) => {
                                     return (
-                                        <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                        <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
                                             <Grid
                                                 columns={2}
                                                 style={{
@@ -232,7 +232,7 @@ class SiteList extends Component {
                                 {/* Card #3 */}
                                 {siteData.siteList.map((cardValue, index) => {
                                     return (
-                                        <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }}>
+                                        <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
                                             <Grid columns={3} style={{ paddingTop: '5px', paddingBottom: '5px', paddingLeft: '5px', paddingRight: '5px' }}>
                                                 <Grid.Column floated='left' verticalAlign='middle'>
                                                     <Header as='h3' style={{
