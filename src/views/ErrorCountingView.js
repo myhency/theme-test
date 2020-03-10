@@ -16,11 +16,12 @@ class ErrorCountingView extends Component {
     }
 
     componentDidMount() {
-        setInterval(this.getCount, 3000);
+        let intervalId = setInterval(this.getCount, 3000);
+        this.setState({ intervalId: intervalId});
     }
 
     componentWillUnmount() {
-        clearInterval(this.getCount);
+        clearInterval(this.state.intervalId);
     }
 
     getCount = () => {

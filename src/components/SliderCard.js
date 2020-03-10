@@ -32,15 +32,12 @@ class SliderCard extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
-
         this.state = {
             ...props
         };
     }
 
     componentDidUpdate(prevProps) {
-        // 전형적인 사용 사례 (props 비교를 잊지 마세요)
         if (this.props !== prevProps) {
             this.setState({
                 ...this.props
@@ -52,13 +49,9 @@ class SliderCard extends Component {
     render() {
         const { sliderCardData } = this.state;
 
-        console.log(sliderCardData);
-        // console.log(Gallery.getLogoImage(sliderCardData.serviceName));
-
         return (
             <Slider {...settings}>
                 {sliderCardData.map((value, index) => {
-                    console.log(value);
                     let data = {
                         labels: value.transitionData.labels,
                         datasets: [

@@ -39,11 +39,12 @@ class ApiCallsView extends Component {
     }
 
     componentDidMount() {
-        setInterval(this.getApiCallTransition, 3000);
+        let intervalId = setInterval(this.getApiCallTransition, 3000);
+        this.setState({ intervalId: intervalId});
     }
 
     componentWillUnmount() {
-        clearInterval(this.getApiCallTransition);
+        clearInterval(this.state.intervalId);
     }
 
     render() {

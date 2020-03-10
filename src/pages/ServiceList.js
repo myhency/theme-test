@@ -71,8 +71,7 @@ class ServiceList extends Component {
 
     render() {
         const { data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
-        console.log(siteOption);
-        console.log(RoleData.roles);
+
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Grid>

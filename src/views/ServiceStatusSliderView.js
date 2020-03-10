@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import SliderCard from '../components/SliderCard';
-import ServiceData from '../assets/data/ServiceData.json';
-import ServiceStatisticsData from '../assets/data/ServiceStatisticsData.json';
-import ServiceTransitionData from '../assets/data/ServiceTransitionData.json';
 import axios from 'axios';
 
 const SERVICE_LIST_URL = '/api/services';
@@ -26,30 +23,17 @@ class ServiceStatusSliderView extends Component {
             }]
         }
 
-    }
-    
-    componentDidMount() {
         this.getServiceList();
     }
 
-    // componentDidMount() {
-        
-    //     let { serviceList, sliderCardData } = this.state;
-    //     // let serviceList = this.getServiceList();
-    //     console.log(serviceList);
-    //     sliderCardData.splice(0, sliderCardData.length);
-    //     Array.prototype.forEach.call(serviceList, service => {
-    //         sliderCardData.push({
-    //             siteName: service.siteName,
-    //             serviceName: service.name,
-    //             serviceId: service.id,
-    //             statisticsData: this.getServiceStatisticsData(service.id),
-    //             transitionData: this.getServiceTransitionData(service.id)
-    //         });
-    //     });
+    componentDidMount() {
+        let intervalId = setInterval(this.getServiceList, 10000);
+        this.setState({ intervalId: intervalId});
+    }
 
-    //     this.setState({ sliderCardData });
-    // }
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
+    }
 
     getServiceList = () => {
         try {
@@ -66,10 +50,7 @@ class ServiceStatusSliderView extends Component {
 
     getSliderCardData = () => {
         const { serviceList } = this.state;
-
         const sliderCardData = [];
-        // console.log(sliderCardData);
-        
         const promiseArray = [];
 
         serviceList.forEach(service => {
@@ -80,7 +61,6 @@ class ServiceStatusSliderView extends Component {
                         let labels = [];
                         let issuanceData = [];
                         let verificationData = [];
-                        // console.log(response.data.result)
         
                         axios.get(`/api/services/${service.serviceId}/transition`)
                         .then(response => {
@@ -117,8 +97,6 @@ class ServiceStatusSliderView extends Component {
 
         Promise.all(promiseArray)
         .then(() => {
-            console.log('we did it');
-            console.log('sliderCardData', sliderCardData);
             this.setState({
                 sliderCardData
             });
@@ -128,62 +106,9 @@ class ServiceStatusSliderView extends Component {
         })
     }
 
-    // getServiceStatisticsData = (id) => {
-    //     let cumulativePairwisedid = 0;
-    //     let cumulativeCredentialIssuance = 0;
-    //     let cumulativeCredentialVerification = 0;
-    //     let todayPairwisedid = 0;
-    //     let todayCredentialIssuance = 0;
-    //     let todayCredentialVerification = 0;
-
-    //     Array.prototype.forEach.call(ServiceStatisticsData.staticticsDataList, value => {
-    //         if (value.serviceId === id) {
-    //             cumulativePairwisedid = value.cumulativePairwisedid;
-    //             cumulativeCredentialIssuance = value.cumulativeCredentialIssuance;
-    //             cumulativeCredentialVerification = value.cumulativeCredentialVerification;
-    //             todayPairwisedid = value.todayPairwisedid;
-    //             todayCredentialIssuance = value.todayCredentialIssuance;
-    //             todayCredentialVerification = value.todayCredentialVerification;
-    //         }
-    //     });
-
-    //     return {
-    //         cumulativePairwisedid,
-    //         cumulativeCredentialIssuance,
-    //         cumulativeCredentialVerification,
-    //         todayPairwisedid,
-    //         todayCredentialIssuance,
-    //         todayCredentialVerification
-    //     }
-    // }
-
-    // getServiceTransitionData = (id) => {
-    //     let labels = [];
-    //     let issuanceData = [];
-    //     let verificationData = [];
-
-    //     Array.prototype.forEach.call(ServiceTransitionData.transitionDataList, value => {
-    //         if (value.serviceId === id) {
-    //             Array.prototype.forEach.call(value.result, v => {
-    //                 labels.push(v.timestamp);
-    //                 issuanceData.push(v.issuance);
-    //                 verificationData.push(v.verification);
-    //             });
-    //         }
-    //     });
-
-    //     return {
-    //         labels,
-    //         issuanceData,
-    //         verificationData
-    //     }
-    // }
-
     render() {
         const { sliderCardData } = this.state;
-        // sliderCardData.splice(0);
-        // console.log('wow', sliderCardData);
-        // console.log(typeof(sliderCardData))
+
         return (
             <SliderCard
                 sliderCardData={sliderCardData}
