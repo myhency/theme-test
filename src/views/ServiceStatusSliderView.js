@@ -26,92 +26,10 @@ class ServiceStatusSliderView extends Component {
             }]
         }
 
-        this.getServiceList();
     }
-
-    static getDerivedStateFromProps(props, state) {
-        const { serviceList, sliderCardData } = state;
-
-
-        // console.log(sliderCardData);
-        
-        Array.prototype.forEach.call(serviceList, service => {
-            try {
-                axios.get(`/api/services/${service.serviceId}/statistic`)
-                .then(response => {
-                    let labels = [];
-                    let issuanceData = [];
-                    let verificationData = [];
-                    // console.log(response.data.result)
-
-                    axios.get(`/api/services/${service.serviceId}/transition`)
-                    .then(response => {
-                        Array.prototype.forEach.call(response.data.result, transition => {
-                            labels.push(transition.timestamp);
-                            issuanceData.push(transition.issuance);
-                            verificationData.push(transition.verification);
-                        });
-                    });
-
-                    sliderCardData.push({
-                        siteName: service.siteName,
-                        serviceName: service.serviceName,
-                        serviceId: service.serviceId,
-                        statisticsData: {
-                            cumulativePairwisedid: response.data.result.cumulativePairwisedid,
-                            cumulativeCredentialIssuance: response.data.result.cumulativeCredentialIssuance,
-                            cumulativeCredentialVerification: response.data.result.cumulativeCredentialVerification,
-                            todayPairwisedid: response.data.result.todayPairwisedid,
-                            todayCredentialIssuance: response.data.result.todayCredentialIssuance,
-                            todayCredentialVerification: response.data.result.todayCredentialVerification
-                        },
-                        transitionData: {
-                            labels,
-                            issuanceData,
-                            verificationData
-                        }
-                    });
-                });
-
-                // console.log(sliderCardData)
-            } catch (error) {
-                console.log(error);
-            }
-
-            // try {
-            //     return axios.get(`/api/services/${service.serviceId}/statistic`)
-            //     .then(response => {
-            //         console.log(response);
-            //         sliderCardData.push({
-            //             siteName: service.siteName,
-            //             serviceName: service.name,
-            //             serviceId: service.id,
-                        
-            //         });
-            //     });
-            // } catch (error) {
-            //     console.log(error);
-            // }
-        });
-
-        // console.log(arr);
-
-        // let arr = [];
-        // try {
-        //     return axios.get(SERVICE_LIST_URL).then(response => {
-        //         // this.setState({
-        //         //     serviceList: response.data.result
-        //         // })
-        //         arr.push(response.data.result);
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
-        
-
-        return { sliderCardData }
-        
+    
+    componentDidMount() {
+        this.getServiceList();
     }
 
     // componentDidMount() {
@@ -138,11 +56,76 @@ class ServiceStatusSliderView extends Component {
             return axios.get(SERVICE_LIST_URL).then(response => {
                 this.setState({
                     serviceList: response.data.result
-                })
+                });
+                this.getSliderCardData();
             });
         } catch (error) {
             console.log(error);
         }
+    }
+
+    getSliderCardData = () => {
+        const { serviceList } = this.state;
+
+        const sliderCardData = [];
+        // console.log(sliderCardData);
+        
+        const promiseArray = [];
+
+        serviceList.forEach(service => {
+            promiseArray.push(
+                new Promise((resolve, reject) => {
+                    axios.get(`/api/services/${service.serviceId}/statistic`)
+                    .then(statisticRes => {
+                        let labels = [];
+                        let issuanceData = [];
+                        let verificationData = [];
+                        // console.log(response.data.result)
+        
+                        axios.get(`/api/services/${service.serviceId}/transition`)
+                        .then(response => {
+                            response.data.result.forEach(transition => {
+                                labels.push(transition.timestamp);
+                                issuanceData.push(transition.issuance);
+                                verificationData.push(transition.verification);
+                            });
+        
+                            sliderCardData.push({
+                                siteName: service.siteName,
+                                serviceName: service.serviceName,
+                                serviceId: service.serviceId,
+                                statisticsData: {
+                                    cumulativePairwisedid: statisticRes.data.result.cumulativePairwisedid,
+                                    cumulativeCredentialIssuance: statisticRes.data.result.cumulativeCredentialIssuance,
+                                    cumulativeCredentialVerification: statisticRes.data.result.cumulativeCredentialVerification,
+                                    todayPairwisedid: statisticRes.data.result.todayPairwisedid,
+                                    todayCredentialIssuance: statisticRes.data.result.todayCredentialIssuance,
+                                    todayCredentialVerification: statisticRes.data.result.todayCredentialVerification
+                                },
+                                transitionData: {
+                                    labels,
+                                    issuanceData,
+                                    verificationData
+                                }
+                            });
+                            resolve();
+                        });
+                    });
+                })
+            )
+        });
+
+        Promise.all(promiseArray)
+        .then(() => {
+            console.log('we did it');
+            console.log('sliderCardData', sliderCardData);
+            this.setState({
+                sliderCardData
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     // getServiceStatisticsData = (id) => {
@@ -199,11 +182,11 @@ class ServiceStatusSliderView extends Component {
     render() {
         const { sliderCardData } = this.state;
         // sliderCardData.splice(0);
-        // console.log(sliderCardData);
-        console.log(typeof(sliderCardData))
+        // console.log('wow', sliderCardData);
+        // console.log(typeof(sliderCardData))
         return (
             <SliderCard
-                sliderCardData = {sliderCardData}
+                sliderCardData={sliderCardData}
                 graphTitle={'발급현황'}
                 count={30}
             />
