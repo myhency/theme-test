@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Form, Header, Modal, Grid, Menu, Icon, Search, Card, Image, Dropdown, Label, Divider } from 'semantic-ui-react';
+import { 
+    Button, 
+    Form, 
+    Header, 
+    Modal, 
+    Grid,
+    Menu, 
+    Icon, 
+    Search, 
+    Card, 
+    Image, 
+    Dropdown, 
+    Label, 
+    Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import siteData from '../assets/data/SiteData.json';
@@ -93,7 +106,7 @@ class SiteList extends Component {
                         <Grid.Column>
                             <Card.Group centered>
                                 {/* Card #1 */}
-                                {siteData.siteList.map((cardValue, index) => {
+                                {/* {siteData.siteList.map((cardValue, index) => {
                                     return (
                                         <Card style={{ width: '300px', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
                                             <Image
@@ -161,7 +174,7 @@ class SiteList extends Component {
                                             </Card.Content>
                                         </Card>
                                     );
-                                })}
+                                })} */}
                                 {/* Card #2 */}
                                 {siteData.siteList.map((cardValue, index) => {
                                     return (
@@ -230,7 +243,7 @@ class SiteList extends Component {
                                     );
                                 })}
                                 {/* Card #3 */}
-                                {siteData.siteList.map((cardValue, index) => {
+                                {/* {siteData.siteList.map((cardValue, index) => {
                                     return (
                                         <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
                                             <Grid columns={3} style={{ paddingTop: '5px', paddingBottom: '5px', paddingLeft: '5px', paddingRight: '5px' }}>
@@ -287,7 +300,7 @@ class SiteList extends Component {
                                             </Card.Content>
                                         </Card>
                                     );
-                                })}
+                                })} */}
                             </Card.Group>
                         </Grid.Column>
                     </Grid.Row>

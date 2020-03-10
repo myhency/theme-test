@@ -6,6 +6,7 @@ import ListTable from '../components/ListTable';
 import SiteData from '../assets/data/SiteData.json';
 import ServiceData from '../assets/data/ServiceData.json';
 import LogData from '../assets/data/LogData.json';
+import PageTitle from '../components/PageTitle';
 
 const headers = [
     'Date',
@@ -126,14 +127,11 @@ class LogList extends Component {
                     {/* Header */}
                     <Grid.Row>
                         <Grid.Column>
-                            <Grid>
-                                <Grid.Row>
-                                    <Grid.Column floated='left' verticalAlign='middle'>
-                                        <Header as='h1'><Icon name='heartbeat' />Logs</Header>
-                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에서 발생한 모든 log를 보여줍니다.</p>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <PageTitle
+                                title='Logs'
+                                description='Autoever DID hub 에서 발생한 모든 log를 보여줍니다.' 
+                                iconName='heartbeat'
+                            />
                         </Grid.Column>
                     </Grid.Row>
                     {/* Search Area */}

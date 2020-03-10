@@ -6,6 +6,7 @@ import ListTable from '../components/ListTable';
 import ServiceData from '../assets/data/ServiceData.json';
 import SiteData from '../assets/data/SiteData.json';
 import RoleData from '../assets/data/RoleData.json';
+import PageTitle from '../components/PageTitle';
 
 const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
 
@@ -27,14 +28,14 @@ class ServiceList extends Component {
     static getDerivedStateFromProps(props, state) {
 
         let { data, siteOption } = state;
-        data.cellData.splice(0,data.cellData.length);
+        data.cellData.splice(0, data.cellData.length);
         Array.prototype.forEach.call(ServiceData.serviceList, value => {
             let arr = [];
             arr.push(value.name, value.role, value.siteName, value.openDate, value.endPoint);
             data.cellData.push(arr);
         });
-        
-        siteOption.splice(0,siteOption.length);
+
+        siteOption.splice(0, siteOption.length);
         Array.prototype.forEach.call(SiteData.siteList, value => {
             siteOption.push({
                 key: value.name,
@@ -77,14 +78,11 @@ class ServiceList extends Component {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
-                            <Grid>
-                                <Grid.Row>
-                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                                        <Header as='h1'><Icon name='setting' />Services</Header>
-                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.</p>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <PageTitle
+                                title='Services'
+                                description='Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.' 
+                                iconName='setting'
+                            />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -122,7 +120,7 @@ class ServiceList extends Component {
                     <Divider />
                     <Grid.Row>
                         <Grid.Column floated='left' verticalAlign='bottom' width={5}>
-                            <Header as='h3'><Icon name='list alternate outline'/>Service List</Header>
+                            <Header as='h3'><Icon name='list alternate outline' />Service List</Header>
                         </Grid.Column>
                         <Grid.Column floated='right' verticalAlign='bottom' width={5}>
                             <Button color='blue' icon='plus' content='Add service' floated='right' onClick={(v, e) => this.handleAddServiceButton(v, e)} />

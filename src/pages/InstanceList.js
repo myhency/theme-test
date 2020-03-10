@@ -7,6 +7,7 @@ import ServiceData from '../assets/data/ServiceData.json';
 import InstanceData from '../assets/data/InstanceData.json';
 import RoleData from '../assets/data/RoleData.json';
 import InstanceStatusData from '../assets/data/InstanceStatusData.json';
+import PageTitle from '../components/PageTitle';
 
 const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
 
@@ -106,14 +107,11 @@ class InstanceList extends Component {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
-                            <Grid>
-                                <Grid.Row>
-                                    <Grid.Column floated='left' verticalAlign='middle'>
-                                        <Header as='h1'><Icon name='server' />Instances</Header>
-                                        <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Instance들을 보여줍니다. Instance는 Host VM의 Docker container 단위를 의미합니다.</p>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <PageTitle
+                                title='Instances'
+                                description='Autoever DID hub 에 등록된 모든 Instance들을 보여줍니다. Instance는 Host VM의 Docker container 단위를 의미합니다.' 
+                                iconName='server'
+                            />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
