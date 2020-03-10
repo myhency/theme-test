@@ -39,15 +39,18 @@ class SliderCard extends Component {
         };
     }
 
+
+
     render() {
         const { sliderCardData } = this.state;
 
         console.log(sliderCardData);
-        console.log(Gallery.getLogoImage(sliderCardData.serviceName));
+        // console.log(Gallery.getLogoImage(sliderCardData.serviceName));
 
         return (
             <Slider {...settings}>
                 {sliderCardData.map((value, index) => {
+                    console.log(value);
                     let data = {
                         labels: value.transitionData.labels,
                         datasets: [
