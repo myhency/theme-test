@@ -62,10 +62,10 @@ class InstanceHealthCheckView extends Component {
     }
 
     handleClick = rowValue => {
-        console.log(rowValue)
+        console.log(rowValue.instanceId)
         this.props.history.push({
-            pathname: '/home/instances/instancedetails/',
-            state: rowValue
+            pathname: `/home/instances/instancedetails/${rowValue.instanceId}`,
+            state: rowValue.instanceId
         });
     }
 
@@ -82,7 +82,7 @@ class InstanceHealthCheckView extends Component {
         const { instanceHealthData } = this.state;
 
         instanceHealthData.splice(0,1)
-        console.log(instanceHealthData)
+        // console.log(instanceHealthData)
 
         return (
             <Card style={{ width: '100%' }}>
@@ -92,7 +92,7 @@ class InstanceHealthCheckView extends Component {
                 </Header>
                 <Card.Content>
                     <Card.Description>
-                        <Table celled style={{ height: '100px', overflowY: 'scroll' }}>
+                        <Table selectable celled style={{ height: '100px', overflowY: 'scroll' }}>
                             <Table.Header>
                                 <Table.Row>
                                     {headers.map((value, index) => {

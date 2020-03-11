@@ -3,41 +3,66 @@ import { Button, Segment, Header, Image, Grid, Divider, Breadcrumb } from 'seman
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import logo from '../assets/images/01.20686250.1.jpg';
 import InstanceData from '../assets/data/InstanceData.json';
+import axios from 'axios';
 
 class InstanceDetails extends Component {
     constructor(props) {
         super(props);
+
         console.log(props);
 
+        
         this.state = {
-            currentDate: null,
-            open: false,
-            siteName: this.props.location.state[0],
-            serviceName: this.props.location.state[1],
-            instanceName: this.props.location.state[2],
-            endPoint: this.props.location.state[3],
-            status: this.props.location.state[4],
-            data: {
-                cellData: []
-            },
+            // currentDate: null,
+            // open: false,
+            // siteName: this.props.location.state[0],
+            // serviceName: this.props.location.state[1],
+            // instanceName: this.props.location.state[2],
+            // endPoint: this.props.location.state[3],
+            // status: this.props.location.state[4],
+            // data: {
+                //     cellData: []
+                // },
         };
+            
+        let instanceId = props.location.state;
+        this.getInstanceDetail(instanceId)
     }
 
-    static getDerivedStateFromProps(props, state) {
-        let { data } = state;
-        data.cellData.splice(0, data.cellData.length);
-        Array.prototype.forEach.call(InstanceData.instanceList, value => {
-            let arr = [];
-            arr.push(
-                value.name,
-                value.serviceName,
-                value.siteName,
-                value.status,
-                value.endPoint
-            );
-            data.cellData.push(arr);
-        });
+    getInstanceDetail = (id) => {
+        const url = `/api/instances/${id}`;
+
+        try {
+            return axios.get(url).then(response => {
+                console.log(response);
+                this.setState({
+                    siteName: response.data.result.siteName,
+                    serviceName: response.data.result.serviceName,
+                    instanceName: response.data.result.instanceName,
+                    endPoint: response.data.result.endpoint,
+                    status: response.data.result.status.toString()
+                })
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    // static getDerivedStateFromProps(props, state) {
+    //     let { data } = state;
+    //     data.cellData.splice(0, data.cellData.length);
+    //     Array.prototype.forEach.call(InstanceData.instanceList, value => {
+    //         let arr = [];
+    //         arr.push(
+    //             value.name,
+    //             value.serviceName,
+    //             value.siteName,
+    //             value.status,
+    //             value.endPoint
+    //         );
+    //         data.cellData.push(arr);
+    //     });
+    // }
 
     handleClick = rowValue => {
         this.props.history.push({

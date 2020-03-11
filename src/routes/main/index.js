@@ -47,19 +47,19 @@ const mainRoutes = [
         topMenu: true
     },
     {
-        path: contextPath + 'sites/sitedetails',
+        path: contextPath + 'sites/sitedetails/:id',
         name: 'SiteDetails',
         component: SiteDetails,
         topMenu: false
     },
     {
-        path: contextPath + 'services/servicedetails',
+        path: contextPath + 'services/servicedetails/:id',
         name: 'ServiceDetails',
         component: ServiceDetails,
         topMenu: false
     },
     {
-        path: contextPath + 'instances/instancedetails',
+        path: contextPath + 'instances/instancedetails/:id',
         name: 'InstanceDetails',
         component: InstanceDetails,
         topMenu: false
