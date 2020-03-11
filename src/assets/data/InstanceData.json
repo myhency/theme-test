@@ -1,6 +1,9 @@
 {
     "instanceList": [
         {
+            "instanceId": 1,
+            "serviceId": 1,
+            "siteId": 1,
             "name": "재직증명서 발급 서비스 인스턴스 #1",
             "serviceName": "재직증명서 발급 서비스",
             "siteName": "현대카드",
@@ -8,6 +11,9 @@
             "endPoint": "https://10.12.34.56:8080"
         },
         {
+            "instanceId": 2,
+            "serviceId": 1,
+            "siteId": 1,
             "name": "재직증명서 발급 서비스 인스턴스 #2",
             "serviceName": "재직증명서 발급 서비스",
             "siteName": "현대카드",
@@ -15,6 +21,9 @@
             "endPoint": "https://10.12.34.78:8090"
         },
         {
+            "instanceId": 3,
+            "serviceId": 2,
+            "siteId": 1,
             "name": "갑근세영수증 발급 서비스 인스턴스 #1",
             "serviceName": "갑근세영수증 발급 서비스",
             "siteName": "현대카드",
@@ -22,6 +31,9 @@
             "endPoint": "https://10.12.34.56:8081"
         },
         {
+            "instanceId": 4,
+            "serviceId": 2,
+            "siteId": 1,
             "name": "갑근세영수증 발급 서비스 인스턴스 #2",
             "serviceName": "갑근세영수증 발급 서비스",
             "siteName": "현대카드",
@@ -29,6 +41,9 @@
             "endPoint": "https://10.12.34.78:8091"
         },
         {
+            "instanceId": 5,
+            "serviceId": 3,
+            "siteId": 1,
             "name": "모바일전자사원증 발급 서비스 인스턴스 #1",
             "serviceName": "모바일전자사원증 발급 서비스",
             "siteName": "현대카드",
@@ -36,6 +51,9 @@
             "endPoint": "https://10.12.34.56:8082"
         },
         {
+            "instanceId": 6,
+            "serviceId": 3,
+            "siteId": 1,
             "name": "모바일전자사원증 발급 서비스 인스턴스 #2",
             "serviceName": "모바일전자사원증 발급 서비스",
             "siteName": "현대카드",
@@ -43,6 +61,9 @@
             "endPoint": "https://10.12.34.78:8092"
         },
         {
+            "instanceId": 7,
+            "serviceId": 4,
+            "siteId": 1,
             "name": "법인카드발급증명서 발급 서비스 인스턴스 #1",
             "serviceName": "법인카드발급증명서 발급 서비스",
             "siteName": "현대카드",
@@ -50,6 +71,9 @@
             "endPoint": "https://10.12.34.56:8083"
         },
         {
+            "instanceId": 8,
+            "serviceId": 4,
+            "siteId": 1,
             "name": "법인카드발급증명서 발급 서비스 인스턴스 #2",
             "serviceName": "법인카드발급증명서 발급 서비스",
             "siteName": "현대카드",
