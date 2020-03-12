@@ -18,7 +18,7 @@ const options = {
         }],
         yAxes: [{
             ticks: {
-                stepSize: 0.5
+                stepSize: 5
             }
         }]
     },
