@@ -56,13 +56,13 @@ class ServiceStatusSliderView extends Component {
         serviceList.forEach(service => {
             promiseArray.push(
                 new Promise((resolve, reject) => {
-                    axios.get(`/api/services/${service.serviceId}/statistic`)
+                    axios.get(`/api/services/${service.id}/statistic`)
                     .then(statisticRes => {
                         let labels = [];
                         let issuanceData = [];
                         let verificationData = [];
         
-                        axios.get(`/api/services/${service.serviceId}/transition`)
+                        axios.get(`/api/services/${service.id}/transition`)
                         .then(response => {
                             response.data.result.forEach(transition => {
                                 labels.push(transition.timestamp);
@@ -72,8 +72,8 @@ class ServiceStatusSliderView extends Component {
         
                             sliderCardData.push({
                                 siteName: service.siteName,
-                                serviceName: service.serviceName,
-                                serviceId: service.serviceId,
+                                serviceName: service.name,
+                                serviceId: service.id,
                                 statisticsData: {
                                     cumulativePairwisedid: statisticRes.data.result.cumulativePairwisedid,
                                     cumulativeCredentialIssuance: statisticRes.data.result.cumulativeCredentialIssuance,
