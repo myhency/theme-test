@@ -8,13 +8,15 @@ const options = {
     },
     scales: {
         xAxes: [{
+            display: false,
             gridLines: {
                 display: false
             }
         }],
         yAxes: [{
             ticks: {
-                beginAtZero: true
+                beginAtZero: true,
+                stepSize: 20
             }
         }]
     },

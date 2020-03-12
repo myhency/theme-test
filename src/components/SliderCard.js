@@ -11,10 +11,16 @@ const options = {
     },
     scales: {
         xAxes: [{
+            display: false,
             gridLines: {
                 display: false
             }
         }],
+        yAxes: [{
+            ticks: {
+                stepSize: 0.5
+            }
+        }]
     },
     maintainAspectRatio: true,
 }
