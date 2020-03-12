@@ -7,11 +7,10 @@ const getTextColor = (props) => {
 }
 
 const CountingCard = (props) => {
-
     let textColor = getTextColor(props);
 
     return (
-        <Card>
+        <Card onClick={() => props.onClick()}>
             <Header as='h1' style={{ marginTop: '14px', marginLeft: '14px' }}>
                 {props.title}
                 <Label attached='top right' size='mini'>60m</Label>

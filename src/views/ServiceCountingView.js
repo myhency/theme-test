@@ -8,6 +8,8 @@ class ServiiceCountingView extends Component {
     constructor(props) {
         super(props);
 
+        console.log(props);
+        
         this.state = {
             count: 0
         }
@@ -36,10 +38,16 @@ class ServiiceCountingView extends Component {
         }
     }
 
+    handleClick = () => {
+        this.props.history.push({
+            pathname: '/home/services/'
+        });
+    }
+
     render() {
         const { count } = this.state;
         return (
-            <CountingCard title={'Services'} type='info' count={count} />
+            <CountingCard title={'Services'} type='info' count={count} onClick={() => this.handleClick()}/>
         );
     }
 }

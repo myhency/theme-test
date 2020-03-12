@@ -36,10 +36,16 @@ class SiteCountingView extends Component {
         }
     }
 
+    handleClick = () => {
+        this.props.history.push({
+            pathname: '/home/sites/'
+        });
+    }
+
     render() {
         const { count } = this.state;
         return (
-            <CountingCard title={'Sites'} type='info' count={count} />
+            <CountingCard title={'Sites'} type='info' count={count} onClick={() => this.handleClick()} />
         );
     }
 }

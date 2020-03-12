@@ -36,10 +36,16 @@ class ErrorCountingView extends Component {
         }
     }
 
+    handleClick = () => {
+        this.props.history.push({
+            pathname: '/home/logs/'
+        });
+    }
+
     render() {
         const { count } = this.state;
         return (
-            <CountingCard title={'Errors'} type='error' count={count} />
+            <CountingCard title={'Errors'} type='error' count={count} onClick={() => this.handleClick()}/>
         );
     }
 }
