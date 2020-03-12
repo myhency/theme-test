@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Header, Card, Label } from 'semantic-ui-react';
 import axios from 'axios';
+import green from '../assets/images/green.svg';
+import red from '../assets/images/red.svg';
 
 const headers = ['Instance Name', 'Site Name', 'Status'];
 
@@ -81,7 +83,7 @@ class InstanceHealthCheckView extends Component {
     render() {
         const { instanceHealthData } = this.state;
 
-        instanceHealthData.splice(0,1)
+        instanceHealthData.splice(0, 1)
         // console.log(instanceHealthData)
 
         return (
@@ -116,12 +118,28 @@ class InstanceHealthCheckView extends Component {
                                             key={rowIndex}
                                             onClick={() => this.handleClick(rowValue)}>
                                             {rowValue.data.map((cellValue, cellIndex) => {
-                                                return <Table.Cell
-                                                    style={{ fontSize: '16px' }}
-                                                    textAlign='center'
-                                                    key={cellIndex}>
-                                                    {cellValue}
-                                                </Table.Cell>
+                                                if (cellValue === 'true') {
+                                                    return <Table.Cell
+                                                        style={{ fontSize: '16px' }}
+                                                        textAlign='center'
+                                                        key={cellIndex}>
+                                                        <img src={green} />
+                                                    </Table.Cell>
+                                                } else if (cellValue === 'false') {
+                                                    return <Table.Cell
+                                                        style={{ fontSize: '16px' }}
+                                                        textAlign='center'
+                                                        key={cellIndex}>
+                                                        <img src={red} offset="30%"/>
+                                                    </Table.Cell>
+                                                } else {
+                                                    return <Table.Cell
+                                                        style={{ fontSize: '16px' }}
+                                                        textAlign='center'
+                                                        key={cellIndex}>
+                                                        {cellValue}
+                                                    </Table.Cell>
+                                                }
                                             })}
                                         </Table.Row>
                                     );
