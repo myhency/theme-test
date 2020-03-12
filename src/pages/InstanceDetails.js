@@ -2,31 +2,17 @@ import React, { Component } from 'react';
 import { Button, Segment, Header, Image, Grid, Divider, Breadcrumb } from 'semantic-ui-react';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import logo from '../assets/images/01.20686250.1.jpg';
-import InstanceData from '../assets/data/InstanceData.json';
 import axios from 'axios';
 
 class InstanceDetails extends Component {
     constructor(props) {
         super(props);
-
-        console.log(props);
-
         
         this.state = {
-            // currentDate: null,
-            // open: false,
-            // siteName: this.props.location.state[0],
-            // serviceName: this.props.location.state[1],
-            // instanceName: this.props.location.state[2],
-            // endPoint: this.props.location.state[3],
-            // status: this.props.location.state[4],
-            // data: {
-                //     cellData: []
-                // },
         };
             
-        let instanceId = props.location.state;
-        this.getInstanceDetail(instanceId)
+        let id = props.location.state;
+        this.getInstanceDetail(id)
     }
 
     getInstanceDetail = (id) => {
@@ -38,7 +24,7 @@ class InstanceDetails extends Component {
                 this.setState({
                     siteName: response.data.result.siteName,
                     serviceName: response.data.result.serviceName,
-                    instanceName: response.data.result.instanceName,
+                    name: response.data.result.name,
                     endPoint: response.data.result.endpoint,
                     status: response.data.result.status.toString()
                 })
@@ -47,22 +33,6 @@ class InstanceDetails extends Component {
             console.log(error);
         }
     }
-
-    // static getDerivedStateFromProps(props, state) {
-    //     let { data } = state;
-    //     data.cellData.splice(0, data.cellData.length);
-    //     Array.prototype.forEach.call(InstanceData.instanceList, value => {
-    //         let arr = [];
-    //         arr.push(
-    //             value.name,
-    //             value.serviceName,
-    //             value.siteName,
-    //             value.status,
-    //             value.endPoint
-    //         );
-    //         data.cellData.push(arr);
-    //     });
-    // }
 
     handleClick = rowValue => {
         this.props.history.push({
@@ -83,7 +53,7 @@ class InstanceDetails extends Component {
         const { 
             siteName, 
             serviceName, 
-            instanceName,
+            name,
             endPoint,
             status
         } = this.state;
@@ -102,7 +72,7 @@ class InstanceDetails extends Component {
                                     <Breadcrumb.Divider icon='right angle' />
                                     <Breadcrumb.Section link>{serviceName}</Breadcrumb.Section>
                                     <Breadcrumb.Divider icon='right angle' />
-                                    <Breadcrumb.Section>{instanceName}</Breadcrumb.Section>
+                                    <Breadcrumb.Section>{name}</Breadcrumb.Section>
                                 </Breadcrumb>
                             </Grid.Column>
                         </Grid.Row>
@@ -115,7 +85,7 @@ class InstanceDetails extends Component {
                                 Instance Name
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {instanceName}
+                                {name}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>

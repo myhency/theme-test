@@ -6,8 +6,6 @@ import red from '../assets/images/red.svg';
 
 const headers = ['Instance Name', 'Site Name', 'Status'];
 
-const url = `/api/instances/health`;
-
 const EmptyColumns = (data) => {
 
     console.log(data)
@@ -31,7 +29,7 @@ class InstanceHealthCheckView extends Component {
 
         this.state = {
             instanceHealthData: [{
-                instanceId: 0,
+                id: 0,
                 data: []
             }]
         };
@@ -40,17 +38,18 @@ class InstanceHealthCheckView extends Component {
     }
 
     getInstanceHealth = () => {
+        const url = `/api/instances/health`;
         try {
             let instanceHealthData = [{
-                instanceId: 0,
+                id: 0,
                 data: []
             }];
             return axios.get(url).then(response => {
                 Array.prototype.forEach.call(response.data.result, value => {
                     let data = [];
-                    data.push(value.instanceName, value.siteName, value.status.toString());
+                    data.push(value.name, value.siteName, value.status.toString());
                     instanceHealthData.push({
-                        instanceId: value.instanceId,
+                        id: value.id,
                         data
                     })
                 });
@@ -64,10 +63,10 @@ class InstanceHealthCheckView extends Component {
     }
 
     handleClick = rowValue => {
-        console.log(rowValue.instanceId)
+        console.log(rowValue.id)
         this.props.history.push({
-            pathname: `/home/instances/instancedetails/${rowValue.instanceId}`,
-            state: rowValue.instanceId
+            pathname: `/home/instances/instancedetails/${rowValue.id}`,
+            state: rowValue.id
         });
     }
 
