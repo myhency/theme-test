@@ -146,8 +146,8 @@ class SiteList extends Component {
                                                         src={Gallery.getLogoImage(site.name)}
                                                         as={Link}
                                                         to={{
-                                                            pathname: `/home/sites/sitedetails/${site.siteId}`,
-                                                            state: site.siteId
+                                                            pathname: `/home/sites/sitedetails/${site.id}`,
+                                                            state: site.id
                                                         }}
                                                     />
                                                 </Grid.Column>
