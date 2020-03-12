@@ -1,55 +1,86 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Image, Modal, Grid, Icon, Select, Divider } from 'semantic-ui-react';
-import ListTable from '../components/ListTable';
+import {
+    Button,
+    Form,
+    Segment,
+    Header,
+    Image,
+    Modal,
+    Grid,
+    Icon,
+    Select,
+    Divider,
+    Table
+} from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import issuerIcon from '../assets/images/right-arrow.png';
-import verifierIcon from '../assets/images/left-arrow.png';
-import verissuerIcon from '../assets/images/up-arrow.png';
-import logo from '../assets/images/01.20686250.1.jpg';
+import axios from 'axios';
+import Gallery from '../utils/Gallery';
+import RoleData from '../assets/data/RoleData.json';
 
-const headers = ['Service Name', 'Role', 'Company', 'Open Date'];
+const headers = ['Service Name', 'Role', 'Site', 'Open Date'];
 
-const data = {
-    cellData: [
-        ['재직증명서발급', 'Issuer', '현대카드', '2020-06-30'],
-        ['갑근세영수증발급', 'Verissuer', '현대카드', '2020-06-30'],
-        ['모바일전자사원증발급', 'Verifier', '현대카드', '2020-06-30'],
-        ['법인카드발급증명서발급', 'Verissuer', '현대카드', '2020-07-30'],
-    ]
-}
 
-const roleOptions = [
-    {
-        key: 'Issuer',
-        text: 'Issuer',
-        value: 'Issuer',
-        image: { avatar: true, src: issuerIcon }
-    },
-    {
-        key: 'Verifier',
-        text: 'Verifier',
-        value: 'Verifier',
-        image: { avatar: true, src: verifierIcon }
-    },
-    {
-        key: 'Verissuer',
-        text: 'Verissuer',
-        value: 'Verissuer',
-        image: { avatar: true, src: verissuerIcon }
-    },
-]
 
 class SiteDetails extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {
             currentDate: null,
             addServiceModalOpen: false,
-            companyName: this.props.location.state[0],
-            openDate: this.props.location.state[2],
+            site: {
+                id: props.location.state,
+                name: '',
+                openDate: ''
+            },
+            serviceList: {
+                cellData: []
+            }
         };
+
+        let siteId = props.location.state;
+        this.getSiteInfo(siteId);
+    }
+
+    getSiteInfo = (id) => {
+        let siteDetail = new Promise((resolve, reject) => {
+            const url = `/api/sites/${id}`;
+            try {
+                axios.get(url).then(response => {
+                    resolve(response.data.result);    
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+
+        let serviceList = new Promise((resolve, reject) => {
+            const url = `/api/services?siteId=${id}`;
+            
+            
+            try {
+                axios.get(url).then(response => {
+                    let data = {
+                        cellData: []
+                    };
+                    response.data.result.map((service) => {
+                        let arr = [];
+                        arr.push(service.name, service.role, service.siteName, service.openDate);
+                        data.cellData.push(arr);
+                    })
+                    resolve(data);
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+
+        Promise.all([siteDetail,serviceList]).then((values) =>{
+            this.setState({
+                site: values[0],
+                serviceList: values[1]
+            })
+        })
     }
 
     handleClick = rowValue => {
@@ -74,7 +105,7 @@ class SiteDetails extends Component {
     }
 
     render() {
-        const { companyName, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { site, serviceList, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -82,10 +113,10 @@ class SiteDetails extends Component {
                     <Grid>
                         <Grid.Row>
                             <Grid.Column verticalAlign='middle' width={2}>
-                                <Image src={logo} size={'small'} />
+                                <Image src={Gallery.getLogoImage(site.name)} size={'small'} />
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                <Header as='h1'>{companyName}</Header>
+                                <Header as='h1'>{site.name}</Header>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -97,7 +128,7 @@ class SiteDetails extends Component {
                                 Site Name
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                현대카드
+                                {site.name}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -105,7 +136,7 @@ class SiteDetails extends Component {
                                 Open Date
                             </Grid.Column>
                             <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                2020-06-01
+                                {site.openDate}
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -130,7 +161,7 @@ class SiteDetails extends Component {
                                     <Form.Field
                                         control={Select}
                                         label='Role'
-                                        options={roleOptions}
+                                        options={RoleData.roles}
                                         placeholder='Role'
                                     />
                                 </Form.Group>
@@ -167,26 +198,44 @@ class SiteDetails extends Component {
                                     onClick={(v, e) => this.handleAddServiceButton(v, e)} />
                             </Grid.Column>
                         </Grid.Row>
-                        {/* <Grid.Row>
-                            <Grid.Column floated='left'>
-                                <Header as='h1'>Service List</Header>
-                            </Grid.Column>
-                            <Grid.Column floated='right' textAlign='right'>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Button icon floated='right' onClick={this.closeConfigShow(true, false)}>
-                                            <Icon name='plus square outline' size='large' />
-                                        </Button>
-                                    </Menu.Item>
-                                </Menu.Menu>
-                            </Grid.Column>
-                        </Grid.Row> */}
                     </Grid>
-                    <ListTable
-                        handleClick={(rowValue) => this.handleClick(rowValue)}
-                        title={'Service List'}
-                        headers={headers}
-                        data={data} />
+                    <Table selectable celled style={{ height: '100px', overflowY: 'scroll' }}>
+                        <Table.Header>
+                            <Table.Row>
+                                {headers.map((value, index) => {
+                                    return <Table.HeaderCell
+                                        style={{
+                                            fontSize: '18px',
+                                            backgroundColor: 'Gainsboro'
+                                        }}
+                                        textAlign='center'
+                                        key={index}>
+                                        {value}
+                                    </Table.HeaderCell>
+                                })}
+                            </Table.Row>
+                        </Table.Header>
+
+                        <Table.Body>
+                            {serviceList.cellData.map((rowValue, rowIndex) => {
+                                return (
+                                    <Table.Row
+                                        key={rowIndex}
+                                        onClick={() => this.handleClick(rowValue)}>
+                                        {rowValue.map((cellValue, cellIndex) => {
+                                            return <Table.Cell
+                                                style={{ fontSize: '16px' }}
+                                                textAlign='center'
+                                                key={cellIndex}>
+                                                {cellValue}
+                                            </Table.Cell>
+                                        })}
+                                    </Table.Row>
+                                );
+                            })}
+                            {/* <EmptyColumns data={instanceHealthData} /> */}
+                        </Table.Body>
+                    </Table>
                 </Segment>
             </div>
         )

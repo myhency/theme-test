@@ -109,6 +109,8 @@ class ServiceStatusSliderView extends Component {
     render() {
         const { sliderCardData } = this.state;
 
+        console.log(sliderCardData)
+
         return (
             <SliderCard
                 sliderCardData={sliderCardData}
