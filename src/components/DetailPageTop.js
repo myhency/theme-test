@@ -5,7 +5,8 @@ import {
     Image,
     Grid,
     Divider,
-    Breadcrumb
+    Breadcrumb,
+    Button
 } from 'semantic-ui-react';
 import Gallery from '../utils/Gallery';
 
@@ -63,6 +64,16 @@ class DetailPageTop extends Component {
                 <Grid celled='internally'>
                     {detailList.map((detail) => {
                         console.log(detail)
+                        if (detail.description === 'View Logs') {
+                            return <Grid.Row>
+                            <Grid.Column verticalAlign='middle' width={2}>
+                                {detail.title}
+                            </Grid.Column>
+                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                <Button>{detail.description}</Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                        }
                         return <Grid.Row>
                             <Grid.Column verticalAlign='middle' width={2}>
                                 {detail.title}

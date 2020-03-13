@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, Select, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import ServiceData from '../assets/data/ServiceData.json';
 import RoleData from '../assets/data/RoleData.json';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
@@ -16,9 +15,6 @@ class ServiceList extends Component {
             open: false,
             totalCount: 4,
             addServiceModalOpen: false,
-            data: {
-                cellData: []
-            },
             siteOption: [],
             serviceList: {
                 cellData: [{
