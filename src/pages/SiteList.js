@@ -51,8 +51,10 @@ class SiteList extends Component {
     }
 
     componentDidMount() {
-        const url = '/api/sites';
+        this.getSites('/api/sites');
+    }
 
+    getSites = (url) => {
         try {
             return axios.get(url).then(response => {
                 console.log(response);
@@ -91,26 +93,14 @@ class SiteList extends Component {
     }
 
     handleSearchOnChange = (event) => {
-        this.setState({
-            searchValue: event.target.value
-        })
+        // this.setState({
+        //     searchValue: event.target.value
+        // })
+        this.getSites(`/api/sites?name=${event.target.value}`)
     }
 
     handleOnClickSearch = () => {
-        const { searchValue } = this.state;
-        const url = `/api/sites?name=${searchValue}`;
-
-        try {
-            return axios.get(url).then(response => {
-                console.log(response);
-                this.setState({
-                    siteList: response.data.result,
-                    totalCount: response.data.result.length
-                })
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        this.getSites(`/api/sites?name=${this.state.searchValue}`)
     }
 
     render() {
@@ -133,8 +123,8 @@ class SiteList extends Component {
                                             icon={<Icon name='search' link onClick={this.handleOnClickSearch} />}
                                             placeholder='Search by site name...'
                                             onChange={this.handleSearchOnChange}
-                                            onKeyDown={(event) => {if(event.key==='Enter') this.handleOnClickSearch();}}
-                                            // onClick={}
+                                            onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearch(); }}
+                                        // onClick={}
                                         />
                                     </Grid.Column>
                                 </Grid.Row>
@@ -154,12 +144,10 @@ class SiteList extends Component {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column>
-                            <Card.Group itemsPerRow='4'>
-                                {/* Card #2 */}
-                                {siteList.map((site, index) => {
-                                    return (
-                                        <Card style={{ width: '300px', height: '20vh', marginLeft: 'auto', marginRight: 'auto' }} key={index}>
+                        {siteList.map((site, index) => {
+                            return <>
+                                <Grid.Column mobile={16} tablet={8} computer={4} style={{marginBottom: '1em'}}>
+                                <Card style={{ height: '20vh' }} key={index} fluid>
                                             <Grid
                                                 columns={2}
                                                 style={{
@@ -195,12 +183,8 @@ class SiteList extends Component {
                                                 <Card.Header
                                                     as={Link}
                                                     to={{
-                                                        pathname: "/home/sites/sitedetails",
-                                                        state: [
-                                                            site.name,
-                                                            site.openDate,
-                                                            site.countOfServices
-                                                        ]
+                                                        pathname: `/home/sites/sitedetails/${site.id}`,
+                                                        state: site.id
                                                     }}>{site.name}</Card.Header>
                                                 <Card.Meta>{site.openDate}</Card.Meta>
                                             </Card.Content>
@@ -211,16 +195,15 @@ class SiteList extends Component {
                                                             <Icon fitted name='setting' size='large' />
                                                         </Grid.Column>
                                                         <Grid.Column floated='left' verticalAlign='middle'>
-                                                            {site.countOfServices} Services
+                                                            {site.numberOfServices} Services
                                                         </Grid.Column>
                                                     </Grid.Row>
                                                 </Grid>
                                             </Card.Content>
                                         </Card>
-                                    );
-                                })}
-                            </Card.Group>
-                        </Grid.Column>
+                                </Grid.Column>
+                            </>
+                        })}
                     </Grid.Row>
                 </Grid>
                 <Modal

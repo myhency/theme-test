@@ -29,6 +29,12 @@ const mainRoutes = [
         topMenu: true
     },
     {
+        path: contextPath + 'sites?search=:sitename',
+        name: 'SearchSites',
+        component: SiteList,
+        topMenu: false
+    },
+    {
         path: contextPath + 'services',
         name: 'Services',
         component: ServiceList,

@@ -16,7 +16,8 @@ const options = {
         yAxes: [{
             ticks: {
                 beginAtZero: true,
-                stepSize: 20
+                stepSize: 20,
+                suggestedMax: 100
             }
         }]
     },
