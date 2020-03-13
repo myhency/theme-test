@@ -124,7 +124,7 @@ class InstanceList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleClick = id => {
+    handleOnClick = id => {
         this.props.history.push({
             pathname: `/home/instances/instancedetails/${id}`,
             state: id
