@@ -17,10 +17,9 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
 import Gallery from '../utils/Gallery';
 import RoleData from '../assets/data/RoleData.json';
+import DetailPageTop from '../components/DetailPageTop';
 
 const headers = ['Service Name', 'Role', 'Site', 'Open Date'];
-
-
 
 class SiteDetails extends Component {
     constructor(props) {
@@ -34,7 +33,10 @@ class SiteDetails extends Component {
                 openDate: ''
             },
             serviceList: {
-                cellData: []
+                cellData: [{
+                    id: 0,
+                    serviceData: []
+                }]
             }
         };
 
@@ -47,7 +49,7 @@ class SiteDetails extends Component {
             const url = `/api/sites/${id}`;
             try {
                 axios.get(url).then(response => {
-                    resolve(response.data.result);    
+                    resolve(response.data.result);
                 });
             } catch (error) {
                 reject(error);
@@ -56,18 +58,21 @@ class SiteDetails extends Component {
 
         let serviceList = new Promise((resolve, reject) => {
             const url = `/api/services?siteId=${id}`;
-            
-            
+
             try {
                 axios.get(url).then(response => {
                     let data = {
-                        cellData: []
+                        cellData: [{}]
                     };
                     response.data.result.map((service) => {
                         let arr = [];
                         arr.push(service.name, service.role, service.siteName, service.openDate);
-                        data.cellData.push(arr);
-                    })
+                        data.cellData.push({
+                            id: service.id,
+                            serviceData: arr
+                        });
+                    });
+                    data.cellData.splice(0, 1)
                     resolve(data);
                 });
             } catch (error) {
@@ -75,7 +80,7 @@ class SiteDetails extends Component {
             }
         });
 
-        Promise.all([siteDetail,serviceList]).then((values) =>{
+        Promise.all([siteDetail, serviceList]).then((values) => {
             this.setState({
                 site: values[0],
                 serviceList: values[1]
@@ -83,10 +88,10 @@ class SiteDetails extends Component {
         })
     }
 
-    handleClick = rowValue => {
+    handleClick = id => {
         this.props.history.push({
-            pathname: '/home/services/servicedetails/',
-            state: rowValue
+            pathname: `/home/services/servicedetails/${id}`,
+            state: id
         });
     }
 
@@ -109,39 +114,18 @@ class SiteDetails extends Component {
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
-                <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                <Image src={Gallery.getLogoImage(site.name)} size={'small'} />
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                <Header as='h1'>{site.name}</Header>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <Divider />
-                    <Header as='h3'>Detail</Header>
-                    <Grid celled='internally'>
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                Site Name
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {site.name}
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                Open Date
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                {site.openDate}
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    {/* <Divider /> */}
-                </Segment>
+                <DetailPageTop
+                    headerList={[site.name]}
+                    detailList={[
+                        {
+                            title: 'Site Name',
+                            description: site.name
+                        },
+                        {
+                            title: 'Open Date',
+                            description: site.openDate
+                        }
+                    ]} />
                 <Segment placeholder style={{ justifyContent: 'start', marginLeft: '2em', marginRight: '2em' }}>
                     <Modal
                         open={addServiceModalOpen}
@@ -152,7 +136,7 @@ class SiteDetails extends Component {
                         <Modal.Content>
                             <Form>
                                 <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Site name' placeholder='Site name' />
+                                    <Form.Input fluid label='Site name' placeholder='Site name' value={site.name} readOnly />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
                                     <Form.Input fluid label='Service name' placeholder='Service name' />
@@ -221,8 +205,8 @@ class SiteDetails extends Component {
                                 return (
                                     <Table.Row
                                         key={rowIndex}
-                                        onClick={() => this.handleClick(rowValue)}>
-                                        {rowValue.map((cellValue, cellIndex) => {
+                                        onClick={() => this.handleClick(rowValue.id)}>
+                                        {rowValue.serviceData.map((cellValue, cellIndex) => {
                                             return <Table.Cell
                                                 style={{ fontSize: '16px' }}
                                                 textAlign='center'
