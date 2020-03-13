@@ -7,8 +7,7 @@ import {
     Modal,
     Grid,
     Icon,
-    Select,
-    Table
+    Select
 } from 'semantic-ui-react';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import RoleData from '../assets/data/RoleData.json';
@@ -16,12 +15,9 @@ import axios from 'axios';
 import DetailPageTop from '../components/DetailPageTop';
 import ListTableNew from '../components/ListTableNew';
 
-const headers = ['Instance Name', 'Service Name', 'Site Name', 'Status', 'Endpoint'];
-
 class ServiceDetails extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
 
         this.state = {
             currentDate: null,
@@ -129,10 +125,11 @@ class ServiceDetails extends Component {
             addInstanceModalOpen,
             closeOnEscape,
             closeOnDimmerClick,
-            siteOption,
             service,
             instanceList
         } = this.state;
+
+        const headers = ['Instance Name', 'Service Name', 'Site Name', 'Status', 'Endpoint'];
 
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
