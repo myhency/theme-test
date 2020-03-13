@@ -15,6 +15,7 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
 import RoleData from '../assets/data/RoleData.json';
 import DetailPageTop from '../components/DetailPageTop';
+import ListTableNew from '../components/ListTableNew';
 
 const headers = ['Service Name', 'Role', 'Site', 'Open Date'];
 
@@ -32,7 +33,7 @@ class SiteDetails extends Component {
             serviceList: {
                 cellData: [{
                     id: 0,
-                    serviceData: []
+                    data: []
                 }]
             }
         };
@@ -66,7 +67,7 @@ class SiteDetails extends Component {
                         arr.push(service.name, service.role, service.siteName, service.openDate);
                         data.cellData.push({
                             id: service.id,
-                            serviceData: arr
+                            data: arr
                         });
                     });
                     data.cellData.splice(0, 1)
@@ -85,7 +86,7 @@ class SiteDetails extends Component {
         })
     }
 
-    handleClick = id => {
+    handleOnClick = id => {
         this.props.history.push({
             pathname: `/home/services/servicedetails/${id}`,
             state: id
@@ -180,43 +181,11 @@ class SiteDetails extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <Table selectable celled style={{ height: '100px', overflowY: 'scroll' }}>
-                        <Table.Header>
-                            <Table.Row>
-                                {headers.map((value, index) => {
-                                    return <Table.HeaderCell
-                                        style={{
-                                            fontSize: '18px',
-                                            backgroundColor: 'Gainsboro'
-                                        }}
-                                        textAlign='center'
-                                        key={index}>
-                                        {value}
-                                    </Table.HeaderCell>
-                                })}
-                            </Table.Row>
-                        </Table.Header>
-
-                        <Table.Body>
-                            {serviceList.cellData.map((rowValue, rowIndex) => {
-                                return (
-                                    <Table.Row
-                                        key={rowIndex}
-                                        onClick={() => this.handleClick(rowValue.id)}>
-                                        {rowValue.serviceData.map((cellValue, cellIndex) => {
-                                            return <Table.Cell
-                                                style={{ fontSize: '16px' }}
-                                                textAlign='center'
-                                                key={cellIndex}>
-                                                {cellValue}
-                                            </Table.Cell>
-                                        })}
-                                    </Table.Row>
-                                );
-                            })}
-                            {/* <EmptyColumns data={instanceHealthData} /> */}
-                        </Table.Body>
-                    </Table>
+                    <ListTableNew 
+                        headers={headers}
+                        data={serviceList} 
+                        handleOnClick={(id) => this.handleOnClick(id)}
+                    />
                 </Segment>
             </div>
         )
