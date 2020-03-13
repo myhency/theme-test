@@ -140,7 +140,6 @@ class InstanceList extends Component {
     render() {
         const { instanceList, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
         const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
-        
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -243,9 +242,9 @@ class InstanceList extends Component {
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.addSiteModalClose} negative>No</Button>
+                        <Button onClick={this.addInstanceModalClose} negative>No</Button>
                         <Button
-                            onClick={this.close}
+                            onClick={this.addInstanceModalClose}
                             positive
                             labelPosition='right'
                             icon='checkmark'
