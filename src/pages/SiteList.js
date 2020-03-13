@@ -8,17 +8,18 @@ import {
     Grid,
     Menu,
     Icon,
-    Search,
     Card,
     Image,
     Dropdown,
     Label,
-    Divider
+    Divider,
+    Input
 } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import Gallery from '../utils/Gallery';
 import axios from 'axios';
+import _ from 'lodash';
 
 const fileSelector = document.createElement('input');
 
@@ -39,7 +40,10 @@ class SiteList extends Component {
                 name: '',
                 openDate: ''
             },
-            siteList: [{}]
+            siteList: [{}],
+            isSearchLoading: false,
+            searchValue: '',
+            searchResult: []
         };
 
         fileSelector.setAttribute('type', 'file');
@@ -67,7 +71,7 @@ class SiteList extends Component {
         fileSelector.click();
     }
 
-    onChange = (event, data) => this.setState({ currentDate: data.value });
+    handleSemanticDatepickerOnChange = (event, data) => this.setState({ currentDate: data.value });
 
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
@@ -86,12 +90,31 @@ class SiteList extends Component {
         if (e) this.setState({ modifySiteModalOpen: true, modifiedCard: { ...v } });
     }
 
-    alarm = () => {
-        alert('aaa')
+    handleSearchOnChange = (event) => {
+        this.setState({
+            searchValue: event.target.value
+        })
+    }
+
+    handleOnClickSearch = () => {
+        const { searchValue } = this.state;
+        const url = `/api/sites?name=${searchValue}`;
+
+        try {
+            return axios.get(url).then(response => {
+                console.log(response);
+                this.setState({
+                    siteList: response.data.result,
+                    totalCount: response.data.result.length
+                })
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
-        const { siteList, totalCount, addSiteModalOpen, modifySiteModalOpen, closeOnEscape, closeOnDimmerClick, modifiedCard } = this.state;
+        const { siteList, totalCount, addSiteModalOpen, modifySiteModalOpen, closeOnEscape, closeOnDimmerClick, modifiedCard, searchValue } = this.state;
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -105,7 +128,14 @@ class SiteList extends Component {
                                         <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Site들을 보여줍니다.</p>
                                     </Grid.Column>
                                     <Grid.Column verticalAlign='top' width={5}>
-                                        <Search placeholder='Search' style={{ float: 'right' }} />
+                                        <Input
+                                            style={{ float: 'right' }}
+                                            icon={<Icon name='search' link onClick={this.handleOnClickSearch} />}
+                                            placeholder='Search by site name...'
+                                            onChange={this.handleSearchOnChange}
+                                            onKeyDown={(event) => {if(event.key==='Enter') this.handleOnClickSearch();}}
+                                            // onClick={}
+                                        />
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
@@ -205,7 +235,7 @@ class SiteList extends Component {
                                 <Form.Input fluid label='Site name' placeholder='Site name' />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.handleSemanticDatepickerOnChange} />
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Input
@@ -242,7 +272,7 @@ class SiteList extends Component {
                                 <Form.Input fluid label='Site name' value={modifiedCard.name} />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} value={modifiedCard.openDate} />
+                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.handleSemanticDatepickerOnChange} value={modifiedCard.openDate} />
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Input
