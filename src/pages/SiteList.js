@@ -17,7 +17,6 @@ import {
 } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-// import siteData from '../assets/data/SiteData.json';
 import Gallery from '../utils/Gallery';
 import axios from 'axios';
 

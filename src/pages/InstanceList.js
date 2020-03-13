@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, Select, Divider, Table, Menu } from 'semantic-ui-react';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import ListTable from '../components/ListTable';
 import SiteData from '../assets/data/SiteData.json';
 import ServiceData from '../assets/data/ServiceData.json';
 import InstanceData from '../assets/data/InstanceData.json';
 import RoleData from '../assets/data/RoleData.json';
 import InstanceStatusData from '../assets/data/InstanceStatusData.json';
 import PageTitle from '../components/PageTitle';
-import axios from 'axios';
 
 const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
 

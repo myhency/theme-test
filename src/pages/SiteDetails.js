@@ -4,18 +4,15 @@ import {
     Form,
     Segment,
     Header,
-    Image,
     Modal,
     Grid,
     Icon,
     Select,
-    Divider,
     Table
 } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
-import Gallery from '../utils/Gallery';
 import RoleData from '../assets/data/RoleData.json';
 import DetailPageTop from '../components/DetailPageTop';
 

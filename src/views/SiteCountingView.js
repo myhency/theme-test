@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import CountingCard from '../components/CountingCard';
 import axios from 'axios';
 
-const url = `/api/sites/count`;
-
 class SiteCountingView extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +23,7 @@ class SiteCountingView extends Component {
     }
 
     getCount = () => {
+        const url = `/api/sites/count`;
         try {
             return axios.get(url).then(response => {
                 this.setState({

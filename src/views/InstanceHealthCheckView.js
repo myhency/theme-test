@@ -6,23 +6,6 @@ import red from '../assets/images/red.svg';
 
 const headers = ['Instance Name', 'Site Name', 'Status'];
 
-const EmptyColumns = (data) => {
-
-    console.log(data)
-
-    let rows = [];
-    for (let i = data.data.cellData.length; i < 7; i++) {
-        rows.push((
-            <Table.Row key={i}>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 1}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 2}>&nbsp;</Table.Cell>
-                <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i + 3}>&nbsp;</Table.Cell>
-            </Table.Row>
-        ))
-    }
-    return rows;
-}
-
 class InstanceHealthCheckView extends Component {
     constructor(props) {
         super(props);

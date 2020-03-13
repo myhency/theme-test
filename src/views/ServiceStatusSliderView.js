@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import SliderCard from '../components/SliderCard';
 import axios from 'axios';
 
-const SERVICE_LIST_URL = '/api/services';
-
 class ServiceStatusSliderView extends Component {
     constructor(props) {
         super(props);
@@ -36,6 +34,7 @@ class ServiceStatusSliderView extends Component {
     }
 
     getServiceList = () => {
+        const SERVICE_LIST_URL = '/api/services';
         try {
             return axios.get(SERVICE_LIST_URL).then(response => {
                 this.setState({
