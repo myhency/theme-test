@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, Select, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import ListTable from '../components/ListTable';
 import ServiceData from '../assets/data/ServiceData.json';
-import SiteData from '../assets/data/SiteData.json';
 import RoleData from '../assets/data/RoleData.json';
 import PageTitle from '../components/PageTitle';
-
-const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
+import axios from 'axios';
+import ListTableNew from '../components/ListTableNew';
 
 class ServiceList extends Component {
     constructor(props) {
@@ -21,31 +19,69 @@ class ServiceList extends Component {
             data: {
                 cellData: []
             },
-            siteOption: []
+            siteOption: [],
+            serviceList: {
+                cellData: [{
+                    id: 0,
+                    data: []
+                }]
+            }
         };
+
+        this.getServiceList();
+        this.getSiteNameList();
     }
 
-    static getDerivedStateFromProps(props, state) {
+    getSiteNameList = () => {
+        const url = '/api/sites';
+        let siteOption = [{
+            key: 'All',
+            text: '전체',
+            value: 'All'
+        }];
 
-        let { data, siteOption } = state;
-        data.cellData.splice(0, data.cellData.length);
-        Array.prototype.forEach.call(ServiceData.serviceList, value => {
-            let arr = [];
-            arr.push(value.name, value.role, value.siteName, value.openDate, value.endPoint);
-            data.cellData.push(arr);
-        });
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((site) => {
+                    siteOption.push({
+                        key: site.name,
+                        text: site.name,
+                        value: site.name
+                    });
+                });
 
-        siteOption.splice(0, siteOption.length);
-        Array.prototype.forEach.call(SiteData.siteList, value => {
-            siteOption.push({
-                key: value.name,
-                text: value.name,
-                value: value.name
+                this.setState({
+                    siteOption
+                })
             });
-        });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-        return {
-            ...data, ...siteOption
+    getServiceList = () => {
+        const url = '/api/services';
+        let data = {
+            cellData: [{}]
+        };
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((service) => {
+                    let arr = [];
+                    arr.push(service.name, service.role, service.siteName, service.openDate, service.endpoint);
+                    data.cellData.push({
+                        id: service.id,
+                        data: arr
+                    });
+                });
+                data.cellData.splice(0, 1);
+                this.setState({
+                    serviceList: data
+                })
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -57,10 +93,10 @@ class ServiceList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleClick = rowValue => {
+    handleOnClick = id => {
         this.props.history.push({
-            pathname: '/home/services/servicedetails/',
-            state: rowValue
+            pathname: `/home/services/servicedetails/${id}`,
+            state: id
         });
     }
 
@@ -71,7 +107,9 @@ class ServiceList extends Component {
     addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
-        const { data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { serviceList, data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+
+        const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -80,7 +118,7 @@ class ServiceList extends Component {
                         <Grid.Column>
                             <PageTitle
                                 title='Services'
-                                description='Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.' 
+                                description='Autoever DID hub 에 등록된 모든 Service들을 보여줍니다.'
                                 iconName='setting'
                             />
                         </Grid.Column>
@@ -128,10 +166,11 @@ class ServiceList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <ListTable
-                                handleClick={(rowValue) => this.handleClick(rowValue)}
+                            <ListTableNew
                                 headers={headers}
-                                data={data} />
+                                data={serviceList}
+                                handleOnClick={(id) => this.handleOnClick(id)}
+                            />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

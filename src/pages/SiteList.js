@@ -19,7 +19,6 @@ import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import Gallery from '../utils/Gallery';
 import axios from 'axios';
-import _ from 'lodash';
 
 const fileSelector = document.createElement('input');
 
