@@ -1,5 +1,7 @@
 import React from 'react';
 import { Table, Menu, Icon } from 'semantic-ui-react';
+import green from '../assets/images/green.svg';
+import red from '../assets/images/red.svg';
 
 const EmptyColumns = (data) => {
     let rows = [];
@@ -58,12 +60,28 @@ const ListTableNew = (props) => {
                                 key={rowIndex}
                                 onClick={() => props.handleOnClick(rowValue.id)}>
                                 {rowValue.data.map((cellValue, cellIndex) => {
-                                    return <Table.Cell
-                                        style={{ fontSize: '16px' }}
-                                        textAlign='center'
-                                        key={cellIndex}>
-                                        {cellValue}
-                                    </Table.Cell>
+                                    if (cellValue === 'true') {
+                                        return <Table.Cell
+                                            style={{ fontSize: '16px' }}
+                                            textAlign='center'
+                                            key={cellIndex}>
+                                            <img src={green} />
+                                        </Table.Cell>
+                                    } else if (cellValue === 'false') {
+                                        return <Table.Cell
+                                            style={{ fontSize: '16px' }}
+                                            textAlign='center'
+                                            key={cellIndex}>
+                                            <img src={red} offset="30%"/>
+                                        </Table.Cell>
+                                    } else {
+                                        return <Table.Cell
+                                            style={{ fontSize: '16px' }}
+                                            textAlign='center'
+                                            key={cellIndex}>
+                                            {cellValue}
+                                        </Table.Cell>
+                                    }
                                 })}
                             </Table.Row>
                         );
