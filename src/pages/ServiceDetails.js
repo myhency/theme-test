@@ -22,10 +22,6 @@ class ServiceDetails extends Component {
         this.state = {
             currentDate: null,
             addInstanceModalOpen: false,
-            serviceName: this.props.location.state[0],
-            openDate: this.props.location.state[3],
-            role: this.props.location.state[1],
-            endPoint: this.props.location.state[4],
             service: {
                 id: 0,
                 name: '',
@@ -120,6 +116,13 @@ class ServiceDetails extends Component {
 
     addInstanceModalClose = () => this.setState({ addInstanceModalOpen: false });
 
+    handleOnClickBreadcrumb = (id) => {
+        this.props.history.push({
+            pathname: `/home/sites/sitedetails/${id}`,
+            state: id
+        });
+    }
+
     render() {
         const {
             addInstanceModalOpen,
@@ -134,7 +137,18 @@ class ServiceDetails extends Component {
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <DetailPageTop
-                    headerList={[service.siteName, service.name]}
+                    headerList={[
+                        {
+                            name: service.siteName,
+                            id: service.siteId,
+                            onClick: this.handleOnClickBreadcrumb
+                        },
+                        {
+                            name: service.name,
+                            id: service.id,
+                            onClick: () => {}
+                        }
+                    ]}
                     detailList={[
                         {
                             title: 'Service Name',
@@ -164,7 +178,7 @@ class ServiceDetails extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <ListTableNew 
+                    <ListTableNew
                         headers={headers}
                         data={instanceList}
                         handleOnClick={(id) => this.handleOnClick(id)}
@@ -178,7 +192,7 @@ class ServiceDetails extends Component {
                         <Modal.Content>
                             <Form>
                                 <Form.Group widths='equal'>
-                                <Form.Input fluid label='Site name' placeholder='Site name' value={service.siteName} readOnly />
+                                    <Form.Input fluid label='Site name' placeholder='Site name' value={service.siteName} readOnly />
                                 </Form.Group>
                                 <Form.Group widths='equal'>
                                     <Form.Input fluid label='Service name' placeholder='Service name' value={service.name} readOnly />

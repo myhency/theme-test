@@ -11,7 +11,9 @@ class InstanceDetails extends Component {
             instance: {
                 id: 0,
                 siteName: '',
+                siteId: 0,
                 serviceName: '',
+                serviceId: 0,
                 name: '',
                 endpoint: '',
                 status: ''
@@ -31,7 +33,9 @@ class InstanceDetails extends Component {
                 this.setState({
                     instance: {
                         siteName: response.data.result.siteName,
+                        siteId: response.data.result.siteId,
                         serviceName: response.data.result.serviceName,
+                        serviceId: response.data.result.serviceId,
                         name: response.data.result.name,
                         endpoint: response.data.result.endpoint,
                         status: response.data.result.status.toString()
@@ -51,6 +55,20 @@ class InstanceDetails extends Component {
 
     close = () => this.setState({ open: false });
 
+    handleOnClickSiteBreadcrumb = (id) => {
+        this.props.history.push({
+            pathname: `/home/sites/sitedetails/${id}`,
+            state: id
+        });
+    }
+
+    handleOnClickServiceBreadcrumb = (id) => {
+        this.props.history.push({
+            pathname: `/home/services/servicedetails/${id}`,
+            state: id
+        });
+    }
+
     render() {
         const {
             instance
@@ -59,7 +77,23 @@ class InstanceDetails extends Component {
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <DetailPageTop
-                    headerList={[instance.siteName, instance.serviceName, instance.name]}
+                    headerList={[
+                        {
+                            name: instance.siteName,
+                            id: instance.siteId,
+                            onClick: this.handleOnClickSiteBreadcrumb
+                        },
+                        {
+                            name: instance.serviceName,
+                            id: instance.serviceId,
+                            onClick: this.handleOnClickServiceBreadcrumb
+                        },
+                        {
+                            name: instance.name,
+                            id: instance.id,
+                            onClick: () => {}
+                        }
+                    ]}
                     detailList={[
                         {
                             title: 'Instance Name',

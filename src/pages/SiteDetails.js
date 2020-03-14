@@ -112,7 +112,13 @@ class SiteDetails extends Component {
         return (
             <div style={{ marginTop: '4em', width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <DetailPageTop
-                    headerList={[site.name]}
+                    headerList={[
+                        {
+                            name: site.name,
+                            id: site.id,
+                            onClick: () => {}
+                        }
+                    ]}
                     detailList={[
                         {
                             title: 'Site Name',

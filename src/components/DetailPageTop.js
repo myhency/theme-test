@@ -33,24 +33,24 @@ class DetailPageTop extends Component {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column verticalAlign='middle' width={2}>
-                            <Image src={Gallery.getLogoImage(headerList[0])} size={'small'} />
+                            <Image src={Gallery.getLogoImage(headerList[0].name)} size={'small'} />
                         </Grid.Column>
                         <Grid.Column floated='left' verticalAlign='middle' width={14}>
                             <Breadcrumb size='massive'>
                                 {headerList.map((header, index) => {
-                                    console.log(headerList.length);
+                                    console.log(headerList);
                                     console.log(index)
                                     let breadcrumb = [];
                                     if (headerList.length == 1) {// 하나밖에 없을 때
-                                        breadcrumb.push(<Breadcrumb.Section>{header}</Breadcrumb.Section>)
+                                        breadcrumb.push(<Breadcrumb.Section key={index}>{header.name}</Breadcrumb.Section>)
                                         return breadcrumb
                                     }
                                     else if (index == headerList.length - 1) { // 마지막
-                                        breadcrumb.push(<Breadcrumb.Section>{header}</Breadcrumb.Section>)
+                                        breadcrumb.push(<Breadcrumb.Section  key={index}>{header.name}</Breadcrumb.Section>)
                                         return breadcrumb
                                     }
                                     else // 중간
-                                        breadcrumb.push(<Breadcrumb.Section link>{header}</Breadcrumb.Section>)
+                                        breadcrumb.push(<Breadcrumb.Section link onClick={() => header.onClick(header.id)} key={index}>{header.name}</Breadcrumb.Section>)
                                         breadcrumb.push(<Breadcrumb.Divider icon='right angle' />)
 
                                     return breadcrumb
