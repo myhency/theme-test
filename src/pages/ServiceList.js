@@ -103,7 +103,7 @@ class ServiceList extends Component {
     addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
-        const { serviceList, data, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { serviceList, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
 
         const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
 

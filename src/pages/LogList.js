@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, TextArea, Select, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import ListTable from '../components/ListTable';
 import SiteData from '../assets/data/SiteData.json';
 import ServiceData from '../assets/data/ServiceData.json';
 import LogData from '../assets/data/LogData.json';
@@ -137,8 +136,18 @@ class LogList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleOnClick = rowValue => {
-        if (rowValue) this.setState({ logDetailModalOpen: true, logData: rowValue });
+    handleOnClick = id => {
+        const url = `/api/logs/${id}`;
+        try {
+            axios.get(url).then(response => {
+                this.setState({ 
+                    logDetailModalOpen: true, 
+                    logData: response.data.result 
+                });
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     handleAddServiceButton = (v, e) => {
@@ -150,7 +159,6 @@ class LogList extends Component {
     render() {
         const {
             logData,
-            data,
             siteOption,
             logDetailModalOpen,
             closeOnEscape,
@@ -315,7 +323,7 @@ class LogList extends Component {
                                     Date
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                    {logData[0]}
+                                    {logData.occurredDate}
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
@@ -323,7 +331,7 @@ class LogList extends Component {
                                     Log Level
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                    {logData[4]}
+                                    {logData.logLevel}
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
@@ -331,7 +339,7 @@ class LogList extends Component {
                                     Log Name
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                    {logData[5]}
+                                    {logData.logName}
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
@@ -341,21 +349,14 @@ class LogList extends Component {
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
                                     <Form>
                                         <TextArea style={{ minHeight: 300, width: '100%' }}
-                                            value={logData[6]} />
+                                            value={logData.logDetail} />
                                     </Form>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.logDetailModalClose} negative>No</Button>
-                        <Button
-                            onClick={this.close}
-                            positive
-                            labelPosition='right'
-                            icon='checkmark'
-                            content='Yes'
-                        />
+                        <Button onClick={this.logDetailModalClose} negative>Close</Button>
                     </Modal.Actions>
                 </Modal>
             </div>

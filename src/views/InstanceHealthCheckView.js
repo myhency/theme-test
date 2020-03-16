@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Header, Card, Label } from 'semantic-ui-react';
+import { Header, Card, Label } from 'semantic-ui-react';
 import axios from 'axios';
-import green from '../assets/images/green.svg';
-import red from '../assets/images/red.svg';
 import ListTableNew from '../components/ListTableNew';
 
 
