@@ -6,19 +6,19 @@
             "value": "All"
         },
         {
-            "key": "Issuer",
-            "text": "Issuer",
-            "value": "Issuer"
+            "key": "ISSUER",
+            "text": "ISSUER",
+            "value": "ISSUER"
         },
         {
-            "key": "Verifier",
-            "text": "Verifier",
-            "value": "Verifier"
+            "key": "VERIFIER",
+            "text": "VERIFIER",
+            "value": "VERIFIER"
         },
         {
-            "key": "Verifier + Issuer",
-            "text": "Verifier + Issuer",
-            "value": "Verifier + Issuer"
+            "key": "VERISSUER",
+            "text": "VERISSUER",
+            "value": "VERISSUER"
         }
     ]
 }

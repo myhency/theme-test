@@ -21,7 +21,11 @@ class ServiceList extends Component {
                     id: 0,
                     data: []
                 }]
-            }
+            },
+            siteName: '',
+            beginDate: '',
+            endDate: '',
+            role: ''
         };
 
         this.getServiceList();
@@ -42,7 +46,7 @@ class ServiceList extends Component {
                     siteOption.push({
                         key: site.name,
                         text: site.name,
-                        value: site.name
+                        value: site.id
                     });
                 });
 
@@ -55,10 +59,15 @@ class ServiceList extends Component {
         }
     }
 
-    getServiceList = () => {
-        const url = '/api/services';
+    getServiceList = (searchCondition) => {
+        let url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc';
+        if (searchCondition)
+            url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc' + searchCondition;
         let data = {
-            cellData: [{}]
+            cellData: [{
+                id: 0,
+                data: []
+            }]
         };
 
         try {
@@ -81,7 +90,44 @@ class ServiceList extends Component {
         }
     }
 
-    onChange = (event, data) => this.setState({ currentDate: data.value });
+    onBeginDateFieldChange = (event, { beginDate, value }) => {
+        const formattedDate = new Date(value)
+        beginDate = formattedDate.getFullYear() + '-'
+            + (parseInt(formattedDate.getMonth()) < 10 ? '0' + (formattedDate.getMonth() + 1) : (formattedDate.getMonth() + 1)) + '-'
+            + (parseInt(formattedDate.getDate()) < 10 ? '0' + formattedDate.getDate() : formattedDate.getDate());
+        this.setState({ beginDate });
+    }
+
+    onEndDateFieldChange = (event, { endDate, value }) => {
+        const formattedDate = new Date(value)
+        endDate = formattedDate.getFullYear() + '-'
+            + (parseInt(formattedDate.getMonth()) < 10 ? '0' + (formattedDate.getMonth() + 1) : (formattedDate.getMonth() + 1)) + '-'
+            + (parseInt(formattedDate.getDate()) < 10 ? '0' + formattedDate.getDate() : formattedDate.getDate());
+        this.setState({ endDate });
+    }
+
+    onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
+
+    onRoleFieldChange = (event, { role, value }) => this.setState({ role: value });
+
+    handleOnClearButtonClick = (v, e) => this.setState({ siteName: '', beginDate: '', endDate: '', role: '' });
+
+    handleOnSearchButtonClick = () => {
+        const { siteName, beginDate, endDate, role } = this.state;
+        let siteNameSearchCondition = siteName ? 'siteId=' + siteName : '';
+        let beginDateSearchCondition = beginDate ? 'openDateStart=' + beginDate : '';
+        let endDateSearchCondition = endDate ? 'openDateEnd=' + endDate : '';
+        let roleSearchCondition = role ? 'role=' + role : '';
+        let arr = [];
+        arr.push(siteNameSearchCondition, beginDateSearchCondition, endDateSearchCondition, roleSearchCondition)
+        let searchCondition = '';
+        arr.map((value, index) => {
+            if (value === '') return;
+            searchCondition = searchCondition.concat('&' + value);
+        });
+
+        this.getServiceList(searchCondition);
+    }
 
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
@@ -100,11 +146,11 @@ class ServiceList extends Component {
         if (e) this.setState({ addServiceModalOpen: true });
     }
 
+
     addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
-        const { serviceList, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
-
+        const { serviceList, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick, siteName, beginDate, endDate, role } = this.state;
         const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
 
         return (
@@ -122,20 +168,32 @@ class ServiceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <Segment>
-                                <Form>
+                                <Form onSubmit={this.handleOnSearchButtonClick}>
                                     <Form.Group widths='equal'>
                                         <Form.Field
                                             control={Select}
                                             label='Site Name'
                                             options={siteOption}
                                             placeholder='Site name'
+                                            value={siteName}
+                                            onChange={this.onSiteNameFieldChange}
                                         />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
                                         <SemanticDatepicker
-                                            label='Open date'
+                                            fluid
+                                            label='Begin date'
                                             datePickerOnly={true}
-                                            onChange={this.onChange} />
+                                            onChange={this.onBeginDateFieldChange}
+                                            value={beginDate}
+                                        />
+                                        <SemanticDatepicker
+                                            fluid
+                                            label='End date'
+                                            datePickerOnly={true}
+                                            onChange={this.onEndDateFieldChange}
+                                            value={endDate}
+                                        />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
                                         <Form.Field
@@ -143,10 +201,12 @@ class ServiceList extends Component {
                                             label='Role'
                                             options={RoleData.roles}
                                             placeholder='Role'
+                                            value={role}
+                                            onChange={this.onRoleFieldChange}
                                         />
                                     </Form.Group>
                                     <Button type='submit'>Search</Button>
-                                    <Button type='submit'>Clear</Button>
+                                    <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>

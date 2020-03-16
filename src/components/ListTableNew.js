@@ -6,6 +6,8 @@ const EmptyColumns = (props) => {
     let rows = [];
     let columnLength = props.data.cellData.length > 0 ? props.data.cellData.length : 3;
 
+    if(props.data.cellData.length === 0) return <></>;
+
     for (let i = columnLength; i < props.count; i++) {
         rows.push((
             <Table.Row key={i}>
@@ -57,6 +59,8 @@ const ListTableNew = (props) => {
     let data = props.data;
     let numberOfRows = props.count;
     let foots = props.foots;
+
+    console.log(data)
 
     return (
         <div>
