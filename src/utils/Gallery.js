@@ -2,7 +2,10 @@ import hyundaiCardLogo from '../assets/images/01.20686250.1.jpg';
 import nonghyubLogo from '../assets/images/nonghyub-logo.jpeg';
 import shinhanLogo from '../assets/images/shinhan-logo.jpg';
 import kmiLogo from '../assets/images/kmi-logo.jpeg';
+import green from '../assets/images/green.svg';
+import red from '../assets/images/red.svg';
 import createReactClass from 'create-react-class';
+import { Redirect } from 'react-router-dom';
 
 const Gallery = createReactClass({
     statics: {
@@ -20,6 +23,10 @@ const Gallery = createReactClass({
                     return shinhanLogo;
                 case 'KMI':
                     return kmiLogo;
+                case 'true':
+                    return green;
+                case 'false':
+                    return red;
                 default:
             }
         },

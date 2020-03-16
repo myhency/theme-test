@@ -112,7 +112,7 @@ class InstanceHealthCheckView extends Component {
                                                         style={{ fontSize: '16px' }}
                                                         textAlign='center'
                                                         key={cellIndex}>
-                                                        <img src={red} offset="30%"/>
+                                                        <img src={red}/>
                                                     </Table.Cell>
                                                 } else {
                                                     return <Table.Cell

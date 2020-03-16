@@ -7,16 +7,9 @@ import SiteData from '../assets/data/SiteData.json';
 import ServiceData from '../assets/data/ServiceData.json';
 import LogData from '../assets/data/LogData.json';
 import PageTitle from '../components/PageTitle';
+import axios from 'axios';
+import ListTableNew from '../components/ListTableNew';
 
-const headers = [
-    'Date',
-    'Site name',
-    'Service name',
-    'Instance name',
-    'Log level',
-    'Log name',
-    'Log detail'
-];
 
 class LogList extends Component {
 
@@ -32,8 +25,51 @@ class LogList extends Component {
             },
             siteOption: [],
             serviceOption: [],
-            logData: {}
+            logData: {},
+            logList: {
+                cellData: [{
+                    id: 0,
+                    data: []
+                }]
+            }
         };
+
+        this.getLogList();
+
+    }
+
+    getLogList = () => {
+        const url = '/api/logs?perPage=10&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
+        let data = {
+            cellData: [{}]
+        };
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((log) => {
+                    let arr = [];
+                    arr.push(
+                        log.occurredDate,
+                        log.siteName,
+                        log.serviceName,
+                        log.instanceName,
+                        log.logLevel,
+                        log.logName,
+                        log.logDetail
+                    );
+                    data.cellData.push({
+                        id: log.id,
+                        data: arr
+                    });
+                });
+                data.cellData.splice(0, 1);
+                this.setState({
+                    logList: data
+                })
+            });
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
@@ -101,7 +137,7 @@ class LogList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleClick = rowValue => {
+    handleOnClick = rowValue => {
         if (rowValue) this.setState({ logDetailModalOpen: true, logData: rowValue });
     }
 
@@ -118,8 +154,19 @@ class LogList extends Component {
             siteOption,
             logDetailModalOpen,
             closeOnEscape,
-            closeOnDimmerClick
+            closeOnDimmerClick,
+            logList
         } = this.state;
+
+        const headers = [
+            'Date',
+            'Site name',
+            'Service name',
+            'Instance name',
+            'Log level',
+            'Log name',
+            'Log detail'
+        ];
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -129,7 +176,7 @@ class LogList extends Component {
                         <Grid.Column>
                             <PageTitle
                                 title='Logs'
-                                description='Autoever DID hub 에서 발생한 모든 log를 보여줍니다.' 
+                                description='Autoever DID hub 에서 발생한 모든 log를 보여줍니다.'
                                 iconName='heartbeat'
                             />
                         </Grid.Column>
@@ -245,10 +292,11 @@ class LogList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <ListTable
-                                handleClick={(rowValue) => this.handleClick(rowValue)}
+                            <ListTableNew
                                 headers={headers}
-                                data={data} />
+                                data={logList}
+                                handleOnClick={(id) => this.handleOnClick(id)}
+                            />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -274,7 +322,7 @@ class LogList extends Component {
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
                                     {logData[4]}
-                            </Grid.Column>
+                                </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                                 <Grid.Column verticalAlign='middle' width={2}>
@@ -290,9 +338,9 @@ class LogList extends Component {
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
                                     <Form>
-                                <TextArea style={{ minHeight: 300, width: '100%' }}
-                                    value={logData[6]} />
-                                </Form>
+                                        <TextArea style={{ minHeight: 300, width: '100%' }}
+                                            value={logData[6]} />
+                                    </Form>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

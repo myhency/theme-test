@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Gallery from '../utils/Gallery';
 
+
 class DetailPageTop extends Component {
     constructor(props) {
         super(props);
@@ -46,12 +47,12 @@ class DetailPageTop extends Component {
                                         return breadcrumb
                                     }
                                     else if (index == headerList.length - 1) { // 마지막
-                                        breadcrumb.push(<Breadcrumb.Section  key={index}>{header.name}</Breadcrumb.Section>)
+                                        breadcrumb.push(<Breadcrumb.Section key={index}>{header.name}</Breadcrumb.Section>)
                                         return breadcrumb
                                     }
                                     else // 중간
                                         breadcrumb.push(<Breadcrumb.Section link onClick={() => header.onClick(header.id)} key={index}>{header.name}</Breadcrumb.Section>)
-                                        breadcrumb.push(<Breadcrumb.Divider icon='right angle' />)
+                                    breadcrumb.push(<Breadcrumb.Divider icon='right angle' />)
 
                                     return breadcrumb
                                 })}
@@ -66,13 +67,23 @@ class DetailPageTop extends Component {
                         console.log(detail)
                         if (detail.description === 'View Logs') {
                             return <Grid.Row>
-                            <Grid.Column verticalAlign='middle' width={2}>
-                                {detail.title}
-                            </Grid.Column>
-                            <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                <Button>{detail.description}</Button>
-                            </Grid.Column>
-                        </Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    {detail.title}
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    <Button>{detail.description}</Button>
+                                </Grid.Column>
+                            </Grid.Row>
+                        }
+                        if (detail.description === 'true' || detail.description === 'false') {
+                            return <Grid.Row>
+                                <Grid.Column verticalAlign='middle' width={2}>
+                                    {detail.title}
+                                </Grid.Column>
+                                <Grid.Column floated='left' verticalAlign='middle' width={8}>
+                                    <img src={Gallery.getLogoImage(detail.description)} />
+                                </Grid.Column>
+                            </Grid.Row>
                         }
                         return <Grid.Row>
                             <Grid.Column verticalAlign='middle' width={2}>

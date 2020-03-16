@@ -90,7 +90,7 @@ const ListTableNew = (props) => {
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='5'>
+                        <Table.HeaderCell colSpan={headers.length}>
                             <Menu floated='right' pagination>
                                 <Menu.Item as='a' icon>
                                     <Icon name='chevron left' />
