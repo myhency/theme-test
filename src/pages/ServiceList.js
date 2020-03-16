@@ -62,7 +62,7 @@ class ServiceList extends Component {
     getServiceList = (searchCondition) => {
         let url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc';
         if (searchCondition)
-            url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc' + searchCondition;
+            url = url + searchCondition;
         let data = {
             cellData: [{
                 id: 0,

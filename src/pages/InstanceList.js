@@ -22,7 +22,10 @@ class InstanceList extends Component {
                     id: 0,
                     data: []
                 }]
-            }
+            },
+            siteName: '',
+            serviceName: '',
+            status: ''
         };
 
         this.getSiteNameList();
@@ -44,7 +47,7 @@ class InstanceList extends Component {
                     siteOption.push({
                         key: site.name,
                         text: site.name,
-                        value: site.name
+                        value: site.id
                     });
                 });
 
@@ -71,7 +74,7 @@ class InstanceList extends Component {
                     serviceOption.push({
                         key: service.name,
                         text: service.name,
-                        value: service.name
+                        value: service.id
                     });
                 });
 
@@ -84,10 +87,15 @@ class InstanceList extends Component {
         }
     }
 
-    getInstanceList = () => {
-        const url = '/api/instances';
+    getInstanceList = (searchCondition) => {
+        let url = '/api/instances?perPage=10&page=1&sort=siteName+asc,serviceName+desc,name+asc,endpoint+desc,status+asc';
+        if (searchCondition)
+            url = url + searchCondition;
         let data = {
-            cellData: [{}]
+            cellData: [{
+                id: 0,
+                data: []
+            }]
         };
 
         try {
@@ -137,8 +145,32 @@ class InstanceList extends Component {
 
     addInstanceModalClose = () => this.setState({ addServiceModalOpen: false });
 
+    onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
+
+    onServiceNameFieldChange = (event, { serviceName, value }) => this.setState({ serviceName: value });
+
+    onStatusFieldChange = (event, { status, value }) => this.setState({ status: value });
+
+    handleOnClearButtonClick = (v, e) => this.setState({ siteName: '', serviceName: '', status: '' });
+
+    handleOnSearchButtonClick = () => {
+        const { siteName, serviceName, status } = this.state;
+        let siteNameSearchCondition = siteName ? 'siteId=' + siteName : '';
+        let serviceNameSearchCondition = serviceName ? 'serviceId=' + serviceName : '';
+        let statusSearchCondition = status ? 'status=' + status : '';
+        let arr = [];
+        arr.push(siteNameSearchCondition, serviceNameSearchCondition, statusSearchCondition)
+        let searchCondition = '';
+        arr.map((value, index) => {
+            if (value === '') return;
+            searchCondition = searchCondition.concat('&' + value);
+        });
+
+        this.getInstanceList(searchCondition);
+    }
+
     render() {
-        const { instanceList, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { siteName, serviceName, status, instanceList, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
         const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
 
         return (
@@ -156,13 +188,15 @@ class InstanceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <Segment>
-                                <Form>
+                                <Form onSubmit={this.handleOnSearchButtonClick}>
                                     <Form.Group widths='equal'>
                                         <Form.Field
                                             control={Select}
                                             label='Site Name'
                                             options={siteOption}
                                             placeholder='Site name'
+                                            value={siteName}
+                                            onChange={this.onSiteNameFieldChange}
                                         />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
@@ -171,6 +205,8 @@ class InstanceList extends Component {
                                             label='Service Name'
                                             options={serviceOption}
                                             placeholder='Service name'
+                                            value={serviceName}
+                                            onChange={this.onServiceNameFieldChange}
                                         />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
@@ -179,10 +215,12 @@ class InstanceList extends Component {
                                             label='Status'
                                             options={InstanceStatusData.status}
                                             placeholder='Status'
+                                            value={status}
+                                            onChange={this.onStatusFieldChange}
                                         />
                                     </Form.Group>
                                     <Button type='submit'>Search</Button>
-                                    <Button type='submit'>Clear</Button>
+                                    <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>

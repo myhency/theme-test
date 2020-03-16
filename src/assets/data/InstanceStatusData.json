@@ -8,12 +8,12 @@
         {
             "key": "OK",
             "text": "OK",
-            "value": "OK"
+            "value": "true"
         },
         {
             "key": "ERROR",
             "text": "ERROR",
-            "value": "ERROR"
+            "value": "false"
         }
     ]
 }
