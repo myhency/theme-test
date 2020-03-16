@@ -1,25 +1,24 @@
 import React from 'react';
 import { Table, Menu, Icon } from 'semantic-ui-react';
-import green from '../assets/images/green.svg';
-import red from '../assets/images/red.svg';
+import Gallery from '../utils/Gallery';
 
-const EmptyColumns = (data) => {
+const EmptyColumns = (props) => {
     let rows = [];
-    let columnLength = data.data.cellData.length > 0 ? data.data.cellData.length : 3;
+    let columnLength = props.data.cellData.length > 0 ? props.data.cellData.length : 3;
 
-    for (let i = columnLength; i < 9; i++) {
+    for (let i = columnLength; i < props.count; i++) {
         rows.push((
             <Table.Row key={i}>
-                <EmptyCells data={data} />
+                <EmptyCells data={props.data} />
             </Table.Row>
         ))
     }
     return rows;
 }
 
-const EmptyCells = (data) => {
+const EmptyCells = (props) => {
     let cells = [];
-    let cellDataLength = data.data.data.cellData[0].length;
+    let cellDataLength = props.data.cellData[0].data.length;
 
     for (let i = 0; i < cellDataLength; i++) {
         cells.push((
@@ -29,10 +28,35 @@ const EmptyCells = (data) => {
     return cells;
 }
 
+const TableFoots = (props) => {
+    if (props.foots)
+        return <Table.Footer>
+            <Table.Row>
+                <Table.HeaderCell colSpan={props.length}>
+                    <Menu floated='right' pagination>
+                        <Menu.Item as='a' icon>
+                            <Icon name='chevron left' />
+                        </Menu.Item>
+                        <Menu.Item as='a'>1</Menu.Item>
+                        <Menu.Item as='a'>2</Menu.Item>
+                        <Menu.Item as='a'>3</Menu.Item>
+                        <Menu.Item as='a'>4</Menu.Item>
+                        <Menu.Item as='a' icon>
+                            <Icon name='chevron right' />
+                        </Menu.Item>
+                    </Menu>
+                </Table.HeaderCell>
+            </Table.Row>
+        </Table.Footer>
+    
+    return <></>
+}
+
 const ListTableNew = (props) => {
-    console.log(props);
     let headers = props.headers;
     let data = props.data;
+    let numberOfRows = props.count;
+    let foots = props.foots;
 
     return (
         <div>
@@ -60,19 +84,12 @@ const ListTableNew = (props) => {
                                 key={rowIndex}
                                 onClick={() => props.handleOnClick(rowValue.id)}>
                                 {rowValue.data.map((cellValue, cellIndex) => {
-                                    if (cellValue === 'true') {
+                                    if (cellValue === 'true' || cellValue === 'false') {
                                         return <Table.Cell
                                             style={{ fontSize: '16px' }}
                                             textAlign='center'
                                             key={cellIndex}>
-                                            <img src={green} />
-                                        </Table.Cell>
-                                    } else if (cellValue === 'false') {
-                                        return <Table.Cell
-                                            style={{ fontSize: '16px' }}
-                                            textAlign='center'
-                                            key={cellIndex}>
-                                            <img src={red} offset="30%"/>
+                                            <img src={Gallery.getLogoImage(cellValue)} />
                                         </Table.Cell>
                                     } else {
                                         return <Table.Cell
@@ -86,26 +103,9 @@ const ListTableNew = (props) => {
                             </Table.Row>
                         );
                     })}
-                    {/* <EmptyColumns data={instanceHealthData} /> */}
+                    <EmptyColumns data={data} count={numberOfRows} />
                 </Table.Body>
-                <Table.Footer>
-                    <Table.Row>
-                        <Table.HeaderCell colSpan={headers.length}>
-                            <Menu floated='right' pagination>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron left' />
-                                </Menu.Item>
-                                <Menu.Item as='a'>1</Menu.Item>
-                                <Menu.Item as='a'>2</Menu.Item>
-                                <Menu.Item as='a'>3</Menu.Item>
-                                <Menu.Item as='a'>4</Menu.Item>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron right' />
-                                </Menu.Item>
-                            </Menu>
-                        </Table.HeaderCell>
-                    </Table.Row>
-                </Table.Footer>
+                <TableFoots foots={foots} length={headers.length} />
             </Table>
         </div>
     )

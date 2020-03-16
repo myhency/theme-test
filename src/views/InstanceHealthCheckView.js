@@ -3,18 +3,20 @@ import { Table, Header, Card, Label } from 'semantic-ui-react';
 import axios from 'axios';
 import green from '../assets/images/green.svg';
 import red from '../assets/images/red.svg';
+import ListTableNew from '../components/ListTableNew';
 
-const headers = ['Instance Name', 'Site Name', 'Status'];
 
 class InstanceHealthCheckView extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            instanceHealthData: [{
-                id: 0,
-                data: []
-            }]
+            instanceHealthData: {
+                cellData: [{
+                    id: 0,
+                    data: []
+                }]
+            }
         };
 
         this.getInstanceHealth();
@@ -22,34 +24,34 @@ class InstanceHealthCheckView extends Component {
 
     getInstanceHealth = () => {
         const url = `/api/instances/health`;
+        let data = {
+            cellData: [{}]
+        };
+
         try {
-            let instanceHealthData = [{
-                id: 0,
-                data: []
-            }];
-            return axios.get(url).then(response => {
-                Array.prototype.forEach.call(response.data.result, value => {
-                    let data = [];
-                    data.push(value.name, value.siteName, value.status.toString());
-                    instanceHealthData.push({
-                        id: value.id,
-                        data
-                    })
+            axios.get(url).then(response => {
+                response.data.result.map((instance) => {
+                    let arr = [];
+                    arr.push(instance.name, instance.siteName, instance.status.toString());
+                    data.cellData.push({
+                        id: instance.id,
+                        data: arr
+                    });
                 });
+                data.cellData.splice(0, 1);
                 this.setState({
-                    instanceHealthData
-                });
+                    instanceHealthData: data
+                })
             });
         } catch (error) {
             console.log(error);
         }
     }
 
-    handleClick = rowValue => {
-        console.log(rowValue.id)
+    handleOnClick = id => {
         this.props.history.push({
-            pathname: `/home/instances/instancedetails/${rowValue.id}`,
-            state: rowValue.id
+            pathname: `/home/instances/instancedetails/${id}`,
+            state: id
         });
     }
 
@@ -64,9 +66,7 @@ class InstanceHealthCheckView extends Component {
 
     render() {
         const { instanceHealthData } = this.state;
-
-        instanceHealthData.splice(0, 1)
-        // console.log(instanceHealthData)
+        const headers = ['Instance Name', 'Site Name', 'Status'];
 
         return (
             <Card style={{ width: '100%' }}>
@@ -76,59 +76,12 @@ class InstanceHealthCheckView extends Component {
                 </Header>
                 <Card.Content>
                     <Card.Description>
-                        <Table selectable celled style={{ height: '100px', overflowY: 'scroll' }}>
-                            <Table.Header>
-                                <Table.Row>
-                                    {headers.map((value, index) => {
-                                        return <Table.HeaderCell
-                                            style={{
-                                                fontSize: '18px',
-                                                backgroundColor: 'Gainsboro'
-                                            }}
-                                            textAlign='center'
-                                            key={index}>
-                                            {value}
-                                        </Table.HeaderCell>
-                                    })}
-                                </Table.Row>
-                            </Table.Header>
-
-                            <Table.Body>
-                                {instanceHealthData.map((rowValue, rowIndex) => {
-                                    return (
-                                        <Table.Row
-                                            key={rowIndex}
-                                            onClick={() => this.handleClick(rowValue)}>
-                                            {rowValue.data.map((cellValue, cellIndex) => {
-                                                if (cellValue === 'true') {
-                                                    return <Table.Cell
-                                                        style={{ fontSize: '16px' }}
-                                                        textAlign='center'
-                                                        key={cellIndex}>
-                                                        <img src={green} />
-                                                    </Table.Cell>
-                                                } else if (cellValue === 'false') {
-                                                    return <Table.Cell
-                                                        style={{ fontSize: '16px' }}
-                                                        textAlign='center'
-                                                        key={cellIndex}>
-                                                        <img src={red}/>
-                                                    </Table.Cell>
-                                                } else {
-                                                    return <Table.Cell
-                                                        style={{ fontSize: '16px' }}
-                                                        textAlign='center'
-                                                        key={cellIndex}>
-                                                        {cellValue}
-                                                    </Table.Cell>
-                                                }
-                                            })}
-                                        </Table.Row>
-                                    );
-                                })}
-                                {/* <EmptyColumns data={instanceHealthData} /> */}
-                            </Table.Body>
-                        </Table>
+                        <ListTableNew
+                            headers={headers}
+                            count={8}
+                            data={instanceHealthData}
+                            handleOnClick={(id) => this.handleOnClick(id)}
+                        />
                     </Card.Description>
                 </Card.Content>
             </Card>

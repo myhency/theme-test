@@ -163,7 +163,9 @@ class ServiceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <ListTableNew
+                                foots
                                 headers={headers}
+                                count={10}
                                 data={serviceList}
                                 handleOnClick={(id) => this.handleOnClick(id)}
                             />

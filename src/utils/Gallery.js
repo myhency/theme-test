@@ -5,7 +5,7 @@ import kmiLogo from '../assets/images/kmi-logo.jpeg';
 import green from '../assets/images/green.svg';
 import red from '../assets/images/red.svg';
 import createReactClass from 'create-react-class';
-import { Redirect } from 'react-router-dom';
+
 
 const Gallery = createReactClass({
     statics: {

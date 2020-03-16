@@ -199,7 +199,9 @@ class InstanceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <ListTableNew
+                                foots
                                 headers={headers}
+                                count={10}
                                 data={instanceList}
                                 handleOnClick={(id) => this.handleOnClick(id)}
                             />
