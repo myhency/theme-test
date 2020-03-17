@@ -43,7 +43,7 @@ const data = [{
     progress: 0,
     status: 'complicated',
     subRows: undefined
-},{
+}, {
     firstName: 'information',
     lastName: 'recess',
     age: 0,
@@ -220,6 +220,7 @@ const ListTable = (props) => {
         // which has only the rows for the active page
 
         // The rest of these things are super handy, too ;)
+        rows,
         canPreviousPage,
         canNextPage,
         pageOptions,
@@ -233,7 +234,7 @@ const ListTable = (props) => {
         {
             columns,
             data,
-            initialState: { pageIndex: 2 },
+            initialState: { pageIndex: 0 },
         },
         usePagination
     )
@@ -267,8 +268,8 @@ const ListTable = (props) => {
                         return (
                             <Table.Row
                                 {...rowValue.getRowProps()}
-                                // key={rowIndex}
-                                // onClick={() => props.handleOnClick(rowValue.id)}
+                                key={rowIndex}
+                                onClick={() => props.handleOnClick(rowValue.id)}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
                                     return (
@@ -284,6 +285,50 @@ const ListTable = (props) => {
                 </Table.Body>
                 {/* <TableFoots foots={foots} length={headers.length} /> */}
             </Table>
+            <div className="pagination">
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    {'<<'}
+                </button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    {'<'}
+                </button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    {'>'}
+                </button>{' '}
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    {'>>'}
+                </button>{' '}
+                <span>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                </span>
+                <span>
+                    | Go to page:{' '}
+                    <input
+                        type="number"
+                        defaultValue={pageIndex + 1}
+                        onChange={e => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0
+                            gotoPage(page)
+                        }}
+                        style={{ width: '100px' }}
+                    />
+                </span>{' '}
+                <select
+                    value={pageSize}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[2, 4, 8].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     )
 };
