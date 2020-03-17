@@ -1,7 +1,14 @@
 import React from 'react';
-import { Table, Menu, Icon } from 'semantic-ui-react';
-import Gallery from '../utils/Gallery';
+import { Table, Menu, Icon, Label, Input, Select } from 'semantic-ui-react';
 import { useTable, usePagination } from 'react-table';
+import styled from 'styled-components';
+
+const Styles = styled.div`
+    .tablefootermenuitem {
+        padding-top: 0.2em!important;
+        padding-bottom: 0.2em!important;
+    }
+`
 
 const data = [{
     firstName: 'information',
@@ -207,20 +214,14 @@ const TableFoots = (props) => {
 }
 
 const ListTable = (props) => {
-    let headers = props.headers;
-    // let data = props.data;
-    let numberOfRows = props.count;
-    let foots = props.foots;
     const {
         getTableProps,
         getTableBodyProps,
-        headerGroups,
         prepareRow,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
 
         // The rest of these things are super handy, too ;)
-        rows,
         canPreviousPage,
         canNextPage,
         pageOptions,
@@ -239,21 +240,24 @@ const ListTable = (props) => {
         usePagination
     )
 
-    console.log(data)
+    const showPageOptions = [
+        { key: '2', value: '2', text: 'Show 2 Rows' },
+        { key: '4', value: '4', text: 'Show 4 Rows' },
+        { key: '8', value: '8', text: 'Show 8 Rows' }
+    ]
 
     return (
-        <div>
+        <Styles>
             <Table celled {...getTableProps()}>
                 <Table.Header>
                     <Table.Row>
                         {columns.map((value, index) => {
                             return <Table.HeaderCell
-                                // {...value.getHeaderProps()}
                                 style={{
                                     fontSize: '18px',
                                     backgroundColor: 'Gainsboro'
                                 }}
-                                textAlign='center'
+                                textAlign='left'
                                 key={index}>
                                 {value.Header}
                             </Table.HeaderCell>
@@ -264,7 +268,6 @@ const ListTable = (props) => {
                 <Table.Body {...getTableBodyProps()}>
                     {page.map((rowValue, rowIndex) => {
                         prepareRow(rowValue)
-                        console.log(prepareRow(rowValue))
                         return (
                             <Table.Row
                                 {...rowValue.getRowProps()}
@@ -284,52 +287,86 @@ const ListTable = (props) => {
                     {/* <EmptyColumns data={data} count={numberOfRows} /> */}
                 </Table.Body>
                 {/* <TableFoots foots={foots} length={headers.length} /> */}
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan={columns.length}>
+                            <Menu floated='right' pagination>
+                                <Menu.Item
+                                    as='a'
+                                    icon
+                                    onClick={() => gotoPage(0)} disabled={!canPreviousPage}
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Icon name='angle double left' />
+                                </Menu.Item>
+                                <Menu.Item
+                                    as='a'
+                                    icon
+                                    onClick={() => previousPage()} disabled={!canPreviousPage}
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Icon name='angle left' />
+                                </Menu.Item>
+                                <Menu.Item
+                                    as='a'
+                                    icon
+                                    onClick={() => nextPage()} disabled={!canNextPage}
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Icon name='angle right' />
+                                </Menu.Item>
+                                <Menu.Item
+                                    as='a'
+                                    icon
+                                    onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Icon name='angle double right' />
+                                </Menu.Item>
+                                <Menu.Item
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    Page {pageIndex + 1} of {pageOptions.length}
+                                </Menu.Item>
+                                <Menu.Item
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    Go to page
+                                </Menu.Item>
+                                <Menu.Item
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Input
+                                        placeholder='Go to page'
+                                        type='number'
+                                        defaultValue={pageIndex + 1}
+                                        onChange={(e, v) => {
+                                            const page = v.value ? Number(v.value) - 1 : 0
+                                            gotoPage(page)
+                                        }} />
+                                </Menu.Item>
+                                <Menu.Item
+                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
+                                    className='tablefootermenuitem'
+                                >
+                                    <Select placeholder='Select Rows to Show' options={showPageOptions}
+                                        onChange={(e, v) => {
+                                            setPageSize(Number(v.value))
+                                        }} />
+                                </Menu.Item>
+                            </Menu>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
             </Table>
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                    <input
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            gotoPage(page)
-                        }}
-                        style={{ width: '100px' }}
-                    />
-                </span>{' '}
-                <select
-                    value={pageSize}
-                    onChange={e => {
-                        setPageSize(Number(e.target.value))
-                    }}
-                >
-                    {[2, 4, 8].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-            </div>
-        </div>
+        </Styles>
     )
 };
 
