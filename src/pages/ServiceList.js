@@ -6,6 +6,7 @@ import RoleData from '../assets/data/RoleData.json';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import ListTableNew from '../components/ListTableNew';
+import { format } from 'date-fns';
 
 class ServiceList extends Component {
     constructor(props) {
@@ -91,19 +92,11 @@ class ServiceList extends Component {
     }
 
     onBeginDateFieldChange = (event, { beginDate, value }) => {
-        const formattedDate = new Date(value)
-        beginDate = formattedDate.getFullYear() + '-'
-            + (parseInt(formattedDate.getMonth()) < 10 ? '0' + (formattedDate.getMonth() + 1) : (formattedDate.getMonth() + 1)) + '-'
-            + (parseInt(formattedDate.getDate()) < 10 ? '0' + formattedDate.getDate() : formattedDate.getDate());
-        this.setState({ beginDate });
+        this.setState({ beginDate: value });
     }
 
     onEndDateFieldChange = (event, { endDate, value }) => {
-        const formattedDate = new Date(value)
-        endDate = formattedDate.getFullYear() + '-'
-            + (parseInt(formattedDate.getMonth()) < 10 ? '0' + (formattedDate.getMonth() + 1) : (formattedDate.getMonth() + 1)) + '-'
-            + (parseInt(formattedDate.getDate()) < 10 ? '0' + formattedDate.getDate() : formattedDate.getDate());
-        this.setState({ endDate });
+        this.setState({ endDate: value });
     }
 
     onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
@@ -115,8 +108,8 @@ class ServiceList extends Component {
     handleOnSearchButtonClick = () => {
         const { siteName, beginDate, endDate, role } = this.state;
         let siteNameSearchCondition = siteName ? 'siteId=' + siteName : '';
-        let beginDateSearchCondition = beginDate ? 'openDateStart=' + beginDate : '';
-        let endDateSearchCondition = endDate ? 'openDateEnd=' + endDate : '';
+        let beginDateSearchCondition = beginDate ? 'openDateStart=' + format(new Date(beginDate), 'yyyy-MM-dd') : '';
+        let endDateSearchCondition = endDate ? 'openDateEnd=' + format(new Date(endDate), 'yyyy-MM-dd') : '';
         let roleSearchCondition = role ? 'role=' + role : '';
         let arr = [];
         arr.push(siteNameSearchCondition, beginDateSearchCondition, endDateSearchCondition, roleSearchCondition)

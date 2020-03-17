@@ -1,0 +1,19 @@
+{
+    "levels": [
+        {
+            "key": "All",
+            "text": "전체",
+            "value": "All"
+        },
+        {
+            "key": "INFO",
+            "text": "INFO",
+            "value": "INFO"
+        },
+        {
+            "key": "ERROR",
+            "text": "ERROR",
+            "value": "ERROR"
+        }
+    ]
+}

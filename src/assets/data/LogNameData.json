@@ -1,0 +1,49 @@
+{
+    "names": [
+        {
+            "key": "All",
+            "text": "전체",
+            "value": "All"
+        },
+        {
+            "key": "API_CALL_INFO",
+            "text": "API_CALL_INFO",
+            "value": "API_CALL_INFO"
+        },
+        {
+            "key": "CREDENTIAL_ISSUANCE_INFO",
+            "text": "CREDENTIAL_ISSUANCE_INFO",
+            "value": "CREDENTIAL_ISSUANCE_INFO"
+        },
+        {
+            "key": "CREDENTIAL_REVOCATION_INFO",
+            "text": "CREDENTIAL_REVOCATION_INFO",
+            "value": "CREDENTIAL_REVOCATION_INFO"
+        },
+        {
+            "key": "CREDENTIAL_VERIFICATION_INFO",
+            "text": "CREDENTIAL_VERIFICATION_INFO",
+            "value": "CREDENTIAL_VERIFICATION_INFO"
+        },
+        {
+            "key": "INTERNAL_ERROR",
+            "text": "INTERNAL_ERROR",
+            "value": "INTERNAL_ERROR"
+        },
+        {
+            "key": "LEGACY_ERROR",
+            "text": "LEGACY_ERROR",
+            "value": "LEGACY_ERROR"
+        },
+        {
+            "key": "LEDGER_ERROR",
+            "text": "LEDGER_ERROR",
+            "value": "LEDGER_ERROR"
+        },
+        {
+            "key": "NEW_PAIRWISEDID_INFO",
+            "text": "NEW_PAIRWISEDID_INFO",
+            "value": "NEW_PAIRWISEDID_INFO"
+        }
+    ]
+}

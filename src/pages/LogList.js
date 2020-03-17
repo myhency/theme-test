@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, TextArea, Select, Divider } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import SiteData from '../assets/data/SiteData.json';
-import ServiceData from '../assets/data/ServiceData.json';
-import LogData from '../assets/data/LogData.json';
+import { DateTimeInput } from 'semantic-ui-calendar-react';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import ListTableNew from '../components/ListTableNew';
+import LogLevelData from '../assets/data/LogLevelData.json';
+import LogNameData from '../assets/data/LogNameData.json';
+import { format } from 'date-fns';
 
 
 class LogList extends Component {
@@ -24,21 +25,37 @@ class LogList extends Component {
             },
             siteOption: [],
             serviceOption: [],
+            instanceOption: [],
+            logLevelOption: [],
             logData: {},
             logList: {
                 cellData: [{
                     id: 0,
                     data: []
                 }]
-            }
+            },
+            occurredStartDate: '',
+            occurredEndDate: '',
+            siteName: '',
+            serviceName: '',
+            instanceName: '',
+            logLevel: '',
+            logName: '',
+            logDetail: ''
         };
 
         this.getLogList();
-
+        this.getSiteNameList();
+        this.getServiceNameList();
+        this.getInstanceNameList();
     }
 
-    getLogList = () => {
-        const url = '/api/logs?perPage=10&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
+    getLogList = (searchCondition) => {
+        let url = '/api/logs?perPage=10&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
+
+        if (searchCondition)
+            url = url + searchCondition;
+
         let data = {
             cellData: [{}]
         };
@@ -72,59 +89,171 @@ class LogList extends Component {
 
     }
 
-    static getDerivedStateFromProps(props, state) {
-        console.log(state.logData);
+    onOccurredStartDateFieldChange = (event, { occurredStartDate, value }) => this.setState({ occurredStartDate: value });
 
-        let { data, siteOption, serviceOption } = state;
+    onOccurredEndDateFieldChange = (event, { occurredEndDate, value }) => this.setState({ occurredEndDate: value });
 
-        // set log list table data
-        data.cellData.splice(0, data.cellData.length);
-        Array.prototype.forEach.call(LogData.logList, value => {
-            let arr = [];
-            arr.push(
-                value.date,
-                value.siteName,
-                value.serviceName,
-                value.instanceName,
-                value.level,
-                value.name,
-                value.logDetail
-            );
-            data.cellData.push(arr);
+    onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
+
+    onServiceNameFieldChange = (event, { serviceName, value }) => this.setState({ serviceName: value });
+
+    onInstanceNameFieldChange = (event, { instanceName, value }) => this.setState({ instanceName: value });
+
+    onLogLevelFieldChange = (event, { logLevel, value }) => this.setState({ logLevel: value });
+
+    onLogNameFieldChange = (event, { logName, value }) => this.setState({ logName: value });
+
+    onLogDetailFieldChange = (event, { logDetail, value }) => this.setState({ logDetail: value });
+
+    handleOnClearButtonClick = (v, e) => this.setState({
+        occurredStartDate: '',
+        occurredEndDate: '',
+        siteName: '',
+        serviceName: '',
+        instanceName: '',
+        logLevel: '',
+        logName: '',
+        logDetail: ''
+    });
+
+    handleOnSearchButtonClick = () => {
+        const {
+            occurredStartDate,
+            occurredEndDate,
+            siteName,
+            serviceName,
+            instanceName,
+            logLevel,
+            logName,
+            logDetail } = this.state;
+
+        let siteNameSearchCondition = !siteName ? '' : siteName === 'All' ? '' : 'siteId=' + siteName;
+        let serviceNameSearchCondition = !serviceName ? '' : serviceName === 'All' ? '' : 'serviceId=' + serviceName;
+        let instanceNameSearchCondition = !instanceName ? '' : instanceName === 'All' ? '' : 'instanceId=' + instanceName;
+        let occurredStartDateSearchCondition = occurredStartDate ? 'occurredDateStart=' + format(new Date(occurredStartDate), 'yyyy-MM-dd+HH:mm') : '';
+        let occurredEndDateSearchCondition = occurredEndDate ? 'occurredDateEnd=' + format(new Date(occurredEndDate), 'yyyy-MM-dd+HH:mm') : '';
+        let logLevelSearchCondition = !logLevel ? '' : logLevel === 'All' ? '' : 'logLevel=' + logLevel;
+        let logNameSearchCondition = !logName ? '' : logName === 'All' ? '' : 'logName=' + logName;
+        let logDetailSearchCondition = !logDetail ? '' : logDetail === 'All' ? '' : 'logDetail=' + logDetail;
+
+        let arr = [];
+        arr.push(
+            siteNameSearchCondition,
+            serviceNameSearchCondition,
+            instanceNameSearchCondition,
+            occurredStartDateSearchCondition,
+            occurredEndDateSearchCondition,
+            logLevelSearchCondition,
+            logNameSearchCondition,
+            logDetailSearchCondition
+        )
+        let searchCondition = '';
+        arr.map((value, index) => {
+            if (value === '') return;
+            searchCondition = searchCondition.concat('&' + value);
         });
 
-        // set site name search condition
-        siteOption.splice(0, siteOption.length);
-        Array.prototype.forEach.call(SiteData.siteList, value => {
-            siteOption.push({
-                key: value.name,
-                text: value.name,
-                value: value.name
-            });
+        this.getLogList(searchCondition);
+    }
+
+    handleOnFixedRangeButtonClick = (range) => {
+        let now = format(new Date(), 'yyyy-MM-dd+HH:mm');
+        let beforeXmins = format(new Date().setMinutes(new Date().getMinutes() - range), 'yyyy-MM-dd+HH:mm');
+        let occurredStartDateSearchCondition = 'occurredDateStart=' + beforeXmins;
+        let occurredEndDateSearchCondition = 'occurredDateEnd=' + now;
+        let arr = [];
+
+        arr.push(
+            occurredStartDateSearchCondition,
+            occurredEndDateSearchCondition
+        )
+        let searchCondition = '';
+        arr.map((value, index) => {
+            if (value === '') return;
+            searchCondition = searchCondition.concat('&' + value);
         });
-        siteOption.unshift({
+
+        this.getLogList(searchCondition);
+    }
+
+    getSiteNameList = () => {
+        const url = '/api/sites';
+        let siteOption = [{
             key: 'All',
-            text: 'All',
+            text: '전체',
             value: 'All'
-        });
+        }];
 
-        // set service name search condition
-        serviceOption.splice(0, serviceOption.length);
-        Array.prototype.forEach.call(ServiceData.serviceList, value => {
-            serviceOption.push({
-                key: value.name,
-                text: value.name,
-                value: value.name
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((site) => {
+                    siteOption.push({
+                        key: site.name,
+                        text: site.name,
+                        value: site.id
+                    });
+                });
+
+                this.setState({
+                    siteOption
+                })
             });
-        });
-        serviceOption.unshift({
-            key: 'All',
-            text: 'All',
-            value: 'All'
-        })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-        return {
-            ...data, ...siteOption, ...serviceOption
+    getServiceNameList = () => {
+        const url = '/api/services';
+        let serviceOption = [{
+            key: 'All',
+            text: '전체',
+            value: 'All'
+        }];
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((service) => {
+                    serviceOption.push({
+                        key: service.name,
+                        text: service.name,
+                        value: service.id
+                    });
+                });
+
+                this.setState({
+                    serviceOption
+                })
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getInstanceNameList = () => {
+        const url = '/api/instances';
+        let instanceOption = [{
+            key: 'All',
+            text: '전체',
+            value: 'All'
+        }];
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((instance) => {
+                    instanceOption.push({
+                        key: instance.name,
+                        text: instance.name,
+                        value: instance.id
+                    });
+                });
+
+                this.setState({
+                    instanceOption
+                })
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -140,9 +269,9 @@ class LogList extends Component {
         const url = `/api/logs/${id}`;
         try {
             axios.get(url).then(response => {
-                this.setState({ 
-                    logDetailModalOpen: true, 
-                    logData: response.data.result 
+                this.setState({
+                    logDetailModalOpen: true,
+                    logData: response.data.result
                 });
             })
         } catch (error) {
@@ -160,10 +289,20 @@ class LogList extends Component {
         const {
             logData,
             siteOption,
+            serviceOption,
+            instanceOption,
             logDetailModalOpen,
             closeOnEscape,
             closeOnDimmerClick,
-            logList
+            logList,
+            occurredStartDate,
+            occurredEndDate,
+            siteName,
+            serviceName,
+            instanceName,
+            logLevel,
+            logName,
+            logDetail
         } = this.state;
 
         const headers = [
@@ -191,102 +330,90 @@ class LogList extends Component {
                     </Grid.Row>
                     {/* Search Area */}
                     <Grid.Row>
-                        <Grid.Column>
+                        <Grid.Column verticalAlign='bottom'>
                             <Segment>
                                 <Form>
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column width={4} verticalAlign='bottom'>
-                                                <Form.Group widths='equal'>
-                                                    <SemanticDatepicker
-                                                        label='Start date'
-                                                        datePickerOnly={true}
-                                                        onChange={this.onChange} />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                            <Grid.Column width={4} verticalAlign='bottom'>
-                                                <Form.Group widths='equal'>
-                                                    <SemanticDatepicker
-                                                        label='End date'
-                                                        datePickerOnly={true}
-                                                        onChange={this.onChange} />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                            <Grid.Column width={2} verticalAlign='medium' style={{ paddingTop: '24px' }}>
-                                                <Button type='submit'>Last 60 min</Button>
-                                            </Grid.Column>
-                                            <Grid.Column width={2} verticalAlign='medium' style={{ paddingTop: '24px' }}>
-                                                <Button type='submit'>Last 1 day</Button>
-                                            </Grid.Column>
-                                            <Grid.Column width={2} verticalAlign='medium' style={{ paddingTop: '24px' }}>
-                                                <Button type='submit'>Last 1 week</Button>
-                                            </Grid.Column>
-                                            <Grid.Column width={2} verticalAlign='medium' style={{ paddingTop: '24px' }}>
-                                                <Button type='submit'>Last 1 month</Button>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                        <Grid.Row>
-                                            <Grid.Column width={4}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        control={Select}
-                                                        label='Site Name'
-                                                        options={siteOption}
-                                                        placeholder='Site name'
-                                                    />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                            <Grid.Column width={6}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        control={Select}
-                                                        label='Service Name'
-                                                        options={siteOption}
-                                                        placeholder='Service name'
-                                                    />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                            <Grid.Column width={6}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        control={Select}
-                                                        label='Instance Name'
-                                                        options={siteOption}
-                                                        placeholder='Instance name'
-                                                    />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                        <Grid.Row>
-                                            <Grid.Column width={4}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        control={Select}
-                                                        label='Log Level'
-                                                        options={siteOption}
-                                                        placeholder='Log Level'
-                                                    />
-                                                </Form.Group>
-                                                <Button type='submit'>Search</Button>
-                                                <Button type='submit'>Clear</Button>
-                                            </Grid.Column>
-                                            <Grid.Column width={6}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Field
-                                                        control={Select}
-                                                        label='Log Name'
-                                                        options={siteOption}
-                                                        placeholder='Log Name'
-                                                    />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                            <Grid.Column width={6}>
-                                                <Form.Group widths='equal'>
-                                                    <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
-                                                </Form.Group>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
+                                    <Form.Group widths='equal'>
+                                        <DateTimeInput
+                                            label='Start date'
+                                            dateTimeFormat='YYYY-MM-DD HH:mm'
+                                            name="Startdate"
+                                            placeholder="YYYY-MM-DD HH:mm"
+                                            value={occurredStartDate}
+                                            iconPosition="right"
+                                            onChange={this.onOccurredStartDateFieldChange}
+                                        />
+                                        <DateTimeInput
+                                            label='End date'
+                                            dateTimeFormat='YYYY-MM-DD HH:mm'
+                                            name="Enddate"
+                                            placeholder="YYYY-MM-DD HH:mm"
+                                            value={occurredEndDate}
+                                            iconPosition="right"
+                                            onChange={this.onOccurredEndDateFieldChange}
+                                        />
+                                        <div style={{ paddingTop: '23px', width: '100%' }}>
+                                            <Button.Group widths='4' size='small' compact style={{ height: '38px' }}>
+                                                <Button onClick={() => this.handleOnFixedRangeButtonClick(60)}>60 min</Button>
+                                                <Button onClick={() => this.handleOnFixedRangeButtonClick(1440)}>1 day</Button>
+                                                <Button onClick={() => this.handleOnFixedRangeButtonClick(10080)}>1 week</Button>
+                                                <Button onClick={() => this.handleOnFixedRangeButtonClick(43200)}>1 month</Button>
+                                            </Button.Group>
+                                        </div>
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            control={Select}
+                                            label='Site Name'
+                                            options={siteOption}
+                                            placeholder='Site name'
+                                            onChange={this.onSiteNameFieldChange}
+                                            value={siteName}
+                                        />
+                                        <Form.Field
+                                            control={Select}
+                                            label='Service Name'
+                                            options={serviceOption}
+                                            placeholder='Service name'
+                                            onChange={this.onServiceNameFieldChange}
+                                            value={serviceName}
+                                        />
+                                        <Form.Field
+                                            control={Select}
+                                            label='Instance Name'
+                                            options={instanceOption}
+                                            placeholder='Instance name'
+                                            onChange={this.onInstanceNameFieldChange}
+                                            value={instanceName}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <Form.Field
+                                            control={Select}
+                                            label='Log Level'
+                                            options={LogLevelData.levels}
+                                            placeholder='Log Level'
+                                            onChange={this.onLogLevelFieldChange}
+                                            value={logLevel}
+                                        />
+                                        <Form.Field
+                                            control={Select}
+                                            label='Log Name'
+                                            options={LogNameData.names}
+                                            placeholder='Log Name'
+                                            onChange={this.onLogNameFieldChange}
+                                            value={logName}
+                                        />
+                                        <Form.Input
+                                            fluid
+                                            label='Log Detail'
+                                            placeholder='details'
+                                            onChange={this.onLogDetailFieldChange}
+                                            value={logDetail}
+                                        />
+                                    </Form.Group>
+                                    <Button onClick={this.handleOnSearchButtonClick}>Search</Button>
+                                    <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>
