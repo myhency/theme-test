@@ -6,14 +6,15 @@ import ServiceDetails from "../../pages/ServiceDetails";
 import InstanceList from "../../pages/InstanceList";
 import InstanceDetails from "../../pages/InstanceDetails";
 import LogList from "../../pages/LogList";
+import ListTable from "../../components/ListTable";
 
 const contextPath = '/home/';
 
 const mainRoutes = [
     {
-        path: contextPath + 'overview',
+        path: contextPath,
         name: 'Home',
-        component: Overview,
+        component: ListTable,
         topMenu: false
     },
     {
