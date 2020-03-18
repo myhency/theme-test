@@ -32,7 +32,7 @@ class LogList extends Component {
             logLevel: '',
             logName: '',
             logDetail: '',
-            listTableData: [{}]
+            listTableData: []
         };
 
         // this.getLogList();
@@ -123,7 +123,7 @@ class LogList extends Component {
             console.log(error);
         }
 
-    }
+    };
 
     onOccurredStartDateFieldChange = (event, { occurredStartDate, value }) => this.setState({ occurredStartDate: value });
 
@@ -345,28 +345,14 @@ class LogList extends Component {
             url = url.concat(sortCondition);
         }
         console.log(url)
-        
-        let listTableData = [{}];
 
         try {
             axios.get(url).then(response => {
-                response.data.result.map((log) => {
-                    listTableData.push({
-                        id: log.id,
-                        occurredDate: log.occurredDate,
-                        siteName: log.siteName,
-                        serviceName: log.serviceName,
-                        instanceName: log.instanceName,
-                        logLevel: log.logLevel,
-                        logName: log.logName,
-                        logDetail: log.logDetail
-                    });
+                console.log(response.data);
+                this.setState({
+                    listTableData: response.data.result,
+                    pageCount: response.data.totalPage
                 });
-                listTableData.splice(0, 1);
-                // this.setState({
-                //     listTableData,
-                // })
-                return listTableData;
             });
         } catch (error) {
             console.log(error);
@@ -380,6 +366,7 @@ class LogList extends Component {
     render() {
         const {
             listTableData,
+            pageCount,
             logData,
             siteOption,
             serviceOption,
@@ -548,10 +535,11 @@ class LogList extends Component {
                             <ListTable
                                 link={6}
                                 columns={columns}
-                                // data={listTableData}
+                                data={listTableData}
                                 count={10}
                                 onClick={(cellValue) => this.handleOccuredDateClick(cellValue)}
                                 onFetchData={this.onFetchData}
+                                pageCount={pageCount}
                             />
                         </Grid.Column>
                     </Grid.Row>
