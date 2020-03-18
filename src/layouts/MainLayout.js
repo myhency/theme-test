@@ -60,7 +60,6 @@ const MainLayout = () => (
                     if (route.subRoutes) {
                         let subRoutes = [];
                         route.subRoutes.map((subRoute, subKey) => {
-                            console.log(subRoute.path);
                             subRoutes.push(
                                 <Route
                                     path={subRoute.path}

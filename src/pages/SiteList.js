@@ -27,8 +27,6 @@ class SiteList extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.state = {
             currentDate: null,
             open: false,
@@ -56,7 +54,6 @@ class SiteList extends Component {
     getSites = (url) => {
         try {
             return axios.get(url).then(response => {
-                console.log(response);
                 this.setState({
                     siteList: response.data.result,
                     totalCount: response.data.result.length
@@ -87,7 +84,6 @@ class SiteList extends Component {
     }
 
     handleModifySiteMenuItem = (v, e) => {
-        console.log(v);
         if (e) this.setState({ modifySiteModalOpen: true, modifiedCard: { ...v } });
     }
 

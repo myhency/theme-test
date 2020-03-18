@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Button, Form, Segment, Header, Modal, Grid, Icon, TextArea, Select, Divider } from 'semantic-ui-react';
-import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import ListTableNew from '../components/ListTableNew';
 import LogLevelData from '../assets/data/LogLevelData.json';
 import LogNameData from '../assets/data/LogNameData.json';
 import { format } from 'date-fns';
+import ListTable from '../components/ListTable';
 
 
 class LogList extends Component {
@@ -20,20 +19,11 @@ class LogList extends Component {
             open: false,
             totalCount: 4,
             logDetailModalOpen: false,
-            data: {
-                cellData: []
-            },
             siteOption: [],
             serviceOption: [],
             instanceOption: [],
             logLevelOption: [],
             logData: {},
-            logList: {
-                cellData: [{
-                    id: 0,
-                    data: []
-                }]
-            },
             occurredStartDate: '',
             occurredEndDate: '',
             siteName: '',
@@ -41,7 +31,8 @@ class LogList extends Component {
             instanceName: '',
             logLevel: '',
             logName: '',
-            logDetail: ''
+            logDetail: '',
+            listTableData: [{}]
         };
 
         this.getLogList();
@@ -56,31 +47,25 @@ class LogList extends Component {
         if (searchCondition)
             url = url + searchCondition;
 
-        let data = {
-            cellData: [{}]
-        };
+        let listTableData = [{}];
 
         try {
             axios.get(url).then(response => {
                 response.data.result.map((log) => {
-                    let arr = [];
-                    arr.push(
-                        log.occurredDate,
-                        log.siteName,
-                        log.serviceName,
-                        log.instanceName,
-                        log.logLevel,
-                        log.logName,
-                        log.logDetail
-                    );
-                    data.cellData.push({
+                    listTableData.push({
                         id: log.id,
-                        data: arr
+                        occurredDate: log.occurredDate,
+                        siteName: log.siteName,
+                        serviceName: log.serviceName,
+                        instanceName: log.instanceName,
+                        logLevel: log.logLevel,
+                        logName: log.logName,
+                        logDetail: log.logDetail
                     });
                 });
-                data.cellData.splice(0, 1);
+                listTableData.splice(0, 1);
                 this.setState({
-                    logList: data
+                    listTableData,
                 })
             });
         } catch (error) {
@@ -265,7 +250,8 @@ class LogList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleOnClick = id => {
+    handleOccuredDateClick = (cellValue) => {
+        const id = cellValue.row.values.id;
         const url = `/api/logs/${id}`;
         try {
             axios.get(url).then(response => {
@@ -287,6 +273,7 @@ class LogList extends Component {
 
     render() {
         const {
+            listTableData,
             logData,
             siteOption,
             serviceOption,
@@ -294,7 +281,6 @@ class LogList extends Component {
             logDetailModalOpen,
             closeOnEscape,
             closeOnDimmerClick,
-            logList,
             occurredStartDate,
             occurredEndDate,
             siteName,
@@ -305,15 +291,41 @@ class LogList extends Component {
             logDetail
         } = this.state;
 
-        const headers = [
-            'Date',
-            'Site name',
-            'Service name',
-            'Instance name',
-            'Log level',
-            'Log name',
-            'Log detail'
-        ];
+        const columns = [
+            {
+                Header: 'Id',
+                accessor: 'id',
+                show: false
+            },
+            {
+                Header: 'Date',
+                accessor: 'occurredDate'
+            },
+            {
+                Header: 'Site name',
+                accessor: 'siteName',
+            },
+            {
+                Header: 'Service name',
+                accessor: 'serviceName'
+            },
+            {
+                Header: 'Instance name',
+                accessor: 'instanceName'
+            },
+            {
+                Header: 'Log level',
+                accessor: 'logLevel'
+            },
+            {
+                Header: 'Log name',
+                accessor: 'logName'
+            },
+            {
+                Header: 'Log detail',
+                accessor: 'logDetail'
+            }
+        ]
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -427,12 +439,12 @@ class LogList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <ListTableNew
-                                foots
-                                headers={headers}
+                            <ListTable
+                                link={6}
+                                columns={columns}
+                                data={listTableData}
                                 count={10}
-                                data={logList}
-                                handleOnClick={(id) => this.handleOnClick(id)}
+                                onClick={(cellValue) => this.handleOccuredDateClick(cellValue)}
                             />
                         </Grid.Column>
                     </Grid.Row>

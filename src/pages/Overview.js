@@ -8,7 +8,6 @@ import SiteCountingView from '../views/SiteCountingView';
 import ServiiceCountingView from '../views/ServiceCountingView';
 
 const Overview = (props) => {
-    console.log(props);
 
     return (
         <Grid>

@@ -29,7 +29,6 @@ class InstanceDetails extends Component {
 
         try {
             return axios.get(url).then(response => {
-                console.log(response);
                 this.setState({
                     instance: {
                         siteName: response.data.result.siteName,

@@ -5,7 +5,7 @@ import RoleData from '../assets/data/RoleData.json';
 import InstanceStatusData from '../assets/data/InstanceStatusData.json';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import ListTableNew from '../components/ListTableNew';
+import ListTable from '../components/ListTable';
 
 class InstanceList extends Component {
     constructor(props) {
@@ -17,15 +17,10 @@ class InstanceList extends Component {
             addServiceModalOpen: false,
             siteOption: [],
             serviceOption: [],
-            instanceList: {
-                cellData: [{
-                    id: 0,
-                    data: []
-                }]
-            },
             siteName: '',
             serviceName: '',
-            status: ''
+            status: '',
+            listTableData: [{}]
         };
 
         this.getSiteNameList();
@@ -91,32 +86,24 @@ class InstanceList extends Component {
         let url = '/api/instances?perPage=10&page=1&sort=siteName+asc,serviceName+desc,name+asc,endpoint+desc,status+asc';
         if (searchCondition)
             url = url + searchCondition;
-        let data = {
-            cellData: [{
-                id: 0,
-                data: []
-            }]
-        };
+
+        let listTableData = [{}];
 
         try {
             axios.get(url).then(response => {
                 response.data.result.map((instance) => {
-                    let arr = [];
-                    arr.push(
-                        instance.siteName,
-                        instance.serviceName,
-                        instance.name,
-                        instance.endpoint,
-                        instance.status.toString()
-                    );
-                    data.cellData.push({
+                    listTableData.push({
                         id: instance.id,
-                        data: arr
+                        name: instance.name,
+                        siteName: instance.siteName,
+                        serviceName: instance.serviceName,
+                        endpoint: instance.endpoint,
+                        status: instance.status.toString()
                     });
                 });
-                data.cellData.splice(0, 1);
+                listTableData.splice(0, 1);
                 this.setState({
-                    instanceList: data
+                    listTableData
                 })
             });
         } catch (error) {
@@ -131,13 +118,6 @@ class InstanceList extends Component {
     }
 
     close = () => this.setState({ open: false });
-
-    handleOnClick = id => {
-        this.props.history.push({
-            pathname: `/home/instances/instancedetails/${id}`,
-            state: id
-        });
-    }
 
     handleAddServiceButton = (v, e) => {
         if (e) this.setState({ addServiceModalOpen: true });
@@ -169,9 +149,43 @@ class InstanceList extends Component {
         this.getInstanceList(searchCondition);
     }
 
+    handleInstanceNameClick = (cellValue) => {
+        const id = cellValue.row.values.id;
+        this.props.history.push({
+            pathname: `/home/instances/instancedetails/${id}`,
+            state: id
+        });
+    }
+
     render() {
-        const { siteName, serviceName, status, instanceList, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
-        const headers = ['Site name', 'Service name', 'Instance name', 'Endpoint', 'Status'];
+        const { listTableData, siteName, serviceName, status, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const columns = [
+            {
+                Header: 'Id',
+                accessor: 'id',
+                show: false
+            },
+            {
+                Header: 'Instance name',
+                accessor: 'name'
+            },
+            {
+                Header: 'Site name',
+                accessor: 'siteName',
+            },
+            {
+                Header: 'Service name',
+                accessor: 'serviceName'
+            },
+            {
+                Header: 'Endpoint',
+                accessor: 'endpoint'
+            },
+            {
+                Header: 'Status',
+                accessor: 'status'
+            },
+        ]
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -236,12 +250,12 @@ class InstanceList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <ListTableNew
-                                foots
-                                headers={headers}
+                            <ListTable
+                                link={0}
+                                columns={columns}
+                                data={listTableData}
                                 count={10}
-                                data={instanceList}
-                                handleOnClick={(id) => this.handleOnClick(id)}
+                                onClick={(cellValue) => this.handleInstanceNameClick(cellValue)}
                             />
                         </Grid.Column>
                     </Grid.Row>

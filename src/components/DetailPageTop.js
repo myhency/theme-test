@@ -15,7 +15,6 @@ class DetailPageTop extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
         // this.state = {
         //     // headerList: ['siteName', 'serviceName', 'instanceName']
         //     // detailList: [{
@@ -39,8 +38,6 @@ class DetailPageTop extends Component {
                         <Grid.Column floated='left' verticalAlign='middle' width={14}>
                             <Breadcrumb size='massive'>
                                 {headerList.map((header, index) => {
-                                    console.log(headerList);
-                                    console.log(index)
                                     let breadcrumb = [];
                                     if (headerList.length == 1) {// 하나밖에 없을 때
                                         breadcrumb.push(<Breadcrumb.Section key={index}>{header.name}</Breadcrumb.Section>)
@@ -64,7 +61,6 @@ class DetailPageTop extends Component {
                 <Header as='h3'>Detail</Header>
                 <Grid celled='internally'>
                     {detailList.map((detail) => {
-                        console.log(detail)
                         if (detail.description === 'View Logs') {
                             return <Grid.Row>
                                 <Grid.Column verticalAlign='middle' width={2}>

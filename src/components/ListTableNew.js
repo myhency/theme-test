@@ -60,8 +60,6 @@ const ListTableNew = (props) => {
     let numberOfRows = props.count;
     let foots = props.foots;
 
-    console.log(data)
-
     return (
         <div>
             <Table celled selectable>

@@ -5,7 +5,6 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import RoleData from '../assets/data/RoleData.json';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import ListTableNew from '../components/ListTableNew';
 import { format } from 'date-fns';
 import ListTable from '../components/ListTable';
 
@@ -148,7 +147,7 @@ class ServiceList extends Component {
                 show: false
             },
             {
-                Header: 'Service Name',
+                Header: 'Service name',
                 accessor: 'name'
             },
             {
@@ -156,11 +155,11 @@ class ServiceList extends Component {
                 accessor: 'role',
             },
             {
-                Header: 'Company',
+                Header: 'Site name',
                 accessor: 'siteName'
             },
             {
-                Header: 'Open Date',
+                Header: 'Open date',
                 accessor: 'openDate'
             },
             {
@@ -238,14 +237,8 @@ class ServiceList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            {/* <ListTableNew
-                                foots
-                                headers={headers}
-                                count={10}
-                                data={serviceList}
-                                handleOnClick={(id) => this.handleOnClick(id)}
-                            /> */}
                             <ListTable
+                                link={0}
                                 columns={columns}
                                 data={listTableData}
                                 count={10}

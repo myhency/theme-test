@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const Styles = styled.div`
     .tableheader {
-        font-size: 18px!important;
-        background-color: Gainsboro!important;
+        font-size: 16px!important;
+        background-color: aliceblue!important;
     }
 
     .tablefootermenuitem {
@@ -22,7 +22,6 @@ const Styles = styled.div`
 `
 
 const EmptyColumns = (props) => {
-    console.log(props)
     let rows = [];
     let columnLength = props.data.length > 0 ? props.data.length : 3;
 
@@ -39,7 +38,6 @@ const EmptyColumns = (props) => {
 }
 
 const EmptyCells = (props) => {
-    console.log(props)
     let cells = [];
     let cellDataLength = props.data[0].cells.length;
 
@@ -83,7 +81,6 @@ const TableFoots = (props) => {
 }
 
 const ListTable = (props) => {
-    console.log(props)
     const {
         getTableProps,
         getTableBodyProps,
@@ -113,9 +110,9 @@ const ListTable = (props) => {
     )
 
     const showPageOptions = [
-        { key: '2', value: '2', text: 'Show 2 Rows' },
-        { key: '4', value: '4', text: 'Show 4 Rows' },
-        { key: '8', value: '8', text: 'Show 8 Rows' }
+        { key: '10', value: '10', text: 'Show 10 Rows' },
+        { key: '50', value: '50', text: 'Show 50 Rows' },
+        { key: '100', value: '100', text: 'Show 100 Rows' }
     ]
 
     const numberOfRows = props.count;
@@ -127,8 +124,6 @@ const ListTable = (props) => {
                     {headerGroups.map(headerGroup => {
                         return <Table.Row >
                             {headerGroup.headers.map((column, index) => {
-                                console.log(column)
-                                console.log(headerGroups)
                                 if (column.show === false)
                                     return (
                                         <Table.HeaderCell className='tableheader'
@@ -171,7 +166,7 @@ const ListTable = (props) => {
                                 key={rowIndex}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
-                                    if (cellIndex === 0)
+                                    if (cellIndex === props.link)
                                         return (
                                             <Table.Cell className='clickablecell'
                                                 onClick={() => props.onClick(cellValue)}

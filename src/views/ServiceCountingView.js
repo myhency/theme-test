@@ -8,8 +8,6 @@ class ServiiceCountingView extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
-        
         this.state = {
             count: 0
         }
