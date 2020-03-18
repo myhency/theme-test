@@ -80,11 +80,16 @@ const TableFoots = (props) => {
     return <></>
 }
 
-const ListTable = (props) => {
+const ListTable = ({
+    link,
+    columns,
+    data,
+    count,
+    onClick,
+    onFetchData,
+    pageCount: serverPageCount
+}) => {
     // const [controlledPageIndex, setControlledPage] = React.useState(0);
-    const onFetchData = props.onFetchData;
-
-    let data = [];
     
     const {
         getTableProps,
@@ -104,28 +109,21 @@ const ListTable = (props) => {
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize, sortBy },
-        // state: { ...props }
     } = useTable(
         {
-            columns: props.columns,
+            columns: columns,
             data: data,
             initialState: { pageIndex: 0 },
-            // useControlledState: state => {
-            //     return React.useMemo(
-            //         () => ({
-            //             ...state,
-            //             pageIndex: controlledPageIndex,
-            //         }),
-            //         [state, controlledPageIndex]
-            //     )
-            // }
+            manualSortBy: true,
+            manualPagination: true,
+            pageCount: serverPageCount
         },
         useSortBy,
         usePagination
     );
 
     React.useEffect(() => {
-        data = onFetchData({ pageIndex, pageSize, sortBy })
+        onFetchData({ pageIndex, pageSize, sortBy })
       }, [onFetchData, pageIndex, pageSize, sortBy])
 
     const showPageOptions = [
@@ -134,14 +132,14 @@ const ListTable = (props) => {
         { key: '100', value: '100', text: 'Show 100 Rows' }
     ]
 
-    const numberOfRows = props.count;
+    const numberOfRows = count;
 
     return (
         <Styles>
             <Table celled {...getTableProps()}>
                 <Table.Header>
-                    {headerGroups.map(headerGroup => {
-                        return <Table.Row >
+                    {headerGroups.map((headerGroup, key) => {
+                        return <Table.Row key={key}>
                             {headerGroup.headers.map((column, index) => {
                                 if (column.show === false)
                                     return (
@@ -185,10 +183,10 @@ const ListTable = (props) => {
                                 key={rowIndex}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
-                                    if (cellIndex === props.link)
+                                    if (cellIndex === link)
                                         return (
                                             <Table.Cell className='clickablecell'
-                                                onClick={() => props.onClick(cellValue)}
+                                                onClick={() => onClick(cellValue)}
                                                 {...cellValue.getCellProps()}
                                             >
                                                 {cellValue.render('Cell')}
@@ -210,7 +208,7 @@ const ListTable = (props) => {
                 {/* <TableFoots foots={foots} length={headers.length} /> */}
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan={props.columns.length}>
+                        <Table.HeaderCell colSpan={columns.length}>
                             <Menu floated='right' pagination>
                                 <Menu.Item className='tablefootermenuitem'
                                     as='a'
