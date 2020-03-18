@@ -1,171 +1,32 @@
 import React from 'react';
 import { Table, Menu, Icon, Label, Input, Select } from 'semantic-ui-react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useSortBy } from 'react-table';
 import styled from 'styled-components';
 
 const Styles = styled.div`
+    .tableheader {
+        font-size: 18px!important;
+        background-color: Gainsboro!important;
+    }
+
     .tablefootermenuitem {
-        padding-top: 0.2em!important;
-        padding-bottom: 0.2em!important;
+        padding-top: 0.3em!important;
+        padding-bottom: 0.3em!important;
+    }
+
+    .clickablecell:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: dodgerblue;
     }
 `
 
-const data = [{
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-},
-{
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}, {
-    firstName: 'information',
-    lastName: 'recess',
-    age: 0,
-    visits: 89,
-    progress: 0,
-    status: 'complicated',
-    subRows: undefined
-}]
-
-const columns = [
-    {
-        Header: 'firstName',
-        accessor: 'firstName'
-    },
-    {
-        Header: 'lastName',
-        accessor: 'lastName'
-    },
-    {
-        Header: 'age',
-        accessor: 'age'
-    },
-    {
-        Header: 'visits',
-        accessor: 'visits'
-    },
-    {
-        Header: 'progress',
-        accessor: 'progress'
-    },
-    {
-        Header: 'status',
-        accessor: 'status'
-    }
-
-]
-
 const EmptyColumns = (props) => {
+    console.log(props)
     let rows = [];
-    let columnLength = props.data.cellData.length > 0 ? props.data.cellData.length : 3;
+    let columnLength = props.data.length > 0 ? props.data.length : 3;
 
-    if (props.data.cellData.length === 0) return <></>;
+    if (props.data.length === 0) return <></>;
 
     for (let i = columnLength; i < props.count; i++) {
         rows.push((
@@ -178,8 +39,9 @@ const EmptyColumns = (props) => {
 }
 
 const EmptyCells = (props) => {
+    console.log(props)
     let cells = [];
-    let cellDataLength = props.data.cellData[0].data.length;
+    let cellDataLength = props.data[0].cells.length;
 
     for (let i = 0; i < cellDataLength; i++) {
         cells.push((
@@ -187,6 +49,7 @@ const EmptyCells = (props) => {
         ))
     }
     return cells;
+    // return <></>
 }
 
 const TableFoots = (props) => {
@@ -214,9 +77,11 @@ const TableFoots = (props) => {
 }
 
 const ListTable = (props) => {
+    console.log(props)
     const {
         getTableProps,
         getTableBodyProps,
+        headerGroups,
         prepareRow,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
@@ -233,10 +98,11 @@ const ListTable = (props) => {
         state: { pageIndex, pageSize },
     } = useTable(
         {
-            columns,
-            data,
+            columns: props.columns,
+            data: props.data,
             initialState: { pageIndex: 0 },
         },
+        useSortBy,
         usePagination
     )
 
@@ -246,23 +112,48 @@ const ListTable = (props) => {
         { key: '8', value: '8', text: 'Show 8 Rows' }
     ]
 
+    const numberOfRows = props.count;
+
     return (
         <Styles>
             <Table celled {...getTableProps()}>
                 <Table.Header>
-                    <Table.Row>
-                        {columns.map((value, index) => {
-                            return <Table.HeaderCell
-                                style={{
-                                    fontSize: '18px',
-                                    backgroundColor: 'Gainsboro'
-                                }}
-                                textAlign='left'
-                                key={index}>
-                                {value.Header}
-                            </Table.HeaderCell>
-                        })}
-                    </Table.Row>
+                    {headerGroups.map(headerGroup => {
+                        return <Table.Row >
+                            {headerGroup.headers.map((column, index) => {
+                                console.log(column)
+                                console.log(headerGroups)
+                                if (column.show === false)
+                                    return (
+                                        <Table.HeaderCell className='tableheader'
+                                            {...column.getHeaderProps()}
+                                            {...column.toggleHidden()}
+                                            textAlign='left'
+                                            key={index}
+                                        >
+                                            {column.render('Header')}
+                                        </Table.HeaderCell>
+                                    )
+                                return (
+                                    <Table.HeaderCell className='tableheader'
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        textAlign='left'
+                                        key={index}
+                                    >
+                                        {column.render('Header')}
+                                        <span>
+                                            {column.isSorted
+                                                ? column.isSortedDesc
+                                                    ? <Icon name='caret down' />
+                                                    : <Icon name='caret up' />
+                                                : ''}
+                                        </span>
+                                    </Table.HeaderCell>
+                                )
+                            })}
+                        </Table.Row>
+                    })}
+
                 </Table.Header>
 
                 <Table.Body {...getTableBodyProps()}>
@@ -272,11 +163,22 @@ const ListTable = (props) => {
                             <Table.Row
                                 {...rowValue.getRowProps()}
                                 key={rowIndex}
-                                onClick={() => props.handleOnClick(rowValue.id)}
+                            // onClick={() => props.handleOnClick(rowValue.id)}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
+                                    if (cellIndex === 0)
+                                        return (
+                                            <Table.Cell className='clickablecell'
+                                                onClick={() => props.onClick(cellValue)}
+                                                {...cellValue.getCellProps()}
+                                            >
+                                                {cellValue.render('Cell')}
+                                            </Table.Cell>
+                                        )
                                     return (
-                                        <Table.Cell {...cellValue.getCellProps()}>
+                                        <Table.Cell
+                                            {...cellValue.getCellProps()}
+                                        >
                                             {cellValue.render('Cell')}
                                         </Table.Cell>
                                     )
@@ -284,65 +186,48 @@ const ListTable = (props) => {
                             </Table.Row>
                         );
                     })}
-                    {/* <EmptyColumns data={data} count={numberOfRows} /> */}
+                    <EmptyColumns data={page} count={numberOfRows} />
                 </Table.Body>
                 {/* <TableFoots foots={foots} length={headers.length} /> */}
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan={columns.length}>
+                        <Table.HeaderCell colSpan={props.columns.length}>
                             <Menu floated='right' pagination>
-                                <Menu.Item
+                                <Menu.Item className='tablefootermenuitem'
                                     as='a'
                                     icon
                                     onClick={() => gotoPage(0)} disabled={!canPreviousPage}
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
                                 >
                                     <Icon name='angle double left' />
                                 </Menu.Item>
-                                <Menu.Item
+                                <Menu.Item className='tablefootermenuitem'
                                     as='a'
                                     icon
                                     onClick={() => previousPage()} disabled={!canPreviousPage}
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
                                 >
                                     <Icon name='angle left' />
                                 </Menu.Item>
-                                <Menu.Item
+                                <Menu.Item className='tablefootermenuitem'
                                     as='a'
                                     icon
                                     onClick={() => nextPage()} disabled={!canNextPage}
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
                                 >
                                     <Icon name='angle right' />
                                 </Menu.Item>
-                                <Menu.Item
+                                <Menu.Item className='tablefootermenuitem'
                                     as='a'
                                     icon
                                     onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
                                 >
                                     <Icon name='angle double right' />
                                 </Menu.Item>
-                                <Menu.Item
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
-                                >
+                                <Menu.Item className='tablefootermenuitem'>
                                     Page {pageIndex + 1} of {pageOptions.length}
                                 </Menu.Item>
-                                <Menu.Item
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
-                                >
+                                <Menu.Item className='tablefootermenuitem'>
                                     Go to page
                                 </Menu.Item>
-                                <Menu.Item
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
-                                >
+                                <Menu.Item className='tablefootermenuitem'>
                                     <Input
                                         placeholder='Go to page'
                                         type='number'
@@ -352,10 +237,7 @@ const ListTable = (props) => {
                                             gotoPage(page)
                                         }} />
                                 </Menu.Item>
-                                <Menu.Item
-                                    // style={{ paddingTop: '0.2em', paddingBottom: '0.2em' }}
-                                    className='tablefootermenuitem'
-                                >
+                                <Menu.Item className='tablefootermenuitem'>
                                     <Select placeholder='Select Rows to Show' options={showPageOptions}
                                         onChange={(e, v) => {
                                             setPageSize(Number(v.value))

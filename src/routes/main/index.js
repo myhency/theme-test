@@ -14,7 +14,8 @@ const mainRoutes = [
     {
         path: contextPath,
         name: 'Home',
-        component: ListTable,
+        // component: ListTable,
+        component: Overview,
         topMenu: false
     },
     {

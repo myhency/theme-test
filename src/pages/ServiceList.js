@@ -7,6 +7,7 @@ import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import ListTableNew from '../components/ListTableNew';
 import { format } from 'date-fns';
+import ListTable from '../components/ListTable';
 
 class ServiceList extends Component {
     constructor(props) {
@@ -17,16 +18,11 @@ class ServiceList extends Component {
             totalCount: 4,
             addServiceModalOpen: false,
             siteOption: [],
-            serviceList: {
-                cellData: [{
-                    id: 0,
-                    data: []
-                }]
-            },
             siteName: '',
             beginDate: '',
             endDate: '',
-            role: ''
+            role: '',
+            listTableData: [{}]
         };
 
         this.getServiceList();
@@ -64,27 +60,27 @@ class ServiceList extends Component {
         let url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc';
         if (searchCondition)
             url = url + searchCondition;
-        let data = {
-            cellData: [{
-                id: 0,
-                data: []
-            }]
-        };
+
+        let listTableData = [{}];
 
         try {
             axios.get(url).then(response => {
                 response.data.result.map((service) => {
-                    let arr = [];
-                    arr.push(service.name, service.role, service.siteName, service.openDate, service.endpoint);
-                    data.cellData.push({
+                    listTableData.push({
                         id: service.id,
-                        data: arr
+                        name: service.name, 
+                        role: service.role, 
+                        siteName: service.siteName, 
+                        openDate: service.openDate, 
+                        endpoint: service.endpoint
                     });
                 });
-                data.cellData.splice(0, 1);
+                
+                listTableData.splice(0, 1);
                 this.setState({
-                    serviceList: data
-                })
+                    listTableData,
+                });
+
             });
         } catch (error) {
             console.log(error);
@@ -128,23 +124,50 @@ class ServiceList extends Component {
 
     close = () => this.setState({ open: false });
 
-    handleOnClick = id => {
+    handleAddServiceButton = (v, e) => {
+        if (e) this.setState({ addServiceModalOpen: true });
+    }
+
+    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
+
+    handleServiceNameClick = (cellValue) => {
+        const id = cellValue.row.values.id;
         this.props.history.push({
             pathname: `/home/services/servicedetails/${id}`,
             state: id
         });
     }
 
-    handleAddServiceButton = (v, e) => {
-        if (e) this.setState({ addServiceModalOpen: true });
-    }
-
-
-    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
 
     render() {
-        const { serviceList, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick, siteName, beginDate, endDate, role } = this.state;
-        const headers = ['Service Name', 'Role', 'Company', 'Open Date', 'Endpoint'];
+        const { listTableData, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick, siteName, beginDate, endDate, role } = this.state;
+        const columns = [
+            {
+                Header: 'Id',
+                accessor: 'id',
+                show: false
+            },
+            {
+                Header: 'Service Name',
+                accessor: 'name'
+            },
+            {
+                Header: 'Role',
+                accessor: 'role',
+            },
+            {
+                Header: 'Company',
+                accessor: 'siteName'
+            },
+            {
+                Header: 'Open Date',
+                accessor: 'openDate'
+            },
+            {
+                Header: 'Endpoint',
+                accessor: 'endpoint'
+            }
+        ]
 
         return (
             <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -215,12 +238,18 @@ class ServiceList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <ListTableNew
+                            {/* <ListTableNew
                                 foots
                                 headers={headers}
                                 count={10}
                                 data={serviceList}
                                 handleOnClick={(id) => this.handleOnClick(id)}
+                            /> */}
+                            <ListTable
+                                columns={columns}
+                                data={listTableData}
+                                count={10}
+                                onClick={(cellValue) => this.handleServiceNameClick(cellValue)}
                             />
                         </Grid.Column>
                     </Grid.Row>
