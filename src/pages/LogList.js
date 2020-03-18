@@ -35,14 +35,65 @@ class LogList extends Component {
             listTableData: [{}]
         };
 
-        this.getLogList();
+        // this.getLogList();
         this.getSiteNameList();
         this.getServiceNameList();
         this.getInstanceNameList();
     }
 
+    getLogListNew = (condition) => {
+        console.log(condition)
+        let pageIndex = condition.pageIndex + 1;
+        let pageSize = condition.pageSize;
+        let sortBy = condition.sortBy;
+        let url = `/api/logs?perPage=${pageSize}&page=${pageIndex}`;
+
+        if (sortBy.length != 0) {
+            let sortCondition = '';
+            sortBy.map((value, index) => {
+                console.log(index)
+                let orderBy = 'asc'
+                if (value.desc) orderBy = 'desc'
+                if (index === 0) {
+                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy) 
+                    return;
+                }
+                sortCondition = sortCondition.concat(','+ value.id + '+' + orderBy);
+            });
+            console.log(sortCondition)
+            url = url.concat(sortCondition);
+        }
+        console.log(url)
+        
+        let listTableData = [{}];
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((log) => {
+                    listTableData.push({
+                        id: log.id,
+                        occurredDate: log.occurredDate,
+                        siteName: log.siteName,
+                        serviceName: log.serviceName,
+                        instanceName: log.instanceName,
+                        logLevel: log.logLevel,
+                        logName: log.logName,
+                        logDetail: log.logDetail
+                    });
+                });
+                listTableData.splice(0, 1);
+                this.setState({
+                    listTableData,
+                })
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
     getLogList = (searchCondition) => {
-        let url = '/api/logs?perPage=10&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
+        let url = '/api/logs?perPage=20&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
 
         if (searchCondition)
             url = url + searchCondition;
@@ -271,6 +322,61 @@ class LogList extends Component {
 
     logDetailModalClose = () => this.setState({ logDetailModalOpen: false });
 
+    onFetchData = (condition) => {
+        console.log(condition)
+        let pageIndex = condition.pageIndex + 1;
+        let pageSize = condition.pageSize;
+        let sortBy = condition.sortBy;
+        let url = `/api/logs?perPage=${pageSize}&page=${pageIndex}`;
+
+        if (sortBy.length != 0) {
+            let sortCondition = '';
+            sortBy.map((value, index) => {
+                console.log(index)
+                let orderBy = 'asc'
+                if (value.desc) orderBy = 'desc'
+                if (index === 0) {
+                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy) 
+                    return;
+                }
+                sortCondition = sortCondition.concat(','+ value.id + '+' + orderBy);
+            });
+            console.log(sortCondition)
+            url = url.concat(sortCondition);
+        }
+        console.log(url)
+        
+        let listTableData = [{}];
+
+        try {
+            axios.get(url).then(response => {
+                response.data.result.map((log) => {
+                    listTableData.push({
+                        id: log.id,
+                        occurredDate: log.occurredDate,
+                        siteName: log.siteName,
+                        serviceName: log.serviceName,
+                        instanceName: log.instanceName,
+                        logLevel: log.logLevel,
+                        logName: log.logName,
+                        logDetail: log.logDetail
+                    });
+                });
+                listTableData.splice(0, 1);
+                // this.setState({
+                //     listTableData,
+                // })
+                return listTableData;
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    handlePagination = (value) => {
+        alert(value)
+    }
+
     render() {
         const {
             listTableData,
@@ -442,9 +548,10 @@ class LogList extends Component {
                             <ListTable
                                 link={6}
                                 columns={columns}
-                                data={listTableData}
+                                // data={listTableData}
                                 count={10}
                                 onClick={(cellValue) => this.handleOccuredDateClick(cellValue)}
+                                onFetchData={this.onFetchData}
                             />
                         </Grid.Column>
                     </Grid.Row>

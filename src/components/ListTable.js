@@ -81,6 +81,11 @@ const TableFoots = (props) => {
 }
 
 const ListTable = (props) => {
+    // const [controlledPageIndex, setControlledPage] = React.useState(0);
+    const onFetchData = props.onFetchData;
+
+    let data = [];
+    
     const {
         getTableProps,
         getTableBodyProps,
@@ -98,19 +103,33 @@ const ListTable = (props) => {
         nextPage,
         previousPage,
         setPageSize,
-        state: { pageIndex, pageSize },
+        state: { pageIndex, pageSize, sortBy },
+        // state: { ...props }
     } = useTable(
         {
             columns: props.columns,
-            data: props.data,
+            data: data,
             initialState: { pageIndex: 0 },
+            // useControlledState: state => {
+            //     return React.useMemo(
+            //         () => ({
+            //             ...state,
+            //             pageIndex: controlledPageIndex,
+            //         }),
+            //         [state, controlledPageIndex]
+            //     )
+            // }
         },
         useSortBy,
         usePagination
-    )
+    );
+
+    React.useEffect(() => {
+        data = onFetchData({ pageIndex, pageSize, sortBy })
+      }, [onFetchData, pageIndex, pageSize, sortBy])
 
     const showPageOptions = [
-        { key: '10', value: '10', text: 'Show 10 Rows' },
+        { key: '20', value: '20', text: 'Show 20 Rows' },
         { key: '50', value: '50', text: 'Show 50 Rows' },
         { key: '100', value: '100', text: 'Show 100 Rows' }
     ]
@@ -196,7 +215,8 @@ const ListTable = (props) => {
                                 <Menu.Item className='tablefootermenuitem'
                                     as='a'
                                     icon
-                                    onClick={() => gotoPage(0)} disabled={!canPreviousPage}
+                                    onClick={() => gotoPage(0)}
+                                    disabled={!canPreviousPage}
                                 >
                                     <Icon name='angle double left' />
                                 </Menu.Item>
