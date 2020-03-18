@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Menu, Icon, Label, Input, Select } from 'semantic-ui-react';
+import { Table, Menu, Icon, Input, Select } from 'semantic-ui-react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import styled from 'styled-components';
 
@@ -45,7 +45,13 @@ const EmptyCells = (props) => {
 
     for (let i = 0; i < cellDataLength; i++) {
         cells.push((
-            <Table.Cell style={{ fontSize: '16px' }} textAlign='center' key={i}>&nbsp;</Table.Cell>
+            <Table.Cell
+                style={{ fontSize: '16px' }}
+                textAlign='center'
+                key={i}
+            >
+                &nbsp;
+            </Table.Cell>
         ))
     }
     return cells;
@@ -163,7 +169,6 @@ const ListTable = (props) => {
                             <Table.Row
                                 {...rowValue.getRowProps()}
                                 key={rowIndex}
-                            // onClick={() => props.handleOnClick(rowValue.id)}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
                                     if (cellIndex === 0)
@@ -238,7 +243,9 @@ const ListTable = (props) => {
                                         }} />
                                 </Menu.Item>
                                 <Menu.Item className='tablefootermenuitem'>
-                                    <Select placeholder='Select Rows to Show' options={showPageOptions}
+                                    <Select
+                                        placeholder='Select Rows to Show'
+                                        options={showPageOptions}
                                         onChange={(e, v) => {
                                             setPageSize(Number(v.value))
                                         }} />
