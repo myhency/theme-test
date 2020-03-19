@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Modal, Grid, Icon, TextArea, Select, Divider } from 'semantic-ui-react';
+import {
+    Button,
+    Form,
+    Segment,
+    Header,
+    Modal,
+    Grid,
+    Icon,
+    TextArea,
+    Select,
+    Divider
+} from 'semantic-ui-react';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 import PageTitle from '../components/PageTitle';
@@ -17,7 +28,6 @@ class LogList extends Component {
         this.state = {
             currentDate: null,
             open: false,
-            totalCount: 4,
             logDetailModalOpen: false,
             siteOption: [],
             serviceOption: [],
@@ -32,98 +42,15 @@ class LogList extends Component {
             logLevel: '',
             logName: '',
             logDetail: '',
-            listTableData: []
+            listTableData: [],
+            searchCondition: '',
+            totalCount: 0
         };
 
-        // this.getLogList();
         this.getSiteNameList();
         this.getServiceNameList();
         this.getInstanceNameList();
     }
-
-    getLogListNew = (condition) => {
-        console.log(condition)
-        let pageIndex = condition.pageIndex + 1;
-        let pageSize = condition.pageSize;
-        let sortBy = condition.sortBy;
-        let url = `/api/logs?perPage=${pageSize}&page=${pageIndex}`;
-
-        if (sortBy.length != 0) {
-            let sortCondition = '';
-            sortBy.map((value, index) => {
-                console.log(index)
-                let orderBy = 'asc'
-                if (value.desc) orderBy = 'desc'
-                if (index === 0) {
-                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy) 
-                    return;
-                }
-                sortCondition = sortCondition.concat(','+ value.id + '+' + orderBy);
-            });
-            console.log(sortCondition)
-            url = url.concat(sortCondition);
-        }
-        console.log(url)
-        
-        let listTableData = [{}];
-
-        try {
-            axios.get(url).then(response => {
-                response.data.result.map((log) => {
-                    listTableData.push({
-                        id: log.id,
-                        occurredDate: log.occurredDate,
-                        siteName: log.siteName,
-                        serviceName: log.serviceName,
-                        instanceName: log.instanceName,
-                        logLevel: log.logLevel,
-                        logName: log.logName,
-                        logDetail: log.logDetail
-                    });
-                });
-                listTableData.splice(0, 1);
-                this.setState({
-                    listTableData,
-                })
-            });
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-
-    getLogList = (searchCondition) => {
-        let url = '/api/logs?perPage=20&page=2&sort=occurredDate+desc,siteName+asc,serviceName+desc,instanceName+asc,logLevel+desc,logName+asc';
-
-        if (searchCondition)
-            url = url + searchCondition;
-
-        let listTableData = [{}];
-
-        try {
-            axios.get(url).then(response => {
-                response.data.result.map((log) => {
-                    listTableData.push({
-                        id: log.id,
-                        occurredDate: log.occurredDate,
-                        siteName: log.siteName,
-                        serviceName: log.serviceName,
-                        instanceName: log.instanceName,
-                        logLevel: log.logLevel,
-                        logName: log.logName,
-                        logDetail: log.logDetail
-                    });
-                });
-                listTableData.splice(0, 1);
-                this.setState({
-                    listTableData,
-                })
-            });
-        } catch (error) {
-            console.log(error);
-        }
-
-    };
 
     onOccurredStartDateFieldChange = (event, { occurredStartDate, value }) => this.setState({ occurredStartDate: value });
 
@@ -189,7 +116,9 @@ class LogList extends Component {
             searchCondition = searchCondition.concat('&' + value);
         });
 
-        this.getLogList(searchCondition);
+        this.setState({
+            searchCondition
+        })
     }
 
     handleOnFixedRangeButtonClick = (range) => {
@@ -209,7 +138,7 @@ class LogList extends Component {
             searchCondition = searchCondition.concat('&' + value);
         });
 
-        this.getLogList(searchCondition);
+        this.setState({ searchCondition });
     }
 
     getSiteNameList = () => {
@@ -293,13 +222,9 @@ class LogList extends Component {
         }
     }
 
-    onChange = (event, data) => this.setState({ currentDate: data.value });
-
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
     }
-
-    close = () => this.setState({ open: false });
 
     handleOccuredDateClick = (cellValue) => {
         const id = cellValue.row.values.id;
@@ -323,7 +248,8 @@ class LogList extends Component {
     logDetailModalClose = () => this.setState({ logDetailModalOpen: false });
 
     onFetchData = (condition) => {
-        console.log(condition)
+        console.log('onfetchdata:',condition)
+        let searchCondition = condition.search;
         let pageIndex = condition.pageIndex + 1;
         let pageSize = condition.pageSize;
         let sortBy = condition.sortBy;
@@ -336,14 +262,16 @@ class LogList extends Component {
                 let orderBy = 'asc'
                 if (value.desc) orderBy = 'desc'
                 if (index === 0) {
-                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy) 
+                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy)
                     return;
                 }
-                sortCondition = sortCondition.concat(','+ value.id + '+' + orderBy);
+                sortCondition = sortCondition.concat(',' + value.id + '+' + orderBy);
             });
             console.log(sortCondition)
             url = url.concat(sortCondition);
         }
+
+        url = url.concat(searchCondition)
         console.log(url)
 
         try {
@@ -351,7 +279,8 @@ class LogList extends Component {
                 console.log(response.data);
                 this.setState({
                     listTableData: response.data.result,
-                    pageCount: response.data.totalPage
+                    pageCount: response.data.totalPage,
+                    totalCount: response.data.totalCount
                 });
             });
         } catch (error) {
@@ -381,8 +310,12 @@ class LogList extends Component {
             instanceName,
             logLevel,
             logName,
-            logDetail
+            logDetail,
+            searchCondition,
+            totalCount
         } = this.state;
+
+        console.log(searchCondition)
 
         const columns = [
             {
@@ -540,6 +473,8 @@ class LogList extends Component {
                                 onClick={(cellValue) => this.handleOccuredDateClick(cellValue)}
                                 onFetchData={this.onFetchData}
                                 pageCount={pageCount}
+                                search={searchCondition}
+                                totalCount={totalCount}
                             />
                         </Grid.Column>
                     </Grid.Row>

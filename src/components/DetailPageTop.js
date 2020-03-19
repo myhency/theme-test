@@ -49,7 +49,7 @@ class DetailPageTop extends Component {
                                     }
                                     else // 중간
                                         breadcrumb.push(<Breadcrumb.Section link onClick={() => header.onClick(header.id)} key={index}>{header.name}</Breadcrumb.Section>)
-                                    breadcrumb.push(<Breadcrumb.Divider icon='right angle' />)
+                                    breadcrumb.push(<Breadcrumb.Divider icon='right angle' key={(index+Math.random())}/>)
 
                                     return breadcrumb
                                 })}
@@ -60,9 +60,9 @@ class DetailPageTop extends Component {
                 <Divider />
                 <Header as='h3'>Detail</Header>
                 <Grid celled='internally'>
-                    {detailList.map((detail) => {
+                    {detailList.map((detail, index) => {
                         if (detail.description === 'View Logs') {
-                            return <Grid.Row>
+                            return <Grid.Row key={index}>
                                 <Grid.Column verticalAlign='middle' width={2}>
                                     {detail.title}
                                 </Grid.Column>
@@ -72,7 +72,7 @@ class DetailPageTop extends Component {
                             </Grid.Row>
                         }
                         if (detail.description === 'true' || detail.description === 'false') {
-                            return <Grid.Row>
+                            return <Grid.Row key={index}>
                                 <Grid.Column verticalAlign='middle' width={2}>
                                     {detail.title}
                                 </Grid.Column>
@@ -81,7 +81,7 @@ class DetailPageTop extends Component {
                                 </Grid.Column>
                             </Grid.Row>
                         }
-                        return <Grid.Row>
+                        return <Grid.Row key={index}>
                             <Grid.Column verticalAlign='middle' width={2}>
                                 {detail.title}
                             </Grid.Column>

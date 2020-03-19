@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Header, Modal, Grid, Icon, Select, Divider } from 'semantic-ui-react';
+import {
+    Button,
+    Form,
+    Segment,
+    Header,
+    Modal,
+    Grid,
+    Icon,
+    Select,
+    Divider
+} from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import RoleData from '../assets/data/RoleData.json';
@@ -14,17 +24,17 @@ class ServiceList extends Component {
         this.state = {
             currentDate: null,
             open: false,
-            totalCount: 4,
             addServiceModalOpen: false,
             siteOption: [],
             siteName: '',
             beginDate: '',
             endDate: '',
             role: '',
-            listTableData: [{}]
+            listTableData: [],
+            searchCondition: '',
+            totalCount: 0
         };
 
-        this.getServiceList();
         this.getSiteNameList();
     }
 
@@ -55,52 +65,23 @@ class ServiceList extends Component {
         }
     }
 
-    getServiceList = (searchCondition) => {
-        let url = '/api/services?perPage=10&page=1&sort=name+asc,role+asc,numberOfInstances+desc,openDate+asc,endpoint+asc';
-        if (searchCondition)
-            url = url + searchCondition;
+    onBeginDateFieldChange = (event, { beginDate, value }) => this.setState({ beginDate: value });
 
-        let listTableData = [{}];
-
-        try {
-            axios.get(url).then(response => {
-                response.data.result.map((service) => {
-                    listTableData.push({
-                        id: service.id,
-                        name: service.name, 
-                        role: service.role, 
-                        siteName: service.siteName, 
-                        openDate: service.openDate, 
-                        endpoint: service.endpoint
-                    });
-                });
-                
-                listTableData.splice(0, 1);
-                this.setState({
-                    listTableData,
-                });
-
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    onBeginDateFieldChange = (event, { beginDate, value }) => {
-        this.setState({ beginDate: value });
-    }
-
-    onEndDateFieldChange = (event, { endDate, value }) => {
-        this.setState({ endDate: value });
-    }
+    onEndDateFieldChange = (event, { endDate, value }) => this.setState({ endDate: value });
 
     onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
 
     onRoleFieldChange = (event, { role, value }) => this.setState({ role: value });
 
-    handleOnClearButtonClick = (v, e) => this.setState({ siteName: '', beginDate: '', endDate: '', role: '' });
+    handleOnClearButtonClick = (v, e) => this.setState({
+        siteName: '',
+        beginDate: '',
+        endDate: '',
+        role: ''
+    });
 
     handleOnSearchButtonClick = () => {
+        console.log('searchbuttonclick')
         const { siteName, beginDate, endDate, role } = this.state;
         let siteNameSearchCondition = siteName ? 'siteId=' + siteName : '';
         let beginDateSearchCondition = beginDate ? 'openDateStart=' + format(new Date(beginDate), 'yyyy-MM-dd') : '';
@@ -114,7 +95,7 @@ class ServiceList extends Component {
             searchCondition = searchCondition.concat('&' + value);
         });
 
-        this.getServiceList(searchCondition);
+        this.setState({ searchCondition });
     }
 
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
@@ -137,9 +118,64 @@ class ServiceList extends Component {
         });
     }
 
+    onFetchData = (condition) => {
+        console.log('onfetchdata:',condition)
+        let searchCondition = condition.search;
+        let pageIndex = condition.pageIndex + 1;
+        let pageSize = condition.pageSize;
+        let sortBy = condition.sortBy;
+        let url = `/api/services?perPage=${pageSize}&page=${pageIndex}`;
+
+        if (sortBy.length != 0) {
+            let sortCondition = '';
+            sortBy.map((value, index) => {
+                console.log(index)
+                let orderBy = 'asc'
+                if (value.desc) orderBy = 'desc'
+                if (index === 0) {
+                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy)
+                    return;
+                }
+                sortCondition = sortCondition.concat(',' + value.id + '+' + orderBy);
+            });
+            console.log(sortCondition)
+            url = url.concat(sortCondition);
+        }
+
+        url = url.concat(searchCondition)
+        console.log(url)
+
+        try {
+            axios.get(url).then(response => {
+                console.log(response.data);
+                this.setState({
+                    listTableData: response.data.result,
+                    pageCount: response.data.totalPage,
+                    totalCount: response.data.totalCount
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     render() {
-        const { listTableData, siteOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick, siteName, beginDate, endDate, role } = this.state;
+        const { 
+            totalCount, 
+            searchCondition, 
+            pageCount, 
+            listTableData, 
+            siteOption, 
+            addServiceModalOpen, 
+            closeOnEscape, 
+            closeOnDimmerClick, 
+            siteName, 
+            beginDate, 
+            endDate, 
+            role } = this.state;
+
+        console.log(searchCondition)
+
         const columns = [
             {
                 Header: 'Id',
@@ -183,7 +219,7 @@ class ServiceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <Segment>
-                                <Form onSubmit={this.handleOnSearchButtonClick}>
+                                <Form>
                                     <Form.Group widths='equal'>
                                         <Form.Field
                                             control={Select}
@@ -220,7 +256,7 @@ class ServiceList extends Component {
                                             onChange={this.onRoleFieldChange}
                                         />
                                     </Form.Group>
-                                    <Button type='submit'>Search</Button>
+                                    <Button onClick={this.handleOnSearchButtonClick}>Search</Button>
                                     <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
                                 </Form>
                             </Segment>
@@ -243,6 +279,10 @@ class ServiceList extends Component {
                                 data={listTableData}
                                 count={10}
                                 onClick={(cellValue) => this.handleServiceNameClick(cellValue)}
+                                onFetchData={this.onFetchData}
+                                pageCount={pageCount}
+                                search={searchCondition}
+                                totalCount={totalCount}
                             />
                         </Grid.Column>
                     </Grid.Row>

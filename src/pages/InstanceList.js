@@ -13,19 +13,19 @@ class InstanceList extends Component {
         this.state = {
             currentDate: null,
             open: false,
-            totalCount: 4,
             addServiceModalOpen: false,
             siteOption: [],
             serviceOption: [],
             siteName: '',
             serviceName: '',
             status: '',
-            listTableData: [{}]
+            listTableData: [],
+            searchCondition: '',
+            totalCount: 0
         };
 
         this.getSiteNameList();
         this.getServiceNameList();
-        this.getInstanceList();
     }
 
     getSiteNameList = () => {
@@ -82,35 +82,6 @@ class InstanceList extends Component {
         }
     }
 
-    getInstanceList = (searchCondition) => {
-        let url = '/api/instances?perPage=10&page=1&sort=siteName+asc,serviceName+desc,name+asc,endpoint+desc,status+asc';
-        if (searchCondition)
-            url = url + searchCondition;
-
-        let listTableData = [{}];
-
-        try {
-            axios.get(url).then(response => {
-                response.data.result.map((instance) => {
-                    listTableData.push({
-                        id: instance.id,
-                        name: instance.name,
-                        siteName: instance.siteName,
-                        serviceName: instance.serviceName,
-                        endpoint: instance.endpoint,
-                        status: instance.status.toString()
-                    });
-                });
-                listTableData.splice(0, 1);
-                this.setState({
-                    listTableData
-                })
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     onChange = (event, data) => this.setState({ currentDate: data.value });
 
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
@@ -131,7 +102,11 @@ class InstanceList extends Component {
 
     onStatusFieldChange = (event, { status, value }) => this.setState({ status: value });
 
-    handleOnClearButtonClick = (v, e) => this.setState({ siteName: '', serviceName: '', status: '' });
+    handleOnClearButtonClick = (v, e) => this.setState({ 
+        siteName: '', 
+        serviceName: '', 
+        status: '' 
+    });
 
     handleOnSearchButtonClick = () => {
         const { siteName, serviceName, status } = this.state;
@@ -146,7 +121,7 @@ class InstanceList extends Component {
             searchCondition = searchCondition.concat('&' + value);
         });
 
-        this.getInstanceList(searchCondition);
+        this.setState({ searchCondition });
     }
 
     handleInstanceNameClick = (cellValue) => {
@@ -157,8 +132,63 @@ class InstanceList extends Component {
         });
     }
 
+    onFetchData = (condition) => {
+        console.log(condition)
+        let searchCondition = condition.search;
+        let pageIndex = condition.pageIndex + 1;
+        let pageSize = condition.pageSize;
+        let sortBy = condition.sortBy;
+        let url = `/api/instances?perPage=${pageSize}&page=${pageIndex}`;
+
+        if (sortBy.length != 0) {
+            let sortCondition = '';
+            sortBy.map((value, index) => {
+                console.log(index)
+                let orderBy = 'asc'
+                if (value.desc) orderBy = 'desc'
+                if (index === 0) {
+                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy)
+                    return;
+                }
+                sortCondition = sortCondition.concat(',' + value.id + '+' + orderBy);
+            });
+            console.log(sortCondition)
+            url = url.concat(sortCondition);
+        }
+
+        url = url.concat(searchCondition)
+        console.log(url)
+
+        try {
+            axios.get(url).then(response => {
+                console.log(response.data);
+                this.setState({
+                    listTableData: response.data.result,
+                    pageCount: response.data.totalPage,
+                    totalCount: response.data.totalCount
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     render() {
-        const { listTableData, siteName, serviceName, status, siteOption, serviceOption, addServiceModalOpen, closeOnEscape, closeOnDimmerClick } = this.state;
+        const { 
+            totalCount, 
+            searchCondition, 
+            pageCount, 
+            listTableData, 
+            siteName, 
+            serviceName, 
+            status, 
+            siteOption, 
+            serviceOption, 
+            addServiceModalOpen, 
+            closeOnEscape, 
+            closeOnDimmerClick 
+        } = this.state;
+
         const columns = [
             {
                 Header: 'Id',
@@ -202,7 +232,7 @@ class InstanceList extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <Segment>
-                                <Form onSubmit={this.handleOnSearchButtonClick}>
+                                <Form>
                                     <Form.Group widths='equal'>
                                         <Form.Field
                                             control={Select}
@@ -233,7 +263,7 @@ class InstanceList extends Component {
                                             onChange={this.onStatusFieldChange}
                                         />
                                     </Form.Group>
-                                    <Button type='submit'>Search</Button>
+                                    <Button onClick={this.handleOnSearchButtonClick}>Search</Button>
                                     <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
                                 </Form>
                             </Segment>
@@ -256,6 +286,10 @@ class InstanceList extends Component {
                                 data={listTableData}
                                 count={10}
                                 onClick={(cellValue) => this.handleInstanceNameClick(cellValue)}
+                                onFetchData={this.onFetchData}
+                                pageCount={pageCount}
+                                search={searchCondition}
+                                totalCount={totalCount}
                             />
                         </Grid.Column>
                     </Grid.Row>

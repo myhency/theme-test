@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table, Menu, Icon, Input, Select } from 'semantic-ui-react';
+import { Table, Menu, Icon, Input, Select, Label } from 'semantic-ui-react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import styled from 'styled-components';
+import Gallery from '../utils/Gallery';
 
 const Styles = styled.div`
     .tableheader {
@@ -87,10 +88,12 @@ const ListTable = ({
     count,
     onClick,
     onFetchData,
-    pageCount: serverPageCount
+    pageCount: serverPageCount,
+    search,
+    totalCount
 }) => {
-    // const [controlledPageIndex, setControlledPage] = React.useState(0);
-    
+    // const [searchCondition, setSearchCondition] = React.useState('');
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -116,6 +119,7 @@ const ListTable = ({
             initialState: { pageIndex: 0 },
             manualSortBy: true,
             manualPagination: true,
+            manualFilter: true,
             pageCount: serverPageCount
         },
         useSortBy,
@@ -123,11 +127,15 @@ const ListTable = ({
     );
 
     React.useEffect(() => {
-        onFetchData({ pageIndex, pageSize, sortBy })
-      }, [onFetchData, pageIndex, pageSize, sortBy])
+        gotoPage(0);
+    }, [search])
+
+    React.useEffect(() => {
+        onFetchData({ pageIndex, pageSize, sortBy, search })
+    }, [onFetchData, pageIndex, pageSize, sortBy, search])
 
     const showPageOptions = [
-        { key: '20', value: '20', text: 'Show 20 Rows' },
+        { key: '10', value: '10', text: 'Show 10 Rows' },
         { key: '50', value: '50', text: 'Show 50 Rows' },
         { key: '100', value: '100', text: 'Show 100 Rows' }
     ]
@@ -183,6 +191,7 @@ const ListTable = ({
                                 key={rowIndex}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
+                                    console.log(cellValue)
                                     if (cellIndex === link)
                                         return (
                                             <Table.Cell className='clickablecell'
@@ -190,6 +199,16 @@ const ListTable = ({
                                                 {...cellValue.getCellProps()}
                                             >
                                                 {cellValue.render('Cell')}
+                                            </Table.Cell>
+                                        )
+                                    if (cellValue.value.toString() === 'true' || cellValue.value.toString() === 'false')
+                                        return (
+                                            <Table.Cell
+                                                {...cellValue.getCellProps()}
+                                                style={{ fontSize: '16px' }}
+                                                textAlign='center'
+                                            >
+                                                <img src={Gallery.getLogoImage(cellValue.value.toString())} />
                                             </Table.Cell>
                                         )
                                     return (
@@ -207,8 +226,15 @@ const ListTable = ({
                 </Table.Body>
                 {/* <TableFoots foots={foots} length={headers.length} /> */}
                 <Table.Footer>
+
                     <Table.Row>
                         <Table.HeaderCell colSpan={columns.length}>
+                            <Menu floated='left' pagination>
+                                <Label>
+                                    Total Count
+                                    <Label.Detail>{totalCount}</Label.Detail>
+                                </Label>
+                            </Menu>
                             <Menu floated='right' pagination>
                                 <Menu.Item className='tablefootermenuitem'
                                     as='a'
