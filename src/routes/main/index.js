@@ -6,7 +6,7 @@ import ServiceDetails from "../../pages/ServiceDetails";
 import InstanceList from "../../pages/InstanceList";
 import InstanceDetails from "../../pages/InstanceDetails";
 import LogList from "../../pages/LogList";
-import ListTable from "../../components/ListTable";
+import LogoDropZone from "../../components/LogoDropZone";
 
 const contextPath = '/home/';
 
@@ -14,8 +14,8 @@ const mainRoutes = [
     {
         path: contextPath,
         name: 'Home',
-        // component: ListTable,
-        component: Overview,
+        component: LogoDropZone,
+        // component: Overview,
         topMenu: false
     },
     {
