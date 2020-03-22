@@ -13,8 +13,7 @@ import {
     Dropdown,
     Label,
     Divider,
-    Input,
-    Segment
+    Input
 } from 'semantic-ui-react';
 import LogoDropZone from '../components/LogoDropZone';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
@@ -30,29 +29,20 @@ class SiteList extends Component {
     constructor(props) {
         super(props);
 
-        this.inputRef = React.createRef();
-
-        this.onDrop = (files) => {
-            this.setState({ files })
-        };
-
         this.state = {
-            currentDate: null,
-            open: false,
-            addSiteModalOpen: false,
-            modifySiteModalOpen: false,
+            //Site list
             totalCount: 0,
-            modifiedCard: {},
             siteList: [{}],
-            isSearchLoading: false,
+            //Search
             searchValue: '',
             searchResult: [],
             //Add site modal
+            addSiteModalOpen: false,
             siteName: '',
             openDate: '',
             logo: '',
-            files: [],
-            modalLogoFileName: '',
+            //Modify site modal
+            modifySiteModalOpen: false,
             modifiedCard: {
                 siteName: '',
                 openDate: '',
@@ -65,6 +55,9 @@ class SiteList extends Component {
         this.getSites('/api/sites');
     }
 
+    /**
+     * 
+     */
     getSites = (url) => {
         try {
             return axios.get(url).then(response => {
@@ -78,18 +71,9 @@ class SiteList extends Component {
         }
     }
 
-    handleFileSelect = (e) => {
-        e.preventDefault();
-        fileSelector.click();
-    }
-
     handleAddSiteModalSiteNameOnChange = (event, data) => this.setState({ siteName: data.value });
 
     handleAddSiteModalOpenDateOnChange = (event, data) => this.setState({ openDate: data.value });
-
-    closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
-        this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
-    }
 
     handleOnClickAddSiteCloseButton = () => {
         this.setState({
@@ -167,7 +151,14 @@ class SiteList extends Component {
     }
 
     render() {
-        const { siteName, openDate, logo, siteList, totalCount, addSiteModalOpen, modifySiteModalOpen, closeOnEscape, closeOnDimmerClick, modifiedCard, searchValue } = this.state;
+        const { 
+            siteList, 
+            totalCount, 
+            addSiteModalOpen, 
+            modifySiteModalOpen, 
+            closeOnEscape, 
+            closeOnDimmerClick, 
+            modifiedCard } = this.state;
 
         console.log(modifiedCard);
 
