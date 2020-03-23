@@ -79,11 +79,14 @@ const LogoDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
 
     React.useEffect(() => {
         console.log(files.length)
-        if (files.length > 0)
+        if (files.length > 0) {
+            console.log('aaaa')
             return setThumbs(<Image src={files[0]} centered size='small' className='img' />);
+        }
         if (onOpen) {
+            console.log('bbbb')
             return getLogo((logofile) => {
-                setThumbs(<Image src={'/' + logofile.logFileName} centered size='small' className='img' />);
+                setThumbs(<Image src={'/' + logofile} centered size='small' className='img' />);
             });
         }
     }, [onOpen, files]);
