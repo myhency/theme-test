@@ -140,7 +140,7 @@ class InstanceList extends Component {
         let sortBy = condition.sortBy;
         let url = `/api/instances?perPage=${pageSize}&page=${pageIndex}`;
 
-        if (sortBy.length != 0) {
+        if (sortBy.length !== 0) {
             let sortCondition = '';
             sortBy.map((value, index) => {
                 console.log(index)

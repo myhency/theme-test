@@ -17,27 +17,35 @@ import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import { format } from 'date-fns';
 import ListTable from '../components/ListTable';
+import constants from '../utils/constants';
 
 class ServiceList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDate: null,
-            open: false,
-            addServiceModalOpen: false,
-            siteOption: [],
+            //Service list
+            totalCount: 0,
+            listTableData: [],
+            //Search
             siteName: '',
             beginDate: '',
             endDate: '',
             role: '',
-            listTableData: [],
             searchCondition: '',
-            totalCount: 0
+            //Add service modal
+            addServiceModalOpen: false,
+            siteOption: [],
+            siteIdAdded: 0,
+            serviceNameAdded: '',
+            openDateAdded: '',
+            roleAdded: '',
+            endpointAdded: ''
         };
 
         this.getSiteNameList();
     }
 
+    //Search
     getSiteNameList = () => {
         const url = '/api/sites';
         let siteOption = [{
@@ -65,22 +73,28 @@ class ServiceList extends Component {
         }
     }
 
-    onBeginDateFieldChange = (event, { beginDate, value }) => this.setState({ beginDate: value });
+    //Search
+    onChangeBeginDateField = (event, { beginDate, value }) => this.setState({ beginDate: value });
 
-    onEndDateFieldChange = (event, { endDate, value }) => this.setState({ endDate: value });
+    //Search
+    onChangeEndDateField = (event, { endDate, value }) => this.setState({ endDate: value });
 
-    onSiteNameFieldChange = (event, { siteName, value }) => this.setState({ siteName: value });
+    //Search
+    onChangeSiteNameField = (event, { siteName, value }) => this.setState({ siteName: value });
 
-    onRoleFieldChange = (event, { role, value }) => this.setState({ role: value });
+    //Search
+    onChangeRoleField = (event, { role, value }) => this.setState({ role: value });
 
-    handleOnClearButtonClick = (v, e) => this.setState({
+    //Search
+    handleOnClickClearButton = (v, e) => this.setState({
         siteName: '',
         beginDate: '',
         endDate: '',
         role: ''
     });
 
-    handleOnSearchButtonClick = () => {
+    //Search
+    handleOnClickSearchButton = () => {
         console.log('searchbuttonclick')
         const { siteName, beginDate, endDate, role } = this.state;
         let siteNameSearchCondition = siteName ? 'siteId=' + siteName : '';
@@ -91,26 +105,84 @@ class ServiceList extends Component {
         arr.push(siteNameSearchCondition, beginDateSearchCondition, endDateSearchCondition, roleSearchCondition)
         let searchCondition = '';
         arr.map((value, index) => {
-            if (value === '') return;
-            searchCondition = searchCondition.concat('&' + value);
+            if (value !== '') searchCondition = searchCondition.concat('&' + value);
         });
 
         this.setState({ searchCondition });
     }
 
-    closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
-        this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
+    //Add Service Event
+    handleOnClickAddServiceButton = (event, data) => {
+        if (event) this.setState({ addServiceModalOpen: true });
     }
 
-    close = () => this.setState({ open: false });
-
-    handleAddServiceButton = (v, e) => {
-        if (e) this.setState({ addServiceModalOpen: true });
+    //Add Service Event
+    handleOnChangeSiteNameAddServiceModal = (event, data) => {
+        this.setState({ siteIdAdded: data.value });
     }
 
-    addSiteModalClose = () => this.setState({ addServiceModalOpen: false });
+    //Add Service Event
+    handleOnChangeServiceNameAddServiceModal = (event, data) => {
+        this.setState({ serviceNameAdded: data.value });
+    }
 
-    handleServiceNameClick = (cellValue) => {
+    //Add Service Event
+    handleOnChangeRoleAddServiceModal = (event, data) => {
+        this.setState({ roleAdded: data.value });
+    }
+
+    //Add Service Event
+    handleOnChangeOpenDateAddServiceModal = (event, data) => {
+        this.setState({ openDateAdded: data.value });
+    }
+
+    //Add Service Event
+    handleOnChangeEndpointAddServiceModal = (event, data) => {
+        this.setState({ endpointAdded: data.value });
+    }
+
+    //Add Service Event
+    handleOnClickAddServiceModalAddButton = () => {
+        const { siteIdAdded, serviceNameAdded, openDateAdded, roleAdded, endpointAdded } = this.state;
+
+        console.log({
+            siteIdAdded,
+            serviceNameAdded,
+            openDateAdded,
+            roleAdded,
+            endpointAdded
+        });
+
+        axios.post('/api/services', {
+            siteId: siteIdAdded,
+            name: serviceNameAdded,
+            role: roleAdded,
+            openDate: format(openDateAdded, constants.DATE_FORMAT),
+            endpoint: endpointAdded
+        })
+            .then(() => {
+                this.setState({
+                    addServiceModalOpen: false,
+                    siteIdAdded: 0,
+                    serviceNameAdded: '',
+                    openDateAdded: '',
+                    roleAdded: '',
+                    endpointAdded: ''
+                });
+                this.onFetchData({
+                    pageIndex: 0,
+                    pageSize: 10,
+                    sortBy: [],
+                    search: ''
+                });
+            })
+    }
+
+    //Add Service Event
+    handleOnClickAddServiceModalCloseButton = () => this.setState({ addServiceModalOpen: false });
+
+    //Service List
+    handleOnClickServiceListServiceName = (cellValue) => {
         const id = cellValue.row.values.id;
         this.props.history.push({
             pathname: `/home/services/servicedetails/${id}`,
@@ -118,8 +190,9 @@ class ServiceList extends Component {
         });
     }
 
+    //Service List
     onFetchData = (condition) => {
-        console.log('onfetchdata:',condition)
+        console.log('onfetchdata:', condition)
         let searchCondition = condition.search;
         let pageIndex = condition.pageIndex + 1;
         let pageSize = condition.pageSize;
@@ -133,8 +206,7 @@ class ServiceList extends Component {
                 let orderBy = 'asc'
                 if (value.desc) orderBy = 'desc'
                 if (index === 0) {
-                    sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy)
-                    return;
+                    return sortCondition = sortCondition.concat('&sort=' + value.id + '+' + orderBy);
                 }
                 sortCondition = sortCondition.concat(',' + value.id + '+' + orderBy);
             });
@@ -160,21 +232,20 @@ class ServiceList extends Component {
     }
 
     render() {
-        const { 
-            totalCount, 
-            searchCondition, 
-            pageCount, 
-            listTableData, 
-            siteOption, 
-            addServiceModalOpen, 
-            closeOnEscape, 
-            closeOnDimmerClick, 
-            siteName, 
-            beginDate, 
-            endDate, 
-            role } = this.state;
-
-        console.log(searchCondition)
+        const {
+            totalCount,
+            searchCondition,
+            pageCount,
+            listTableData,
+            siteOption,
+            addServiceModalOpen,
+            closeOnEscape,
+            closeOnDimmerClick,
+            siteName,
+            beginDate,
+            endDate,
+            role
+        } = this.state;
 
         const columns = [
             {
@@ -227,7 +298,7 @@ class ServiceList extends Component {
                                             options={siteOption}
                                             placeholder='Site name'
                                             value={siteName}
-                                            onChange={this.onSiteNameFieldChange}
+                                            onChange={this.onChangeSiteNameField}
                                         />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
@@ -235,14 +306,14 @@ class ServiceList extends Component {
                                             fluid
                                             label='Begin date'
                                             datePickerOnly={true}
-                                            onChange={this.onBeginDateFieldChange}
+                                            onChange={this.onChangeBeginDateField}
                                             value={beginDate}
                                         />
                                         <SemanticDatepicker
                                             fluid
                                             label='End date'
                                             datePickerOnly={true}
-                                            onChange={this.onEndDateFieldChange}
+                                            onChange={this.onChangeEndDateField}
                                             value={endDate}
                                         />
                                     </Form.Group>
@@ -253,11 +324,11 @@ class ServiceList extends Component {
                                             options={RoleData.roles}
                                             placeholder='Role'
                                             value={role}
-                                            onChange={this.onRoleFieldChange}
+                                            onChange={this.onChangeRoleField}
                                         />
                                     </Form.Group>
-                                    <Button onClick={this.handleOnSearchButtonClick}>Search</Button>
-                                    <Button onClick={this.handleOnClearButtonClick}>Clear</Button>
+                                    <Button onClick={this.handleOnClickSearchButton}>Search</Button>
+                                    <Button onClick={this.handleOnClickClearButton}>Clear</Button>
                                 </Form>
                             </Segment>
                         </Grid.Column>
@@ -268,7 +339,13 @@ class ServiceList extends Component {
                             <Header as='h3'><Icon name='list alternate outline' />Service List</Header>
                         </Grid.Column>
                         <Grid.Column floated='right' verticalAlign='bottom' width={5}>
-                            <Button color='blue' icon='plus' content='Add service' floated='right' onClick={(v, e) => this.handleAddServiceButton(v, e)} />
+                            <Button
+                                color='blue'
+                                icon='plus'
+                                content='Add service'
+                                floated='right'
+                                onClick={(v, e) => this.handleOnClickAddServiceButton(v, e)}
+                            />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -278,7 +355,7 @@ class ServiceList extends Component {
                                 columns={columns}
                                 data={listTableData}
                                 count={10}
-                                onClick={(cellValue) => this.handleServiceNameClick(cellValue)}
+                                onClick={(cellValue) => this.handleOnClickServiceListServiceName(cellValue)}
                                 onFetchData={this.onFetchData}
                                 pageCount={pageCount}
                                 search={searchCondition}
@@ -289,7 +366,7 @@ class ServiceList extends Component {
                 </Grid>
                 <Modal
                     open={addServiceModalOpen}
-                    onClose={this.addSiteModalClose}
+                    onClose={this.handleOnClickAddServiceModalCloseButton}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
                     <Modal.Header>Add Service</Modal.Header>
@@ -301,10 +378,16 @@ class ServiceList extends Component {
                                     label='Site Name'
                                     options={siteOption}
                                     placeholder='Site name'
+                                    onChange={this.handleOnChangeSiteNameAddServiceModal}
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Service name' placeholder='Service name' />
+                                <Form.Input
+                                    fluid
+                                    label='Service name'
+                                    placeholder='Service name'
+                                    onChange={this.handleOnChangeServiceNameAddServiceModal}
+                                />
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Field
@@ -312,24 +395,38 @@ class ServiceList extends Component {
                                     label='Role'
                                     options={RoleData.roles}
                                     placeholder='Role'
+                                    onChange={this.handleOnChangeRoleAddServiceModal}
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <SemanticDatepicker label='Open date' datePickerOnly={true} onChange={this.onChange} />
+                                <SemanticDatepicker
+                                    label='Open date'
+                                    datePickerOnly={true}
+                                    onChange={this.handleOnChangeOpenDateAddServiceModal}
+                                />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Endpoint' placeholder='https://example.com/' />
+                                <Form.Input
+                                    fluid
+                                    label='Endpoint'
+                                    placeholder='https://example.com/'
+                                    onChange={this.handleOnChangeEndpointAddServiceModal}
+                                />
                             </Form.Group>
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.addSiteModalClose} negative>No</Button>
                         <Button
-                            onClick={this.close}
+                            onClick={this.handleOnClickAddServiceModalCloseButton}
+                            negative
+                            content='Close'
+                        />
+                        <Button
+                            onClick={this.handleOnClickAddServiceModalAddButton}
                             positive
                             labelPosition='right'
                             icon='checkmark'
-                            content='Yes'
+                            content='Add'
                         />
                     </Modal.Actions>
                 </Modal>

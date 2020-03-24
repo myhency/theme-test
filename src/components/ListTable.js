@@ -92,7 +92,6 @@ const ListTable = ({
     search,
     totalCount
 }) => {
-    // const [searchCondition, setSearchCondition] = React.useState('');
 
     const {
         getTableProps,
@@ -191,7 +190,6 @@ const ListTable = ({
                                 key={rowIndex}
                             >
                                 {rowValue.cells.map((cellValue, cellIndex) => {
-                                    console.log(cellValue)
                                     if (cellIndex === link)
                                         return (
                                             <Table.Cell className='clickablecell'
@@ -208,7 +206,7 @@ const ListTable = ({
                                                 style={{ fontSize: '16px' }}
                                                 textAlign='center'
                                             >
-                                                <img src={Gallery.getLogoImage(cellValue.value.toString())} />
+                                                <img src={Gallery.getLogoImage(cellValue.value.toString())} alt={rowIndex}/>
                                             </Table.Cell>
                                         )
                                     return (

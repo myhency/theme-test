@@ -88,7 +88,6 @@ class SiteList extends Component {
 
     //Add Site Event
     handleOnChangeOpenDateAddSiteModal = (event, data) => {
-        console.log(data)
         this.setState({ openDateAdded: data.value });
     }
 
@@ -136,7 +135,6 @@ class SiteList extends Component {
 
     //Modify Site Event
     handleOnChangeOpenDateModifySiteModal = (event, data) => {
-        console.log('aaaaaaa')
         this.setState({ openDateModified: data.value });
     }
 

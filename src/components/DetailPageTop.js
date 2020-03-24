@@ -12,30 +12,30 @@ import Gallery from '../utils/Gallery';
 
 
 class DetailPageTop extends Component {
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        // this.state = {
-        //     // headerList: ['siteName', 'serviceName', 'instanceName']
-        //     // detailList: [{
-        //     //     title: 'Site Name',
-        //     //     description: 'xxxx'
-        //     // }]
-        //     ...props
-        // }
-    }
+    //     // this.state = {
+    //     //     // headerList: ['siteName', 'serviceName', 'instanceName']
+    //     //     // detailList: [{
+    //     //     //     title: 'Site Name',
+    //     //     //     description: 'xxxx'
+    //     //     // }]
+    //     //     ...props
+    //     // }
+    // }
 
     render() {
         const { headerList, detailList } = this.props;
 
         return (
-            <Segment style={{ marginLeft: '2em', marginRight: '2em' }}>
+            <Segment>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column verticalAlign='middle' width={2}>
                             <Image src={Gallery.getLogoImage(headerList[0].name)} size={'small'} />
                         </Grid.Column>
-                        <Grid.Column floated='left' verticalAlign='middle' width={14}>
+                        <Grid.Column floated='left' verticalAlign='middle' width={10}>
                             <Breadcrumb size='massive'>
                                 {headerList.map((header, index) => {
                                     let breadcrumb = [];
@@ -50,10 +50,23 @@ class DetailPageTop extends Component {
                                     else // 중간
                                         breadcrumb.push(<Breadcrumb.Section link onClick={() => header.onClick(header.id)} key={index}>{header.name}</Breadcrumb.Section>)
                                     breadcrumb.push(<Breadcrumb.Divider icon='right angle' key={(index+Math.random())}/>)
-
                                     return breadcrumb
                                 })}
                             </Breadcrumb>
+                        </Grid.Column>
+                        <Grid.Column floated='right' verticalAlign='middle' width={4}>
+                            <Button
+                                floated='right'
+                                size='mini'
+                                content='Delete'
+                                onClick={this.props.deleteButtonOnClick}
+                            />
+                            <Button
+                                floated='right'
+                                size='mini'
+                                content='Modify'
+                                onClick={this.props.modifyButtonOnClick}
+                            />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -77,7 +90,7 @@ class DetailPageTop extends Component {
                                     {detail.title}
                                 </Grid.Column>
                                 <Grid.Column floated='left' verticalAlign='middle' width={8}>
-                                    <img src={Gallery.getLogoImage(detail.description)} />
+                                    <img src={Gallery.getLogoImage(detail.description)} alt={index}/>
                                 </Grid.Column>
                             </Grid.Row>
                         }
