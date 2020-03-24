@@ -6,7 +6,6 @@ import {
     Header,
     Modal,
     Grid,
-    Menu,
     Icon,
     Card,
     Image,
@@ -204,7 +203,7 @@ class SiteList extends Component {
         axios.delete(`/api/sites/${id}`)
             .then(() => {
                 this.getSites('/api/sites');
-        })
+            })
     }
 
     //Search Event
@@ -329,16 +328,7 @@ class SiteList extends Component {
                                                 <Card.Meta>{site.openDate}</Card.Meta>
                                             </Card.Content>
                                             <Card.Content extra style={{ height: '4vh' }}>
-                                                {/* <Grid columns={2}>
-                                                    <Grid.Row>
-                                                        <Grid.Column floated='left' verticalAlign='middle' width={1} style={{ marginRight: '0em' }}> */}
-                                                            <Icon fitted name='setting' size='large' />
-                                                        {/* </Grid.Column>
-                                                        <Grid.Column floated='left' verticalAlign='middle'> */}
-                                                            &nbsp;&nbsp;{site.numberOfServices} Services
-                                                        {/* </Grid.Column>
-                                                    </Grid.Row>
-                                                </Grid> */}
+                                                <Icon fitted name='setting' size='large' />&nbsp;&nbsp;{site.numberOfServices} Services
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>
