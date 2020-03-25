@@ -16,7 +16,7 @@ import ListTable from '../components/ListTable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import constants from '../utils/constants';
 import { format, parse } from 'date-fns';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 class ServiceDetails extends Component {
     constructor(props) {
@@ -45,6 +45,8 @@ class ServiceDetails extends Component {
             //Add instance modal
             serviceOption: [],
             addInstanceModalOpen: false,
+            instanceNameAdded: '',
+            endpointAdded: '',
             //Instance list
             totalCount: 0,
             pageCount: 0,
@@ -132,14 +134,6 @@ class ServiceDetails extends Component {
         })
     }
 
-    //Add Instance event
-    handleAddInstanceButton = (v, e) => {
-        if (e) this.setState({ addInstanceModalOpen: true });
-    }
-
-    //Add Instance event
-    addInstanceModalClose = () => this.setState({ addInstanceModalOpen: false });
-
     //Breadcrumb event
     handleOnClickBreadcrumb = (id) => {
         this.props.history.push({
@@ -180,6 +174,49 @@ class ServiceDetails extends Component {
                     })
             }
         })
+    }
+
+    //Add Instance event
+    handleAddInstanceButton = (v, e) => {
+        if (e) this.setState({ addInstanceModalOpen: true });
+    }
+
+    //Add Instance event
+    handleOnClickAddInstanceModalCloseButton = () => this.setState({ addInstanceModalOpen: false });
+
+    //Add Instance event
+    handleOnChangeInstanceNameAddInstanceModal = (event, data) => {
+        this.setState({ instanceNameAdded: data.value });
+    }
+
+    //Add Instance event
+    handleOnChangeEndpointAddInstanceModal = (event, data) => {
+        this.setState({ endpointAdded: data.value });
+    }
+
+    //Add Instance event
+    handleOnClickAddInstanceModalAddButton = () => {
+        const { instanceNameAdded, endpointAdded, service } = this.state;
+
+        axios.post('/api/instances', {
+            serviceId: service.id,
+            name: instanceNameAdded,
+            endpoint: endpointAdded
+        })
+            .then(() => {
+                this.setState({
+                    addInstanceModalOpen: false,
+                    instanceNameAdded: '',
+                    endpointAdded: ''
+                });
+                this.onFetchData({
+                    pageIndex: 0,
+                    pageSize: 10,
+                    sortBy: [],
+                    search: ''
+                });
+            })
+
     }
 
     //Instance list
@@ -419,24 +456,34 @@ class ServiceDetails extends Component {
                 </Modal>
                 <Modal
                     open={addInstanceModalOpen}
-                    onClose={this.addInstanceModalClose}
+                    onClose={this.handleOnClickAddInstanceModalCloseButton}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
                     <Modal.Header>Add Instance</Modal.Header>
                     <Modal.Content>
                         <Form>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Site name' placeholder='Site name' value={service.siteName} readOnly />
+                                <Form.Input
+                                    fluid
+                                    label='Site name'
+                                    value={service.siteName}
+                                    readOnly
+                                />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input fluid label='Service name' placeholder='Service name' value={service.name} readOnly />
+                                <Form.Input
+                                    fluid
+                                    label='Service name'
+                                    value={service.name}
+                                    readOnly
+                                />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Field
-                                    control={Select}
+                                <Form.Input
+                                    fluid
                                     label='Role'
-                                    options={RoleData.roles}
-                                    placeholder='Role'
+                                    value={service.role}
+                                    readOnly
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>
@@ -444,6 +491,7 @@ class ServiceDetails extends Component {
                                     fluid
                                     label='Instance name'
                                     placeholder='service name + instance name + #x'
+                                    onChange={this.handleOnChangeInstanceNameAddInstanceModal}
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>
@@ -451,14 +499,19 @@ class ServiceDetails extends Component {
                                     fluid
                                     label='Endpoint'
                                     placeholder='https://example.com/'
+                                    onChange={this.handleOnChangeEndpointAddInstanceModal}
                                 />
                             </Form.Group>
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.addInstanceModalClose} negative>No</Button>
                         <Button
-                            onClick={this.close}
+                            onClick={this.handleOnClickAddInstanceModalCloseButton}
+                            negative
+                            content='Close'
+                        />
+                        <Button
+                            onClick={this.handleOnClickAddInstanceModalAddButton}
                             positive
                             labelPosition='right'
                             icon='checkmark'

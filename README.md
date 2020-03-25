@@ -70,14 +70,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 
-Task
-
-[x] site 추가, 수정, 삭제 개발
-
-[ ] service 추가, 삭제, 수정 개발
-
-[ ] instance 추가, 삭제, 수정 개발
-
 Chore
 
 [ ] 로딩페이지 적용
@@ -86,7 +78,7 @@ Chore
 
 [ ] logdetail 은 정렬조건에서 삭제해야 함
 
-[x] react-table Status 컬럼에 신호등 추가 개발
+[X] react-table Status 컬럼에 신호등 추가 개발
 
 [ ] site list 에서 검색조건 실시간 반영
 
