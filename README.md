@@ -70,18 +70,35 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 
-Chore
+# Chore
 
-[ ] 로딩페이지 적용
+## 우선순위 #1
 
-[ ] 조회내용 없을 시 Empty rows + no result 보여주는 기능 개발
+- [X] root path 접속시 redirect 설정 -> /home/overview
 
-[ ] logdetail 은 정렬조건에서 삭제해야 함
 
-[X] react-table Status 컬럼에 신호등 추가 개발
+## 우선순위 #2
 
-[ ] site list 에서 검색조건 실시간 반영
+## 우선순위 #3
 
-[ ] add site modal 에 required: sitename, opendate, optional: logo 적용
+- [ ] error count view 클릭시 error 검색 된 상태로 logs 페이지로 이동
+- [ ] 60min, 1day 등등 눌렀을 때 바로 검색되지 않고 date field 에 값을 채움, date field 값이 변경되면 버튼이 unseleted 로 처리
+- [ ] list table에 `Show X rows` default로 표시하기
+- [ ] list table에 default sort 요청하고 화살표도 그렇게 표시해야 함
+- [ ] View Logs 링크 개발
+- [ ] 클릭가능한 컬럼의 길이를 길게 조정하자
 
-[ ] add site modal 에 logo label 넣기
+- [ ] 로딩페이지 적용
+
+- [ ] 조회내용 없을 시 Empty rows + no result 보여주는 기능 개발
+
+- [ ] logdetail 은 정렬조건에서 삭제해야 함
+
+- [X] react-table Status 컬럼에 신호등 추가 개발
+
+- [ ] site list 에서 검색조건 실시간 반영
+
+- [ ] add site modal 에 required: sitename, opendate, optional: logo 적용
+
+- [ ] add site modal 에 logo label 넣기 
+

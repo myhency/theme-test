@@ -169,9 +169,9 @@ const ListTable = ({
                                         <span>
                                             {column.isSorted
                                                 ? column.isSortedDesc
-                                                    ? <Icon name='caret down' />
-                                                    : <Icon name='caret up' />
-                                                : ''}
+                                                    ? <Icon name='sort down' />
+                                                    : <Icon name='sort up' />
+                                                : <Icon name='sort' color='grey' />}
                                         </span>
                                     </Table.HeaderCell>
                                 )
@@ -227,7 +227,7 @@ const ListTable = ({
 
                     <Table.Row>
                         <Table.HeaderCell colSpan={columns.length}>
-                            <Menu floated='left' pagination>
+                            <Menu float='left' pagination>
                                 <Label>
                                     Total Count
                                     <Label.Detail>{totalCount}</Label.Detail>
