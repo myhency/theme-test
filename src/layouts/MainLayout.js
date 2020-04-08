@@ -50,15 +50,15 @@ const MainLayout = () => (
                 {
                     mainRoutes.filter(route => route.topMenu).map((route, key) => {
                         return (
-                            // <Link 
-                            //     style={{float:'right'}}
-                            //     to={route.path}
-                            //     tag={RRNavLink}
-                            //     key={key}>
+                            <Link 
+                                style={{float:'right'}}
+                                to={route.path}
+                                tag={RRNavLink}
+                                key={key}>
                                 <Menu.Item className='top-menu-item'>
                                     <Header as='h6' className='top-menu-item-text'>{route.name}</Header>
                                 </Menu.Item>
-                            // </Link>
+                            </Link>
                         );
                     })
                 }
