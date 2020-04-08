@@ -24,7 +24,7 @@ class ApiCallsView extends Component {
             let apiCallData = [];
             return axios.get(url).then(response => {
                 Array.prototype.forEach.call(response.data.result, value => {
-                    labels.push(value.timestamp);
+                    labels.push(value.date);
                     apiCallData.push(value.count);
                 });
                 this.setState({
@@ -53,24 +53,25 @@ class ApiCallsView extends Component {
             labels: data.labels,
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'API Calls',
                     fill: true,
                     lineTension: 0.1,
-                    backgroundColor: 'lightskyblue',
-                    borderColor: 'lightskyblue',
+                    backgroundColor: 'rgb(66,128,245,0.15)',
+                    borderColor: '#4280f5',
                     borderCapStyle: 'butt',
                     borderDash: [],
+                    borderWidth: 1,
                     borderDashOffset: 0.0,
                     borderJoinStyle: 'miter',
-                    pointBorderColor: 'lightskyblue',
-                    pointBackgroundColor: 'lightskyblue',
+                    pointBorderColor: '#4280f5',
+                    pointBackgroundColor: '#4280f5',
                     pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: 'lightskyblue',
-                    pointHoverBorderColor: 'lightskyblue',
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: '#4280f5',
+                    pointHoverBorderColor: '#4280f5',
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 0,
+                    pointHitRadius: 3,
                     data: data.apiCallData
                 }
             ]

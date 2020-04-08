@@ -43,7 +43,7 @@ const Styles = styled.div`
     .grid-row-header {
         padding-left: 1.14vw!important;
         padding-right: 1.14vw!important;
-        padding-top: 2.48vh!important;
+        padding-top: 2vh!important;
         padding-bottom: 0px!important;
     }
 
@@ -51,7 +51,7 @@ const Styles = styled.div`
         padding-left: 1.14vw!important;
         padding-right: 1.14vw!important;
         padding-top: 0px!important;
-        padding-bottom: 2.48vh!important;
+        padding-bottom: 2vh!important;
     }
 `
 
