@@ -2,4 +2,5 @@
     User Variable Overrides
 *******************************/
 
-@invertedBackground: #2f3d50;
+@secondaryBackground: #2f3d50;
+@secondaryItemColor: #ffffff;
