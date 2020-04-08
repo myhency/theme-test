@@ -33,6 +33,8 @@ const Styles = styled.div`
     .top-menu-item {
         height: 5.925vh;
         width: 100px;
+        padding-right: 0px!important;
+        margin-right: 0px!important;
     }
 `
 class MainLayout extends Component {

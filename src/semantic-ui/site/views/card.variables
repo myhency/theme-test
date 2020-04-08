@@ -1,3 +1,7 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@borderRadius: 16px;
+@borderWidth: 0px;
+@boxShadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1);
