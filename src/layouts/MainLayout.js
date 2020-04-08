@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Menu, Image, Container, Grid, Header } from 'semantic-ui-react';
 import { Link, Route, NavLink as RRNavLink, withRouter, Switch, NavLink, Redirect } from "react-router-dom";
 import mainRoutes from '../routes/main';
@@ -35,69 +35,99 @@ const Styles = styled.div`
         width: 100px;
     }
 `
+class MainLayout extends Component {
+    constructor(props) {
+        super(props);
 
-const MainLayout = () => (
-    <Styles>
-        {/* Top menu bar */}
-        <Menu fixed='top' secondary className='top-menu'>
-            <Container style={{ width: '75%' }}>
-                <NavLink to="/">
-                    <Menu.Item className='top-menu-logo'>
-                        <Image src={logo} size={'tiny'} />
-                    </Menu.Item>
-                </NavLink>
-                <Menu.Menu position='right'>
-                {
-                    mainRoutes.filter(route => route.topMenu).map((route, key) => {
-                        return (
-                            <Link 
-                                style={{float:'right'}}
-                                to={route.path}
-                                tag={RRNavLink}
-                                key={key}>
-                                <Menu.Item className='top-menu-item'>
-                                    <Header as='h6' className='top-menu-item-text'>{route.name}</Header>
-                                </Menu.Item>
-                            </Link>
-                        );
-                    })
-                }
-                </Menu.Menu>
-                
-            </Container>
-        </Menu>
-        {/* Contents */}
-        <div style={{ marginTop: '10.37vh' }}>
-            <Container style={{ width: '75%' }}>
-                <Switch>
-                    {mainRoutes.map((route, key) => {
-                        if (route.subRoutes) {
-                            let subRoutes = [];
-                            route.subRoutes.map((subRoute, subKey) => {
-                                subRoutes.push(
+        console.log(props.location.pathname)
+
+        
+
+        this.state = {
+            activeItem: ''
+        }
+    }
+
+    handleOnClickMenuItem = (event, { name }) => {
+        console.log(name)
+        this.setState({
+            activeItem: name
+        })
+    }
+
+    render() {
+        const { activeItem } = this.state;
+
+        return (
+            <Styles>
+                {/* Top menu bar */}
+                <Menu fixed='top' secondary className='top-menu'>
+                    <Container style={{ width: '75%' }}>
+                        <NavLink to="/">
+                            <Menu.Item className='top-menu-logo'>
+                                <Image src={logo} size={'tiny'} />
+                            </Menu.Item>
+                        </NavLink>
+                        <Menu.Menu position='right'>
+                            {
+                                mainRoutes.filter(route => route.topMenu).map((route, key) => {
+                                    let color = activeItem === route.name || this.props.location.pathname.includes(route.name.toLowerCase()) ? 'white' : '#8391a5';
+                                    console.log(activeItem)
+                                    console.log(color)
+                                    return (
+                                        <Link
+                                            style={{ float: 'right' }}
+                                            to={route.path}
+                                            tag={RRNavLink}
+                                            key={key}>
+                                            <Menu.Item
+                                                name={route.name}
+                                                className='top-menu-item'
+                                                active={activeItem === route.name}
+                                                onClick={this.handleOnClickMenuItem}
+                                            >
+                                                <p className='top-menu-item-text' style={{ color: `${color}` }}>{route.name}</p>
+                                            </Menu.Item>
+                                        </Link>
+                                    );
+                                })
+                            }
+                        </Menu.Menu>
+
+                    </Container>
+                </Menu>
+                {/* Contents */}
+                <div style={{ marginTop: '10.37vh' }}>
+                    <Switch>
+                        {mainRoutes.map((route, key) => {
+                            if (route.subRoutes) {
+                                let subRoutes = [];
+                                route.subRoutes.map((subRoute, subKey) => {
+                                    subRoutes.push(
+                                        <Route
+                                            path={subRoute.path}
+                                            component={subRoute.component}
+                                            key={subKey} />
+                                    )
+                                    return null;
+                                });
+                                return subRoutes;
+                            } else {
+                                return (
                                     <Route
-                                        path={subRoute.path}
-                                        component={subRoute.component}
-                                        key={subKey} />
+                                        exact
+                                        path={route.path}
+                                        component={route.component}
+                                        key={key} />
                                 )
-                                return null;
-                            });
-                            return subRoutes;
-                        } else {
-                            return (
-                                <Route
-                                    exact
-                                    path={route.path}
-                                    component={route.component}
-                                    key={key} />
-                            )
-                        }
-                    })}
-                    <Redirect to="/overview" />
-                </Switch>
-            </Container>
-        </div>
-    </Styles>
-);
+                            }
+                        })}
+                        <Redirect to="/overview" />
+                    </Switch>
+                </div>
+            </Styles>
+        );
+    }
+}
 
 export default withRouter(MainLayout);

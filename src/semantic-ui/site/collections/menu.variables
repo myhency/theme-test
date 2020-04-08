@@ -4,3 +4,11 @@
 
 @secondaryBackground: #2f3d50;
 @secondaryItemColor: #ffffff;
+
+@secondaryHoverItemBackground: none;
+@secondaryHoverItemColor: red;
+
+@secondaryActiveItemBackground: none;
+@secondaryActiveItemColor: red;
+@secondaryActiveHoverItemBackground: none;
+@secondaryActiveHoverItemColor: none;
