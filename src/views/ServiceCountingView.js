@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Grid, Image } from 'semantic-ui-react';
+import { Grid, Image, Container } from 'semantic-ui-react';
 import axios from 'axios';
 import { Styles } from '../components/CountingCardStyle';
 import servicesIcon from '../assets/images/icon_services.png';
@@ -7,7 +7,7 @@ import servicesIcon from '../assets/images/icon_services.png';
 const url = `/api/services/count`;
 
 
-class ServiiceCountingView extends Component {
+class ServiceCountingView extends Component {
     constructor(props) {
         super(props);
 
@@ -20,7 +20,7 @@ class ServiiceCountingView extends Component {
 
     componentDidMount() {
         let intervalId = setInterval(this.getCount, 3000);
-        this.setState({ intervalId: intervalId});
+        this.setState({ intervalId: intervalId });
     }
 
     componentWillUnmount() {
@@ -49,28 +49,26 @@ class ServiiceCountingView extends Component {
         const { count } = this.state;
         return (
             <Styles color='#3b4a5f'>
-                <Card className='counting-card' onClick={() => this.handleClick()}>
-                    <Card.Content>
-                        <Grid>
-                            <Grid.Row className='grid-row-header' columns={2} >
-                                <Grid.Column verticalAlign='bottom'>
-                                    <span className='counting-card-title'>Services</span>
-                                </Grid.Column>
-                                <Grid.Column textAlign='right'>
-                                    <Image className='title-icon' src={servicesIcon} avatar/>
-                                </Grid.Column>
-                            </Grid.Row>
-                            <Grid.Row className='grid-row-content' columns={1}>
-                                <Grid.Column>
-                                    <span className='counting-card-content'>{count}</span>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </Card.Content>
-                </Card>
+                <Container className='counting-card' onClick={() => this.handleClick()}>
+                    <Grid className='counting-card-content-box'>
+                        <Grid.Row className='grid-row-header' columns={2} >
+                            <Grid.Column verticalAlign='bottom'>
+                                <span className='counting-card-title'>Services</span>
+                            </Grid.Column>
+                            <Grid.Column textAlign='right'>
+                                <Image className='title-icon' src={servicesIcon} />
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row className='grid-row-content' columns={1}>
+                            <Grid.Column>
+                                <span className='counting-card-content'>{count}</span>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </Container>
             </Styles>
         );
     }
 }
 
-export default ServiiceCountingView;
+export default ServiceCountingView;

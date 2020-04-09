@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { Header, Card, Label, Table, Menu, Icon } from 'semantic-ui-react';
+import { Card, Table, Menu, Icon, Container, Grid } from 'semantic-ui-react';
 import axios from 'axios';
-import ListTableNew from '../components/ListTableNew';
 import styled from 'styled-components';
 import Gallery from '../utils/Gallery';
 
 const Styles = styled.div`
+    .counting-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1);
+        /* padding: 10px 10px 10px 10px!important; */
+    }
+
+    .counting-card-content-box {
+        width: 100%!important;
+        margin: 0px!important;
+    }
+
     .card-style {
         width: 100%!important;
-        height: 48.4vh!important;
+        height: 445px!important;
     }
 
     .table-style {
@@ -55,30 +66,6 @@ const EmptyCells = (props) => {
         ))
     }
     return cells;
-}
-
-const TableFoots = (props) => {
-    if (props.foots)
-        return <Table.Footer>
-            <Table.Row>
-                <Table.HeaderCell colSpan={props.length}>
-                    <Menu floated='right' pagination>
-                        <Menu.Item as='a' icon>
-                            <Icon name='chevron left' />
-                        </Menu.Item>
-                        <Menu.Item as='a'>1</Menu.Item>
-                        <Menu.Item as='a'>2</Menu.Item>
-                        <Menu.Item as='a'>3</Menu.Item>
-                        <Menu.Item as='a'>4</Menu.Item>
-                        <Menu.Item as='a' icon>
-                            <Icon name='chevron right' />
-                        </Menu.Item>
-                    </Menu>
-                </Table.HeaderCell>
-            </Table.Row>
-        </Table.Footer>
-
-    return <></>
 }
 
 
@@ -146,51 +133,53 @@ class InstanceHealthCheckView extends Component {
 
         return (
             <Styles>
-                <Card className='card-style'>
-                    <Card.Content>
-                        <Card.Description>
-                            <Table selectable className='table-style'>
-                                <Table.Header>
-                                    <Table.Row>
-                                        {headers.map((value, index) => {
-                                            return <Table.HeaderCell
-                                                className='header-style'
-                                                key={index}>
-                                                {value}
-                                            </Table.HeaderCell>
-                                        })}
-                                    </Table.Row>
-                                </Table.Header>
+                <Container className='counting-card'>
+                    <Grid className='counting-card-content-box'>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Table selectable className='table-style'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            {headers.map((value, index) => {
+                                                return <Table.HeaderCell
+                                                    className='header-style'
+                                                    key={index}>
+                                                    {value}
+                                                </Table.HeaderCell>
+                                            })}
+                                        </Table.Row>
+                                    </Table.Header>
 
-                                <Table.Body>
-                                    {instanceHealthData.cellData.map((rowValue, rowIndex) => {
-                                        return (
-                                            <Table.Row
-                                                key={rowIndex}
-                                                onClick={() => this.handleOnClick(rowValue.id)}>
-                                                {rowValue.data.map((cellValue, cellIndex) => {
-                                                    if (cellValue === 'true' || cellValue === 'false') {
-                                                        return <Table.Cell
-                                                            key={cellIndex}>
-                                                            <img src={Gallery.getLogoImage(cellValue)} alt={cellValue} />
-                                                        </Table.Cell>
-                                                    } else {
-                                                        return <Table.Cell
-                                                            className='cell-style'
-                                                            key={cellIndex}>
-                                                            {cellValue}
-                                                        </Table.Cell>
-                                                    }
-                                                })}
-                                            </Table.Row>
-                                        );
-                                    })}
-                                    <EmptyColumns data={instanceHealthData} count={8} />
-                                </Table.Body>
-                            </Table>
-                        </Card.Description>
-                    </Card.Content>
-                </Card>
+                                    <Table.Body>
+                                        {instanceHealthData.cellData.map((rowValue, rowIndex) => {
+                                            return (
+                                                <Table.Row
+                                                    key={rowIndex}
+                                                    onClick={() => this.handleOnClick(rowValue.id)}>
+                                                    {rowValue.data.map((cellValue, cellIndex) => {
+                                                        if (cellValue === 'true' || cellValue === 'false') {
+                                                            return <Table.Cell
+                                                                key={cellIndex}>
+                                                                <img src={Gallery.getLogoImage(cellValue)} alt={cellValue} />
+                                                            </Table.Cell>
+                                                        } else {
+                                                            return <Table.Cell
+                                                                className='cell-style'
+                                                                key={cellIndex}>
+                                                                {cellValue}
+                                                            </Table.Cell>
+                                                        }
+                                                    })}
+                                                </Table.Row>
+                                            );
+                                        })}
+                                        <EmptyColumns data={instanceHealthData} count={7} />
+                                    </Table.Body>
+                                </Table>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </Container>
             </Styles>
         );
     }

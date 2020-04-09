@@ -2,8 +2,14 @@ import styled from 'styled-components';
 
 const Styles = styled.div`
     .counting-card {
-        width: 11.875vw!important;
-        height: 11.48vh!important;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1);
+    }
+
+    .counting-card-content-box {
+        width: 100%!important;
+        margin: 0px!important;
     }
 
     .counting-card-title {
@@ -36,8 +42,9 @@ const Styles = styled.div`
         width: 24px!important;
         height: 24px!important;
         object-fit: contain;
-        /* float: right; */
+        float: right;
         vertical-align: middle;
+
     }
 
     .grid-row-header {

@@ -1,8 +1,19 @@
 import styled from 'styled-components';
 
 const Styles = styled.div`
+    height: 91vh!important;
+    .grid-style {
+        width: 75%;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+
+    .grid-row-layout {
+        height: 46vh!important;
+    }
+
     .row-layout {
-        margin-top: 2.96vh;
+        padding-top: 2.96vh;
     }
 
     .clock-icon {

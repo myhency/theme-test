@@ -1,12 +1,12 @@
 import React from 'react';
-import { Header, Card, Label } from 'semantic-ui-react';
+import { Card, Container } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 
 const Styles = styled.div`
     .graph-card {
         width: 100%!important;
-        height: 28vh!important;
+        height: 28.6vh!important;
     }
 
 `
@@ -65,17 +65,16 @@ const LineGraphCard = (props) => {
 
     return (
         <Styles>
-        <Card className='graph-card'>
-            <Card.Content>
-                <Line
-                    data={props.data}
-                    height={60}
-                    options={options}
-                />
-            </Card.Content>
-        </Card>
+            <Card className='graph-card'>
+                <Card.Content>
+                    <Line
+                        data={props.data}
+                        height={60}
+                        options={options}
+                    />
+                </Card.Content>
+            </Card>
         </Styles>
-
     )
 };
 
