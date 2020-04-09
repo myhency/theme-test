@@ -17,7 +17,7 @@ const Overview = (props) => {
             <Grid style={{ width: '75%', marginLeft: 'auto', marginRight: 'auto' }}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Grid.Row columns={2}>
+                        <Grid.Row>
                             <Grid>
                                 <Grid.Row columns={2}>
                                     <Grid.Column verticalAlign='middle'>
@@ -44,55 +44,51 @@ const Overview = (props) => {
                                 </Grid.Row>
                             </Grid>
                         </Grid.Row>
+                        <Grid.Row className='row-layout'>
+                            <Grid>
+                                <Grid.Row columns={2}>
+                                    <Grid.Column verticalAlign='middle'>
+                                        <span className='card-title'>API Calls</span>
+                                    </Grid.Column>
+                                    <Grid.Column verticalAlign='middle' textAlign='right'>
+                                        <Image className='clock-icon' src={clockIcon} avatar /><span className='period-text'>60m</span>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Row>
                         <Grid.Row>
-                            <Grid.Row columns={2} className='row-layout'>
-                                <Grid>
-                                    <Grid.Row columns={2}>
-                                        <Grid.Column verticalAlign='middle'>
-                                            <span className='card-title'>API Calls</span>
-                                        </Grid.Column>
-                                        <Grid.Column verticalAlign='middle' textAlign='right'>
-                                            <Image className='clock-icon' src={clockIcon} avatar /><span className='period-text'>60m</span>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Row>
-                            <Grid.Row>
-                                <Grid>
-                                    <Grid.Row columns={1}>
-                                        <Grid.Column>
-                                            <ApiCallsView />
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Row>
+                            <Grid>
+                                <Grid.Row columns={1}>
+                                    <Grid.Column>
+                                        <ApiCallsView />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
                         </Grid.Row>
                     </Grid.Column>
                     <Grid.Column>
-                        <Grid>
-                            <Grid.Row columns={2}>
-                                <Grid.Column verticalAlign='middle'>
-                                    <span className='card-title'>Instance Health Check</span>
-                                </Grid.Column>
-                                <Grid.Column verticalAlign='middle' textAlign='right'>
-                                    <Image className='clock-icon' src={clockIcon} avatar /><span className='period-text'>60m</span>
-                                </Grid.Column>
-                            </Grid.Row>
-                            <Grid.Row>
-                                <Grid>
-                                    <Grid.Row columns={1}>
-                                        <Grid.Column>
-                                            {/* <InstanceHealthCheckView history={props.history} /> */}
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Row>
-                        </Grid>
+                        <Grid.Row>
+                            <Grid>
+                                <Grid.Row columns={2}>
+                                    <Grid.Column verticalAlign='middle'>
+                                        <span className='card-title'>Instance Health Check</span>
+                                    </Grid.Column>
+                                    <Grid.Column verticalAlign='middle' textAlign='right'>
+                                        <Image className='clock-icon' src={clockIcon} avatar /><span className='period-text'>60m</span>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid>
+                                <Grid.Row columns={1}>
+                                    <Grid.Column>
+                                        <InstanceHealthCheckView history={props.history} />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Row>
                     </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns={4}>
-
-
                 </Grid.Row>
             </Grid>
 

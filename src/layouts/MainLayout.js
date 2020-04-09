@@ -99,7 +99,7 @@ class MainLayout extends Component {
                     </Container>
                 </Menu>
                 {/* Contents */}
-                <div style={{ marginTop: '10.37vh' }}>
+                <div style={{ paddingTop: '9vh' }}>
                     <Switch>
                         {mainRoutes.map((route, key) => {
                             if (route.subRoutes) {
