@@ -16,6 +16,10 @@ const Styles = styled.div`
         padding-top: 2.96vh;
     }
 
+    .service-row-layout {
+        padding-top: 0px!important;
+    }
+
     .clock-icon {
         width: 16px!important;
         height: 16px!important;

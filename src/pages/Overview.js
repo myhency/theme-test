@@ -159,7 +159,7 @@ const Overview = (props) => {
                         </Grid.Row> */}
                     </Grid.Column>
                 </Grid.Row>
-                <Grid.Row>
+                <Grid.Row className='service-row-layout'>
                     <Grid.Column>
                         <ServiceSliderView />
                     </Grid.Column>
