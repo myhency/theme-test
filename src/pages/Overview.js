@@ -1,9 +1,7 @@
 import React from 'react';
-import { Grid, Container, Image, Item, List } from 'semantic-ui-react';
+import { Grid, Image } from 'semantic-ui-react';
 import InstanceHealthCheckView from '../views/InstanceHealthCheckView';
 import ApiCallsView from '../views/ApiCallsView';
-import ServiceTransitionSliderView from '../views/ServiceTransitionSliderView';
-import ServiceStatisticsSliderView from '../views/ServiceStatisticsSliderView';
 import ErrorCountingView from '../views/ErrorCountingView';
 import SiteCountingView from '../views/SiteCountingView';
 import ServiceCountingView from '../views/ServiceCountingView';
@@ -125,15 +123,6 @@ const Overview = (props) => {
                                 </Grid.Row>
                             </Grid>
                         </Grid.Row>
-                        {/* <Grid.Row>
-                            <Grid>
-                                <Grid.Row>
-                                    <Grid.Column>
-                                        <ServiceTransitionSliderView />
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
-                        </Grid.Row> */}
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <Grid.Row>
@@ -148,54 +137,14 @@ const Overview = (props) => {
                                 </Grid.Row>
                             </Grid>
                         </Grid.Row>
-                        {/* <Grid.Row>
-                            <Grid>
-                                <Grid.Row columns={1}>
-                                    <Grid.Column>
-                                        <ServiceStatisticsSliderView />
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
-                        </Grid.Row> */}
                     </Grid.Column>
                 </Grid.Row>
-                <Grid.Row className='service-row-layout'>
+                <Grid.Row >
                     <Grid.Column>
                         <ServiceSliderView />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-
-
-            {/* <Grid>
-                <Grid.Row stretched columns={2}>
-                    <Grid.Column style={{ paddingLeft: '3em' }}>
-                        <Grid columns={3}>
-                            <Grid.Row>
-                                <Grid.Column>
-                                    <ErrorCountingView history={props.history} />
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <SiteCountingView history={props.history} />
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <ServiiceCountingView history={props.history} />
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                        <ApiCallsView />
-                    </Grid.Column>
-                    <Grid.Column style={{ paddingRight: '3em' }}>
-                        <InstanceHealthCheckView history={props.history} />
-                    </Grid.Column>
-                </Grid.Row>
-
-                <Grid.Row>
-                    <Grid.Column style={{ paddingLeft: '3em', paddingRight: '3em' }}>
-                        <ServiceStatusSliderView />
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid> */}
         </Styles>
     );
 };

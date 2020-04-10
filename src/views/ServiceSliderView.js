@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Slider from "react-slick";
-import { Grid, Header, Segment, Image, Container, Statistic, Label, Card } from 'semantic-ui-react';
+import { Grid, Image, Container } from 'semantic-ui-react';
 import { Bar } from 'react-chartjs-2';
 import { format } from 'date-fns';
 import constants from '../utils/constants';
 import pairwiseIcon from '../assets/images/icon_pairwise.png';
-import clockIcon from '../assets/images/icon_time.png';
+import issuanceIcon from '../assets/images/icon_issuance.png';
+import verificationIcon from '../assets/images/icon_verification.png';
 
 const Styles = styled.div`
     .transition-column {
@@ -65,9 +66,6 @@ const Styles = styled.div`
     }
 
     .graph-card {
-        /* background-color: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1); */
         height: 250px!important;
         padding: 20px 0 20px 20px!important;
         margin: 0!important;
@@ -76,9 +74,9 @@ const Styles = styled.div`
     .transition-card {
         background-color: white;
         border-radius: 16px;
-        /* box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1); */
         height: 330px!important;
         margin: 0!important;
+        padding: 12px;
     }
 
     .statistic-card {
@@ -116,9 +114,15 @@ const Styles = styled.div`
         width: 24px!important;
         height: 24px!important;
         object-fit: contain;
-        /* float: right; */
         vertical-align: middle;
         float: right;
+    }
+
+    .dot {
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        display: inline-block;
     }
 `
 
@@ -173,12 +177,14 @@ const options = {
 let settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
+    autoplaySpeed: 5000,
     arrows: false,
-    centerPadding: '0px'
+    // centerPadding: '0px'
+    // dotsClass: 'slick-dot-position'
 };
 
 
@@ -354,19 +360,15 @@ class ServiceSliderView extends Component {
                                             <Grid className='counting-card-content-box' key={index}>
                                                 <Grid.Row columns={2}>
                                                     <Grid.Column verticalAlign='middle'>
-                                                        <span className='card-title'>{value.serviceName}</span>
+                                                        <span className='card-title'>{value.siteName}&nbsp;{value.serviceName}</span>
                                                     </Grid.Column>
                                                     <Grid.Column verticalAlign='middle' textAlign='right'>
-                                                        <Image
-                                                            className='clock-icon'
-                                                            src={clockIcon}
-                                                            avatar />
+                                                        <span className='dot' style={{ backgroundColor: '#4280f5' }}></span>
+                                                        &nbsp;&nbsp;
                                                         <span className='period-text'>Verification</span>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <Image
-                                                            className='clock-icon'
-                                                            src={pairwiseIcon}
-                                                            avatar />
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span className='dot' style={{ backgroundColor: '#91e2ff' }}></span>
+                                                        &nbsp;&nbsp;
                                                         <span className='period-text'>Issuance</span>
                                                     </Grid.Column>
                                                 </Grid.Row>
@@ -398,23 +400,55 @@ class ServiceSliderView extends Component {
                                                         </Grid.Row>
                                                         <Grid.Row style={{ paddingTop: '0', paddingBottom: '0'}}>
                                                             <Grid.Column>
-                                                                <span className='statistic-card-content-big'>{value.statisticsData.todayCredentialIssuance}</span>
-                                                                <span className='statistic-card-content-small'>/{value.statisticsData.cumulativeCredentialIssuance}</span>
-                                                                
+                                                                <span className='statistic-card-content-big'>{value.statisticsData.todayPairwisedid}</span>
+                                                                <span className='statistic-card-content-small'>/{value.statisticsData.cumulativePairwisedid}</span>
                                                             </Grid.Column>
                                                         </Grid.Row>
                                                     </Grid>
-
                                                 </Container>
                                             </Grid.Row>
                                             <Grid.Row style={{ padding: '0 0 12px 0' }}>
                                                 <Container className='statistic-card'>
-
+                                                    <Grid>
+                                                        <Grid.Row columns={2} className='statistic-card-row'>
+                                                            <Grid.Column width={10}>
+                                                                <span className='statistic-card-title'>DID 발급</span>
+                                                            </Grid.Column>
+                                                            <Grid.Column width={6} verticalAlign='middle' textAlign='right'>
+                                                                <Image
+                                                                    className='service-icon'
+                                                                    src={issuanceIcon} />
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                        <Grid.Row style={{ paddingTop: '0', paddingBottom: '0' }}>
+                                                            <Grid.Column>
+                                                                <span className='statistic-card-content-big'>{value.statisticsData.todayCredentialIssuance}</span>
+                                                                <span className='statistic-card-content-small'>/{value.statisticsData.cumulativeCredentialIssuance}</span>
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                    </Grid>
                                                 </Container>
                                             </Grid.Row>
                                             <Grid.Row style={{ padding: '0' }}>
                                                 <Container className='statistic-card'>
-
+                                                    <Grid>
+                                                        <Grid.Row columns={2} className='statistic-card-row'>
+                                                            <Grid.Column width={10}>
+                                                                <span className='statistic-card-title'>DID 검증</span>
+                                                            </Grid.Column>
+                                                            <Grid.Column width={6} verticalAlign='middle' textAlign='right'>
+                                                                <Image
+                                                                    className='service-icon'
+                                                                    src={verificationIcon} />
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                        <Grid.Row style={{ paddingTop: '0', paddingBottom: '0' }}>
+                                                            <Grid.Column>
+                                                                <span className='statistic-card-content-big'>{value.statisticsData.todayCredentialVerification}</span>
+                                                                <span className='statistic-card-content-small'>/{value.statisticsData.cumulativeCredentialVerification}</span>
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                    </Grid>
                                                 </Container>
                                             </Grid.Row>
                                         </Grid>
