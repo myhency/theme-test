@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Grid, Image, Container } from 'semantic-ui-react';
+import { Grid, Image, Container } from 'semantic-ui-react';
 import axios from 'axios';
 import errorsIcon from '../assets/images/icon_errors.png';
 import { Styles } from '../components/CountingCardStyle';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table, Menu, Icon, Container, Grid } from 'semantic-ui-react';
+import { Table, Container, Grid } from 'semantic-ui-react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Gallery from '../utils/Gallery';
