@@ -17,7 +17,7 @@ const Overview = (props) => {
         <Styles>
             <Grid className='grid-style'>
                 <Grid.Row columns={2}>
-                    <Grid.Column width={8}>
+                    <Grid.Column computer={8} tablet={16}>
                         <Grid>
                             <Grid.Row columns={2}>
                                 <Grid.Column width={8} verticalAlign='middle'>
@@ -61,7 +61,7 @@ const Overview = (props) => {
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={8}>
+                    <Grid.Column computer={8} tablet={16}>
                         <Grid>
                             <Grid.Row columns={2}>
                                 <Grid.Column verticalAlign='middle'>
