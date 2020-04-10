@@ -2,6 +2,11 @@ import styled from 'styled-components';
 
 const Styles = styled.div`
     height: 91vh!important;
+
+    .grid-row-nopadding {
+        padding-top: 0px!important;
+    }
+
     .grid-style {
         width: 75%;
         margin-left: auto; 

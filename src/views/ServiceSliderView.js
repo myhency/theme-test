@@ -16,8 +16,8 @@ const Styles = styled.div`
     }
 
     .statistic-column {
-        padding-left: 26px!important;
-        padding-right: 0px!important;
+        /* padding-left: 26px!important;
+        padding-right: 0px!important; */
     }
 
     .statistic-card-title {
@@ -124,6 +124,11 @@ const Styles = styled.div`
         border-radius: 50%;
         display: inline-block;
     }
+
+    .service-grid-style {
+        background-color: yellow!important;
+        
+    }
 `
 
 const options = {
@@ -180,7 +185,7 @@ let settings = {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 5000,
     arrows: false,
     // centerPadding: '0px'
@@ -296,63 +301,66 @@ class ServiceSliderView extends Component {
         const { sliderCardData } = this.state;
 
         return (
-            <Styles>
-                <Slider {...settings}>
-                    {sliderCardData.map((value, index) => {
-                        let data = {
-                            labels: value.transitionData.labels,
-                            datasets: [
-                                {
-                                    label: 'Issuance',
-                                    fill: false,
-                                    lineTension: 0.1,
-                                    backgroundColor: '#9adbff',
-                                    borderColor: '#9adbff',
-                                    borderCapStyle: 'butt',
-                                    borderDash: [],
-                                    barThickness: 6,
-                                    categoryPercentage: 1,
-                                    barPercentage: 0.5,
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: '#9adbff',
-                                    pointBackgroundColor: '#9adbff',
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: '#9adbff',
-                                    pointHoverBorderColor: '#9adbff',
-                                    pointHoverBorderWidth: 2,
-                                    pointRadius: 1,
-                                    pointHitRadius: 10,
-                                    data: value.transitionData.issuanceData
-                                },
-                                {
-                                    label: 'Verification',
-                                    fill: false,
-                                    lineTension: 0.1,
-                                    backgroundColor: '#4280f5',
-                                    borderColor: '#000000',
-                                    borderCapStyle: 'butt',
-                                    borderDash: [],
-                                    barThickness: 6,
-                                    categoryPercentage: 1,
-                                    barPercentage: 0.5,
-                                    borderDashOffset: 0.0,
-                                    borderJoinStyle: 'miter',
-                                    pointBorderColor: '#4280f5',
-                                    pointBackgroundColor: '#4280f5',
-                                    pointBorderWidth: 1,
-                                    pointHoverRadius: 5,
-                                    pointHoverBackgroundColor: '#4280f5',
-                                    pointHoverBorderColor: '#4280f5',
-                                    pointHoverBorderWidth: 2,
-                                    pointRadius: 1,
-                                    pointHitRadius: 10,
-                                    data: value.transitionData.verificationData
-                                },
-                            ]
-                        }
-                        return (
+
+            <Slider {...settings}>
+
+
+                {sliderCardData.map((value, index) => {
+                    let data = {
+                        labels: value.transitionData.labels,
+                        datasets: [
+                            {
+                                label: 'Issuance',
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: '#9adbff',
+                                borderColor: '#9adbff',
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                barThickness: 6,
+                                categoryPercentage: 1,
+                                barPercentage: 0.5,
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: '#9adbff',
+                                pointBackgroundColor: '#9adbff',
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: '#9adbff',
+                                pointHoverBorderColor: '#9adbff',
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: value.transitionData.issuanceData
+                            },
+                            {
+                                label: 'Verification',
+                                fill: false,
+                                lineTension: 0.1,
+                                backgroundColor: '#4280f5',
+                                borderColor: '#000000',
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                barThickness: 6,
+                                categoryPercentage: 1,
+                                barPercentage: 0.5,
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: '#4280f5',
+                                pointBackgroundColor: '#4280f5',
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: '#4280f5',
+                                pointHoverBorderColor: '#4280f5',
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 1,
+                                pointHitRadius: 10,
+                                data: value.transitionData.verificationData
+                            },
+                        ]
+                    }
+                    return (
+                        <Styles>
                             <Grid>
                                 <Grid.Row columns={2}>
                                     <Grid.Column width={12} className='transition-column'>
@@ -385,7 +393,7 @@ class ServiceSliderView extends Component {
                                     </Grid.Column>
                                     <Grid.Column width={4} className='statistic-column'>
                                         <Grid className='counting-card-content-box' key={index}>
-                                            <Grid.Row style={{ padding: '0 0 12px 0'}}>
+                                            <Grid.Row style={{ padding: '0 0 12px 0' }}>
                                                 <Container className='statistic-card'>
                                                     <Grid>
                                                         <Grid.Row columns={2} className='statistic-card-row'>
@@ -398,7 +406,7 @@ class ServiceSliderView extends Component {
                                                                     src={pairwiseIcon} />
                                                             </Grid.Column>
                                                         </Grid.Row>
-                                                        <Grid.Row style={{ paddingTop: '0', paddingBottom: '0'}}>
+                                                        <Grid.Row style={{ paddingTop: '0', paddingBottom: '0' }}>
                                                             <Grid.Column>
                                                                 <span className='statistic-card-content-big'>{value.statisticsData.todayPairwisedid}</span>
                                                                 <span className='statistic-card-content-small'>/{value.statisticsData.cumulativePairwisedid}</span>
@@ -455,10 +463,10 @@ class ServiceSliderView extends Component {
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
-                        );
-                    })}
-                </Slider>
-            </Styles>
+                        </Styles>
+                    );
+                })}
+            </Slider>
         );
     }
 
