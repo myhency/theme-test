@@ -1,15 +1,22 @@
 import React from 'react';
-import { Container, Grid, Button, Table, Input, Image } from 'semantic-ui-react';
+import { Container, Grid, Button, Table, Input, Dropdown, Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
-import searchIcon from '../assets/images/icon_search.png';
+import moreIcon from '../assets/images/btn_more.png';
 
 export const JamesCard = styled(Container)({
     backgroundColor: 'white',
     borderRadius: '16px',
     boxShadow: '0 10px 14px 0 rgba(131, 145, 165, 0.1)',
-    padding: '14px'
+    padding: '24px'
 });
+
+export const JamesEmptyCard = styled(Container)`
+    width: 342px;
+    height: 160px;
+    border-radius: 12px;
+    background-color: #e4e7ef;
+`
 
 export const JamesGrid = styled(Grid)({
     color: props => props.color
@@ -20,25 +27,55 @@ export const JamesRow = styled(Grid.Row)({
 });
 
 export const JamesColumn = styled(Grid.Column)({
-    padding: '14px!important'
+    padding: '0px!important'
 });
 
-export const JamesButton = styled(Button)({
-    backgroundColor: props => props.color
-});
+export const JamesButton = styled(Button)`
+    &&& {
+        border-radius: 24px;
+        background-color: #4280f5;
+        color: white;
+        height: 40px;
+    }
+`
 
-export const JamesHeader = styled.span({
-    width: '83px',
-    height: '27px',
-    fontSize: '18px',
-    fontWeight: 'bold',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '1.5',
-    letterSpacing: '-0.18px',
-    textAlign: 'left',
-    color: '#3b4a5f'
-});
+// export const JamesHeader = styled.span({
+//     width: '83px',
+//     height: '27px',
+//     fontSize: '18px',
+//     fontWeight: 'bold',
+//     fontStretch: 'normal',
+//     fontStyle: 'normal',
+//     lineHeight: '1.5',
+//     letterSpacing: '-0.18px',
+//     textAlign: 'left',
+//     color: '#3b4a5f'
+// });
+
+export const JamesHeader = styled.span`
+    font-size: ${props => props.size === 1 ? '28px' : props.size === 2 ? '24px' : props.size === 3 ? '18px' : '18px'};
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3b4a5f;
+`
+
+export const JamesBodyText = styled.span`
+    /* width: 61px; */
+    /* height: 27px; */
+    /* font-family: SpoqaHanSans; */
+    font-size: ${props => props.size === 1 ? '18px' : props.size === 2 ? '15px' : props.size === 3 ? '13px' : '13px'};
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: ${props => props.color ? props.color : '#3b4a5f'};
+`
 
 export const JamesTable = styled(Table)({
     borderWidth: '0px!important'
@@ -245,56 +282,51 @@ export class JamesBarGraph extends React.Component {
     }
 }
 
-// export const JamesInput = styled.input({
-//     backgroundColor : '#eff1f7',
-//     padding: '8px',
-//     display: 'block',
-//     border: 'none',
-//     borderBottom: '1px solid #ccc',
-//     width: '100%'
-// })
-
-// export const JamesInput = styled(Input)({
-//     background: '#eff1f7',
-//     padding: '8px',
-//     display: 'block',
-//     border: 'none',
-//     width: '100%'
-// })
-
-export class JamesInput extends React.Component {
-
-    render() {
-        const Styles = styled.div`
-            .james-input-field input { 
-                background: #eff1f7;
-                padding: 8px;
-                display: block;
-                border: none;
-                width: 100%;
-                -webkit-tap-highlight-color: #eff1f7;
-            }
-
-            .james-input-field input:focus{
-                outline: none;
-                background: #eff1f7;
-                padding: 8px;
-                display: block;
-                border: none;
-                width: 100%;
-                -webkit-tap-highlight-color: #eff1f7;
-            }
-
-            .james-input-icon {
-                width: 10px;
-            }
-        `
-
-        return (
-            <Styles>
-                <Image src={searchIcon} className='james-input-icon' />
-                <Input className='james-input-field' placeholder='Site name' />
-            </Styles>
-        );
+export const JamesInput = styled(Input)`
+    &&& input {
+        background: #eff1f7;
+        padding: 8px;
+        display: block;
+        border: none;
+        width: 100%;
+        -webkit-tap-highlight-color: #eff1f7;
+        float: left;
     }
-}
+
+    &&& input:focus{
+        outline: none;
+        background: #eff1f7;
+        padding: 8px;
+        display: block;
+        border: none;
+        width: 100%;
+        -webkit-tap-highlight-color: #eff1f7;
+        float: left;
+    }
+`
+
+export const JamesDropdown = styled(Dropdown)`
+    &&& i.icon:before {
+        content: url(${moreIcon});
+    }
+`
+
+export const JamesModal = styled(Modal)`
+    width: 368px;
+    height: 464px;
+    border-radius: 12px!important;
+    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.08)!important;
+    padding: 24px;
+
+    &&& .header {
+        border-radius: 12px 12px 0 0 !important;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    &&& .content {  
+        padding-left: 0;
+        padding-right: 0;
+    }
+`
+

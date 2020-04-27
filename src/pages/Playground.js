@@ -14,12 +14,19 @@ import {
     JamesTableCell,
     JamesLineGraph,
     JamesBarGraph,
-    JamesInput
+    JamesInput,
+    JamesDropdown,
+    JamesEmptyCard,
+    JamesModal
 
 } from '../themes/jamesStyledComponents';
 
 
 class Playground extends Component {
+    onChange = (event) => {
+        console.log(event);
+    }
+
     render() {
         return (
             <JamesGrid celled>
@@ -116,7 +123,61 @@ class Playground extends Component {
                         JamesInput Sample
                     </JamesColumn>
                     <JamesColumn computer={8} tablet={16} mobile={16}>
-                        <JamesInput />
+                        <JamesInput
+                            placeholder='Site name'
+                            icon='search'
+                            iconPosition='left'
+                            onChange={this.onChange}
+                        />
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesButton Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesButton>SAMPLE BUTTON</JamesButton>
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesDropdown Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesCard>
+                            <JamesDropdown>
+
+                            </JamesDropdown>
+                        </JamesCard>
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesEmptyCard Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesEmptyCard />
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesModal Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesModal trigger={<JamesButton>Show Modal</JamesButton>}>
+                            <JamesModal.Header>
+                                <JamesHeader>Select a Photo</JamesHeader>
+                            </JamesModal.Header>
+                            <JamesModal.Content image>
+                                <JamesModal.Description>
+                                    <p>
+                                        We've found the following gravatar image associated with your e-mail
+                                        address.
+                                    </p>
+                                    <p>Is it okay to use this photo?</p>
+                                </JamesModal.Description>
+                            </JamesModal.Content>
+                        </JamesModal>
                     </JamesColumn>
                 </JamesRow>
             </JamesGrid>

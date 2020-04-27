@@ -21,6 +21,17 @@ import axios from 'axios';
 import constants from '../utils/constants';
 import { format, parse } from 'date-fns';
 import styled from 'styled-components';
+import {
+    JamesInput,
+    JamesButton,
+    JamesCard,
+    JamesDropdown,
+    JamesBodyText,
+    JamesRow,
+    JamesColumn,
+    JamesEmptyCard
+} from '../themes/jamesStyledComponents';
+
 
 const Styles = styled.div`
     img {
@@ -225,17 +236,23 @@ class SiteList extends Component {
     }
 
     //Search Event
-    handleOnChangeSearchInput = (event) => {
+    handleOnChangeSearchInput = (event, value) => {
         // this.setState({
         //     searchValue: event.target.value
         // })
-        this.getSites(`/api/sites?name=${event.target.value}`)
+        if (event.target.value === '') return this.getSites('/api/sites');
+        this.getSites(`/api/sites?name=${event.target.value}`);
     }
 
     //Search Event
-    handleOnClickSearchInput = () => {
-        this.getSites(`/api/sites?name=${this.state.searchValue}`)
-    }
+    // handleOnClickSearchInput = (event) => {
+    //     if (event === undefined) {
+    //         this.getSites(`/api/sites?name=${this.state.searchValue}`);
+    //         return;
+    //     }
+    //     console.log(event)
+    //     this.getSites('/api/sites');
+    // }
 
     render() {
         const {
@@ -257,132 +274,95 @@ class SiteList extends Component {
                             <span className='list-title'>Sites</span>
                         </Grid.Column>
                         <Grid.Column width={3} verticalAlign='middle' textAlign='left'>
-                            <Input
-                                style={{ float: 'right' }}
-                                icon={<Icon name='search' link onClick={this.handleOnClickSearchInput} />}
-                                placeholder='Search by site name...'
+                            <JamesInput
+                                icon='search'
+                                iconPosition='left'
+                                placeholder='Site name'
                                 onChange={this.handleOnChangeSearchInput}
                                 onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearchInput(); }}
+                            // value={searchValue}
                             />
                         </Grid.Column>
                         <Grid.Column width={12} verticalAlign='middle'>
-                            <Button
-                                color='blue'
-                                icon='plus'
-                                content='Add site'
+                            <JamesButton
                                 floated='right'
                                 onClick={(v, e) => this.handleOnClickAddSiteButton(v, e)}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-
-                    </Grid.Row>
-                    <Grid.Row columns={2}>
-
-                    </Grid.Row>
-                </Grid>
-                <Grid className='grid-style'>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Grid columns={2}>
-                                <Grid.Row>
-                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                                        <span className='list-title'>Sites</span>
-                                    </Grid.Column>
-                                    <Grid.Column verticalAlign='top' width={5}>
-                                        <Input
-                                            style={{ float: 'right' }}
-                                            icon={<Icon name='search' link onClick={this.handleOnClickSearchInput} />}
-                                            placeholder='Search by site name...'
-                                            onChange={this.handleOnChangeSearchInput}
-                                            onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearchInput(); }}
-                                        />
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Divider />
-                    <Grid.Row>
-                        <Grid.Column floated='left' verticalAlign='bottom' width={5}>
-                            <Label color='grey' size='large'>
-                                <Icon name='building outline' />Total
-                                <Label.Detail>{totalCount}</Label.Detail>
-                            </Label>
-                        </Grid.Column>
-                        <Grid.Column floated='right' verticalAlign='bottom' width={5}>
-                            <Button
-                                color='blue'
-                                icon='plus'
-                                content='Add site'
-                                floated='right'
-                                onClick={(v, e) => this.handleOnClickAddSiteButton(v, e)}
-                            />
+                            >ADD SITE</JamesButton>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                         {siteList.map((site, index) => {
                             return (
-                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '1em' }} key={index}>
-                                    <Card
-                                        style={{ height: '20vh' }}
-                                        key={index} fluid>
-                                        <Card.Content style={{ height: '6vh' }}>
-                                            <Image
-                                                // style={{ maxHeight: '60px' }}
-                                                // floated='left'
-                                                size='small'
-                                                src={'/' + site.logoFileName}
-                                                as={Link}
-                                                to={{
-                                                    pathname: `/home/sites/sitedetails/${site.id}`,
-                                                    state: site.id
-                                                }}
-                                            />
-                                            <Dropdown icon='ellipsis vertical' style={{ float: 'right' }}>
-                                                <Dropdown.Menu>
-                                                    <Dropdown.Item
-                                                        onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
-                                                            siteIdModified: site.id,
-                                                            siteNameModified: site.name,
-                                                            openDateModified: parse(site.openDate, constants.DATE_FORMAT, new Date()),
-                                                            logoFileNameModified: site.logoFileName
-                                                        }, event)}
-                                                    >
-                                                        Modify
+                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '24px' }} key={index}>
+                                    <JamesCard>
+                                        <Grid style={{ margin: '0' }}>
+                                            <JamesRow columns={2}>
+                                                <JamesColumn>
+                                                    <Image
+                                                        // style={{ maxHeight: '60px' }}
+                                                        // floated='left'
+                                                        size='small'
+                                                        src={'/' + site.logoFileName}
+                                                        as={Link}
+                                                        to={{
+                                                            pathname: `/home/sites/sitedetails/${site.id}`,
+                                                            state: site.id
+                                                        }}
+                                                    />
+                                                </JamesColumn>
+                                                <JamesColumn>
+                                                    <JamesDropdown icon='ellipsis vertical' style={{ float: 'right' }}>
+                                                        <Dropdown.Menu>
+                                                            <Dropdown.Item
+                                                                onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
+                                                                    siteIdModified: site.id,
+                                                                    siteNameModified: site.name,
+                                                                    openDateModified: parse(site.openDate, constants.DATE_FORMAT, new Date()),
+                                                                    logoFileNameModified: site.logoFileName
+                                                                }, event)}
+                                                            >
+                                                                Modify
                                                             </Dropdown.Item>
-                                                    <Dropdown.Item
-                                                        onClick={(id, event) => this.handleOnClickDeleteSite(site.id, event)}
-                                                    >
-                                                        Delete
+                                                            <Dropdown.Item
+                                                                onClick={(id, event) => this.handleOnClickDeleteSite(site.id, event)}
+                                                            >
+                                                                Delete
                                                         </Dropdown.Item>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
-
-                                        </Card.Content>
-                                        <Card.Content style={{ height: '10vh' }}>
-                                            <Card.Header
-                                                style={{ wordWrap: 'break-word' }}
-                                                as={Link}
-                                                to={{
-                                                    pathname: `/home/sites/sitedetails/${site.id}`,
-                                                    state: site.id
-                                                }}
-                                            >
-                                                {site.name}
-                                            </Card.Header>
-                                            <Card.Meta>{site.openDate}</Card.Meta>
-                                        </Card.Content>
-                                        <Card.Content extra style={{ height: '4vh' }}>
-                                            <Icon fitted name='setting' size='large' />&nbsp;&nbsp;{site.numberOfServices} Services
-                                            </Card.Content>
-                                    </Card>
+                                                        </Dropdown.Menu>
+                                                    </JamesDropdown>
+                                                </JamesColumn>
+                                            </JamesRow>
+                                            <JamesRow style={{ marginTop: '40px' }}>
+                                                <JamesColumn>
+                                                    <Link
+                                                        to={{
+                                                            pathname: `/home/sites/sitedetails/${site.id}`,
+                                                            state: site.id
+                                                        }}>
+                                                        <JamesBodyText size={1}>{site.name}</JamesBodyText>
+                                                    </Link>
+                                                </JamesColumn>
+                                            </JamesRow>
+                                            <JamesRow>
+                                                <JamesColumn>
+                                                    <JamesBodyText size={3} color='#8391a5'>{site.openDate}</JamesBodyText>
+                                                </JamesColumn>
+                                            </JamesRow>
+                                        </Grid>
+                                    </JamesCard>
+                                </Grid.Column>
+                            )
+                        })}
+                        {[...Array(16 - siteList.length).keys()].map((n, index) => {
+                            return (
+                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '24px' }}>
+                                    <JamesEmptyCard />
                                 </Grid.Column>
                             )
                         })}
                     </Grid.Row>
                 </Grid>
+
                 <Modal
                     open={addSiteModalOpen}
                     onClose={this.handleOnClickAddSiteCloseButton}
