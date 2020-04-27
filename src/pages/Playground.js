@@ -13,7 +13,8 @@ import {
     JamesTableHeaderCell,
     JamesTableCell,
     JamesLineGraph,
-    JamesBarGraph
+    JamesBarGraph,
+    JamesInput
 
 } from '../themes/jamesStyledComponents';
 
@@ -108,6 +109,14 @@ class Playground extends Component {
                                 values: [10, 20, 30, 100, 15, 10, 20, 30, 10, 150]
                             }} />
                         </JamesCard>
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesInput Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesInput />
                     </JamesColumn>
                 </JamesRow>
             </JamesGrid>

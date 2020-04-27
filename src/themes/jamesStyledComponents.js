@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Grid, Button, Table } from 'semantic-ui-react';
+import { Container, Grid, Button, Table, Input, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
+import searchIcon from '../assets/images/icon_search.png';
 
 export const JamesCard = styled(Container)({
     backgroundColor: 'white',
@@ -153,7 +154,7 @@ export class JamesLineGraph extends React.Component {
 }
 
 export class JamesBarGraph extends React.Component {
-    
+
 
     render() {
 
@@ -240,6 +241,60 @@ export class JamesBarGraph extends React.Component {
                 data={graphData}
                 options={options}
             />
+        );
+    }
+}
+
+// export const JamesInput = styled.input({
+//     backgroundColor : '#eff1f7',
+//     padding: '8px',
+//     display: 'block',
+//     border: 'none',
+//     borderBottom: '1px solid #ccc',
+//     width: '100%'
+// })
+
+// export const JamesInput = styled(Input)({
+//     background: '#eff1f7',
+//     padding: '8px',
+//     display: 'block',
+//     border: 'none',
+//     width: '100%'
+// })
+
+export class JamesInput extends React.Component {
+
+    render() {
+        const Styles = styled.div`
+            .james-input-field input { 
+                background: #eff1f7;
+                padding: 8px;
+                display: block;
+                border: none;
+                width: 100%;
+                -webkit-tap-highlight-color: #eff1f7;
+            }
+
+            .james-input-field input:focus{
+                outline: none;
+                background: #eff1f7;
+                padding: 8px;
+                display: block;
+                border: none;
+                width: 100%;
+                -webkit-tap-highlight-color: #eff1f7;
+            }
+
+            .james-input-icon {
+                width: 10px;
+            }
+        `
+
+        return (
+            <Styles>
+                <Image src={searchIcon} className='james-input-icon' />
+                <Input className='james-input-field' placeholder='Site name' />
+            </Styles>
         );
     }
 }

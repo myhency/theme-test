@@ -33,6 +33,26 @@ const Styles = styled.div`
         margin-left: 'auto';
         margin-right: 'auto';
     }
+
+    .grid-style {
+        width: 75%;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+
+    .list-title {
+        width: 65px;
+        height: 41px;
+        /* font-family: SpoqaHanSans; */
+        font-size: 28px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.46;
+        letter-spacing: -0.56px;
+        text-align: left;
+        color: #3b4a5f;
+    }
 `
 
 class SiteList extends Component {
@@ -231,196 +251,224 @@ class SiteList extends Component {
 
         return (
             <Styles>
-                <div style={{ marginTop: '4em', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Grid columns={2}>
-                                    <Grid.Row>
-                                        <Grid.Column floated='left' verticalAlign='middle' width={5}>
-                                            <Header as='h1'><Icon name='building outline' />Sites</Header>
-                                            <p style={{ fontSize: '12px', color: 'grey' }}>Autoever DID hub 에 등록된 모든 Site들을 보여줍니다.</p>
-                                        </Grid.Column>
-                                        <Grid.Column verticalAlign='top' width={5}>
-                                            <Input
-                                                style={{ float: 'right' }}
-                                                icon={<Icon name='search' link onClick={this.handleOnClickSearchInput} />}
-                                                placeholder='Search by site name...'
-                                                onChange={this.handleOnChangeSearchInput}
-                                                onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearchInput(); }}
-                                            />
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Divider />
-                        <Grid.Row>
-                            <Grid.Column floated='left' verticalAlign='bottom' width={5}>
-                                <Label color='grey' size='large'>
-                                    <Icon name='building outline' />Total
-                                <Label.Detail>{totalCount}</Label.Detail>
-                                </Label>
-                            </Grid.Column>
-                            <Grid.Column floated='right' verticalAlign='bottom' width={5}>
-                                <Button
-                                    color='blue'
-                                    icon='plus'
-                                    content='Add site'
-                                    floated='right'
-                                    onClick={(v, e) => this.handleOnClickAddSiteButton(v, e)}
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            {siteList.map((site, index) => {
-                                return (
-                                    <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '1em' }} key={index}>
-                                        <Card
-                                            style={{ height: '20vh' }}
-                                            key={index} fluid>
-                                            <Card.Content style={{ height: '6vh' }}>
-                                                <Image
-                                                    // style={{ maxHeight: '60px' }}
-                                                    // floated='left'
-                                                    size='small'
-                                                    src={'/' + site.logoFileName}
-                                                    as={Link}
-                                                    to={{
-                                                        pathname: `/home/sites/sitedetails/${site.id}`,
-                                                        state: site.id
-                                                    }}
-                                                />
-                                                <Dropdown icon='ellipsis vertical' style={{ float: 'right' }}>
-                                                    <Dropdown.Menu>
-                                                        <Dropdown.Item
-                                                            onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
-                                                                siteIdModified: site.id,
-                                                                siteNameModified: site.name,
-                                                                openDateModified: parse(site.openDate, constants.DATE_FORMAT, new Date()),
-                                                                logoFileNameModified: site.logoFileName
-                                                            }, event)}
-                                                        >
-                                                            Modify
-                                                            </Dropdown.Item>
-                                                        <Dropdown.Item
-                                                            onClick={(id, event) => this.handleOnClickDeleteSite(site.id, event)}
-                                                        >
-                                                            Delete
-                                                        </Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
+                <Grid className='grid-style'>
+                    <Grid.Row columns={3}>
+                        <Grid.Column width={1} verticalAlign='middle' textAlign='left'>
+                            <span className='list-title'>Sites</span>
+                        </Grid.Column>
+                        <Grid.Column width={3} verticalAlign='middle' textAlign='left'>
+                            <Input
+                                style={{ float: 'right' }}
+                                icon={<Icon name='search' link onClick={this.handleOnClickSearchInput} />}
+                                placeholder='Search by site name...'
+                                onChange={this.handleOnChangeSearchInput}
+                                onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearchInput(); }}
+                            />
+                        </Grid.Column>
+                        <Grid.Column width={12} verticalAlign='middle'>
+                            <Button
+                                color='blue'
+                                icon='plus'
+                                content='Add site'
+                                floated='right'
+                                onClick={(v, e) => this.handleOnClickAddSiteButton(v, e)}
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
 
-                                            </Card.Content>
-                                            <Card.Content style={{ height: '10vh' }}>
-                                                <Card.Header
-                                                    style={{ wordWrap: 'break-word' }}
-                                                    as={Link}
-                                                    to={{
-                                                        pathname: `/home/sites/sitedetails/${site.id}`,
-                                                        state: site.id
-                                                    }}
-                                                >
-                                                    {site.name}
-                                                </Card.Header>
-                                                <Card.Meta>{site.openDate}</Card.Meta>
-                                            </Card.Content>
-                                            <Card.Content extra style={{ height: '4vh' }}>
-                                                <Icon fitted name='setting' size='large' />&nbsp;&nbsp;{site.numberOfServices} Services
-                                            </Card.Content>
-                                        </Card>
+                    </Grid.Row>
+                    <Grid.Row columns={2}>
+
+                    </Grid.Row>
+                </Grid>
+                <Grid className='grid-style'>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Grid columns={2}>
+                                <Grid.Row>
+                                    <Grid.Column floated='left' verticalAlign='middle' width={5}>
+                                        <span className='list-title'>Sites</span>
                                     </Grid.Column>
-                                )
-                            })}
-                        </Grid.Row>
-                    </Grid>
-                    <Modal
-                        open={addSiteModalOpen}
-                        onClose={this.handleOnClickAddSiteCloseButton}
-                        closeOnEscape={closeOnEscape}
-                        closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Add Site</Modal.Header>
-                        <Modal.Content>
-                            <Form>
-                                <Form.Group widths='equal'>
-                                    <Form.Input
-                                        fluid
-                                        label='Site name'
-                                        placeholder='Site name'
-                                        onChange={this.handleOnChangeSiteNameAddSiteModal}
-                                    />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <SemanticDatepicker
-                                        label='Open date'
-                                        datePickerOnly={true}
-                                        onChange={this.handleOnChangeOpenDateAddSiteModal} />
-                                </Form.Group>
-                                <LogoDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
+                                    <Grid.Column verticalAlign='top' width={5}>
+                                        <Input
+                                            style={{ float: 'right' }}
+                                            icon={<Icon name='search' link onClick={this.handleOnClickSearchInput} />}
+                                            placeholder='Search by site name...'
+                                            onChange={this.handleOnChangeSearchInput}
+                                            onKeyDown={(event) => { if (event.key === 'Enter') this.handleOnClickSearchInput(); }}
+                                        />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                    <Grid.Row>
+                        <Grid.Column floated='left' verticalAlign='bottom' width={5}>
+                            <Label color='grey' size='large'>
+                                <Icon name='building outline' />Total
+                                <Label.Detail>{totalCount}</Label.Detail>
+                            </Label>
+                        </Grid.Column>
+                        <Grid.Column floated='right' verticalAlign='bottom' width={5}>
                             <Button
-                                onClick={this.handleOnClickAddSiteCloseButton}
-                                negative
-                                content='Close'
+                                color='blue'
+                                icon='plus'
+                                content='Add site'
+                                floated='right'
+                                onClick={(v, e) => this.handleOnClickAddSiteButton(v, e)}
                             />
-                            <Button
-                                onClick={this.handleOnClickAddSiteModalAddButton}
-                                positive
-                                labelPosition='right'
-                                icon='checkmark'
-                                content='Add'
-                            />
-                        </Modal.Actions>
-                    </Modal>
-                    <Modal
-                        open={modifySiteModalOpen}
-                        onClose={this.handleOnCloseModifySiteModal}
-                        closeOnEscape={closeOnEscape}
-                        closeOnDimmerClick={closeOnDimmerClick}>
-                        <Modal.Header>Modify Site</Modal.Header>
-                        <Modal.Content>
-                            <Form>
-                                <Form.Group widths='equal'>
-                                    <Form.Input
-                                        fluid
-                                        label='Site name'
-                                        value={siteNameModified}
-                                        onChange={this.handleOnChangeSiteNameModifySiteModal}
-                                    />
-                                </Form.Group>
-                                <Form.Group widths='equal'>
-                                    <SemanticDatepicker
-                                        label='Open date'
-                                        datePickerOnly={true}
-                                        onChange={this.handleOnChangeOpenDateModifySiteModal}
-                                        value={openDateModified}
-                                    />
-                                </Form.Group>
-                                <LogoDropZone
-                                    onLoadEnd={this.handleOnLoadEndModifiedSiteModalLogoDropZone}
-                                    onOpen={modifySiteModalOpen}
-                                    getLogo={(callback) => this.getLogoFileName(callback)}
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        {siteList.map((site, index) => {
+                            return (
+                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '1em' }} key={index}>
+                                    <Card
+                                        style={{ height: '20vh' }}
+                                        key={index} fluid>
+                                        <Card.Content style={{ height: '6vh' }}>
+                                            <Image
+                                                // style={{ maxHeight: '60px' }}
+                                                // floated='left'
+                                                size='small'
+                                                src={'/' + site.logoFileName}
+                                                as={Link}
+                                                to={{
+                                                    pathname: `/home/sites/sitedetails/${site.id}`,
+                                                    state: site.id
+                                                }}
+                                            />
+                                            <Dropdown icon='ellipsis vertical' style={{ float: 'right' }}>
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item
+                                                        onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
+                                                            siteIdModified: site.id,
+                                                            siteNameModified: site.name,
+                                                            openDateModified: parse(site.openDate, constants.DATE_FORMAT, new Date()),
+                                                            logoFileNameModified: site.logoFileName
+                                                        }, event)}
+                                                    >
+                                                        Modify
+                                                            </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        onClick={(id, event) => this.handleOnClickDeleteSite(site.id, event)}
+                                                    >
+                                                        Delete
+                                                        </Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+
+                                        </Card.Content>
+                                        <Card.Content style={{ height: '10vh' }}>
+                                            <Card.Header
+                                                style={{ wordWrap: 'break-word' }}
+                                                as={Link}
+                                                to={{
+                                                    pathname: `/home/sites/sitedetails/${site.id}`,
+                                                    state: site.id
+                                                }}
+                                            >
+                                                {site.name}
+                                            </Card.Header>
+                                            <Card.Meta>{site.openDate}</Card.Meta>
+                                        </Card.Content>
+                                        <Card.Content extra style={{ height: '4vh' }}>
+                                            <Icon fitted name='setting' size='large' />&nbsp;&nbsp;{site.numberOfServices} Services
+                                            </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                            )
+                        })}
+                    </Grid.Row>
+                </Grid>
+                <Modal
+                    open={addSiteModalOpen}
+                    onClose={this.handleOnClickAddSiteCloseButton}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Add Site</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Input
+                                    fluid
+                                    label='Site name'
+                                    placeholder='Site name'
+                                    onChange={this.handleOnChangeSiteNameAddSiteModal}
                                 />
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button
-                                negative
-                                content='Close'
-                                onClick={this.handleOnClickCloseButtonModifySiteModal}
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker
+                                    label='Open date'
+                                    datePickerOnly={true}
+                                    onChange={this.handleOnChangeOpenDateAddSiteModal} />
+                            </Form.Group>
+                            <LogoDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button
+                            onClick={this.handleOnClickAddSiteCloseButton}
+                            negative
+                            content='Close'
+                        />
+                        <Button
+                            onClick={this.handleOnClickAddSiteModalAddButton}
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Add'
+                        />
+                    </Modal.Actions>
+                </Modal>
+                <Modal
+                    open={modifySiteModalOpen}
+                    onClose={this.handleOnCloseModifySiteModal}
+                    closeOnEscape={closeOnEscape}
+                    closeOnDimmerClick={closeOnDimmerClick}>
+                    <Modal.Header>Modify Site</Modal.Header>
+                    <Modal.Content>
+                        <Form>
+                            <Form.Group widths='equal'>
+                                <Form.Input
+                                    fluid
+                                    label='Site name'
+                                    value={siteNameModified}
+                                    onChange={this.handleOnChangeSiteNameModifySiteModal}
+                                />
+                            </Form.Group>
+                            <Form.Group widths='equal'>
+                                <SemanticDatepicker
+                                    label='Open date'
+                                    datePickerOnly={true}
+                                    onChange={this.handleOnChangeOpenDateModifySiteModal}
+                                    value={openDateModified}
+                                />
+                            </Form.Group>
+                            <LogoDropZone
+                                onLoadEnd={this.handleOnLoadEndModifiedSiteModalLogoDropZone}
+                                onOpen={modifySiteModalOpen}
+                                getLogo={(callback) => this.getLogoFileName(callback)}
                             />
-                            <Button
-                                positive
-                                labelPosition='right'
-                                icon='checkmark'
-                                content='Modify'
-                                onClick={this.handleOnClickModifyButtonModifySiteModal}
-                            />
-                        </Modal.Actions>
-                    </Modal>
-                </div>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button
+                            negative
+                            content='Close'
+                            onClick={this.handleOnClickCloseButtonModifySiteModal}
+                        />
+                        <Button
+                            positive
+                            labelPosition='right'
+                            icon='checkmark'
+                            content='Modify'
+                            onClick={this.handleOnClickModifyButtonModifySiteModal}
+                        />
+                    </Modal.Actions>
+                </Modal>
             </Styles>
         )
     }

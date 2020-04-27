@@ -56,6 +56,5 @@
     "fomantic-ui-less": "^2.8.3",
     "gh-pages": "^2.2.0",
     "semantic-ui-less": "^2.4.1"
-  },
-  "homepage": "http://myhency.github.io/theme-test"
+  }
 }
