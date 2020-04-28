@@ -16,6 +16,7 @@ import {
 } from 'semantic-ui-react';
 import LogoDropZone from '../components/LogoDropZone';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import DatePicker from 'react-datepicker';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
 import constants from '../utils/constants';
@@ -29,7 +30,10 @@ import {
     JamesBodyText,
     JamesRow,
     JamesColumn,
-    JamesEmptyCard
+    JamesEmptyCard,
+    JamesModal,
+    JamesHeader,
+    JamesForm
 } from '../themes/jamesStyledComponents';
 
 
@@ -311,9 +315,9 @@ class SiteList extends Component {
                                                     />
                                                 </JamesColumn>
                                                 <JamesColumn>
-                                                    <JamesDropdown icon='ellipsis vertical' style={{ float: 'right' }}>
-                                                        <Dropdown.Menu>
-                                                            <Dropdown.Item
+                                                    <JamesDropdown style={{ float: 'right', width: '32px', height: '32px' }}>
+                                                        <JamesDropdown.Menu direction='left'>
+                                                            <JamesDropdown.Item
                                                                 onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
                                                                     siteIdModified: site.id,
                                                                     siteNameModified: site.name,
@@ -321,14 +325,14 @@ class SiteList extends Component {
                                                                     logoFileNameModified: site.logoFileName
                                                                 }, event)}
                                                             >
-                                                                Modify
-                                                            </Dropdown.Item>
-                                                            <Dropdown.Item
+                                                                MODIFY
+                                                            </JamesDropdown.Item>
+                                                            <JamesDropdown.Item
                                                                 onClick={(id, event) => this.handleOnClickDeleteSite(site.id, event)}
                                                             >
-                                                                Delete
-                                                        </Dropdown.Item>
-                                                        </Dropdown.Menu>
+                                                                DELETE
+                                                        </JamesDropdown.Item>
+                                                        </JamesDropdown.Menu>
                                                     </JamesDropdown>
                                                 </JamesColumn>
                                             </JamesRow>
@@ -363,22 +367,38 @@ class SiteList extends Component {
                     </Grid.Row>
                 </Grid>
 
-                <Modal
+                <JamesModal
                     open={addSiteModalOpen}
                     onClose={this.handleOnClickAddSiteCloseButton}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
-                    <Modal.Header>Add Site</Modal.Header>
-                    <Modal.Content>
-                        <Form>
-                            <Form.Group widths='equal'>
-                                <Form.Input
+                    <JamesModal.Header style={{ marginBottom: '16px' }}>
+                        <JamesHeader>Add Site</JamesHeader>
+                    </JamesModal.Header>
+                    <JamesModal.Description>
+                        <JamesForm>
+                            <JamesForm.Field required>
+                                <label>SITE</label>
+                                <JamesForm.Input
+                                    error={this.state.error ? 'error' : null}
                                     fluid
-                                    label='Site name'
                                     placeholder='Site name'
                                     onChange={this.handleOnChangeSiteNameAddSiteModal}
                                 />
-                            </Form.Group>
+                            </JamesForm.Field>
+                            <JamesForm.Field required>
+                                <label>OPEN DATE</label>
+                                <JamesForm.Input
+                                    error={this.state.error ? 'error' : null}
+                                    fluid
+                                    placeholder='Site name'
+                                    onChange={this.handleOnChangeSiteNameAddSiteModal}
+                                />
+                            </JamesForm.Field>
+                        </JamesForm>
+                    </JamesModal.Description>
+                    <Modal.Content>
+                        <Form>
                             <Form.Group widths='equal'>
                                 <SemanticDatepicker
                                     label='Open date'
@@ -402,7 +422,8 @@ class SiteList extends Component {
                             content='Add'
                         />
                     </Modal.Actions>
-                </Modal>
+                </JamesModal>
+
                 <Modal
                     open={modifySiteModalOpen}
                     onClose={this.handleOnCloseModifySiteModal}

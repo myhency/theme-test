@@ -17,12 +17,32 @@ import {
     JamesInput,
     JamesDropdown,
     JamesEmptyCard,
-    JamesModal
+    JamesModal,
+    JamesForm,
+    JamesDatePicker,
+    JamesDateInput,
+    DatePickerWrapper
 
 } from '../themes/jamesStyledComponents';
+import moreIcon from '../assets/images/btn_more.png';
+import calendarIcon from '../assets/images/icon_calendar.png';
 
 
 class Playground extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            error: true
+        }
+    }
+
+    setStartDate = (date) => {
+        this.setState({
+            startDate: date
+        })
+    }
+
     onChange = (event) => {
         console.log(event);
     }
@@ -145,8 +165,17 @@ class Playground extends Component {
                     </JamesColumn>
                     <JamesColumn computer={8} tablet={16} mobile={16}>
                         <JamesCard>
-                            <JamesDropdown>
-
+                            <JamesDropdown
+                                customIcon={moreIcon}
+                                style={{ width: '32px', height: '32px' }}>
+                                <JamesDropdown.Menu direction='left'>
+                                    <JamesDropdown.Item>
+                                        MENU#1
+                                    </JamesDropdown.Item>
+                                    <JamesDropdown.Item>
+                                        MENU#2
+                                    </JamesDropdown.Item>
+                                </JamesDropdown.Menu>
                             </JamesDropdown>
                         </JamesCard>
                     </JamesColumn>
@@ -178,6 +207,55 @@ class Playground extends Component {
                                 </JamesModal.Description>
                             </JamesModal.Content>
                         </JamesModal>
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesForm Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesForm>
+                            {/* <JamesForm.Group> */}
+                            <JamesForm.Input
+                                fluid
+                                label='SITE'
+                                placeholder='Site name'
+                            />
+                            {/* </JamesForm.Group> */}
+                            <JamesForm.Field required>
+                                <label>LAST NAME</label>
+                                <JamesForm.Input
+                                    fluid
+                                    placeholder='Last name'
+                                />
+                            </JamesForm.Field>
+                            <JamesForm.Field required>
+                                <label>LAST NAME</label>
+                                <JamesForm.Input
+                                    error={this.state.error ? 'error' : null}
+                                    fluid
+                                    placeholder='Last name'
+                                />
+                            </JamesForm.Field>
+                        </JamesForm>
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesDatePicker Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <DatePickerWrapper
+                            isClearable
+                            dateFormat="yyyy-MM-dd"
+                            placeholderText='From'
+                            selected={this.state.startDate}
+                            onChange={date => this.setStartDate(date)}
+                            formatWeekDay={nameOfDay => nameOfDay.substr(0, 1)}
+                        // customInput={<JamesDateInput
+                        //     icon='calendar outline'
+                        // />}
+                        />
                     </JamesColumn>
                 </JamesRow>
             </JamesGrid>

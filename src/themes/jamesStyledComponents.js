@@ -1,8 +1,11 @@
 import React from 'react';
-import { Container, Grid, Button, Table, Input, Dropdown, Modal } from 'semantic-ui-react';
+import { Container, Grid, Button, Table, Input, Dropdown, Modal, Form } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
-import moreIcon from '../assets/images/btn_more.png';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import closeIcon from '../assets/images/icon_close.png';
+
 
 export const JamesCard = styled(Container)({
     backgroundColor: 'white',
@@ -34,6 +37,13 @@ export const JamesButton = styled(Button)`
     &&& {
         border-radius: 24px;
         background-color: #4280f5;
+        color: white;
+        height: 40px;
+    }
+
+    &&&:hover {
+        border-radius: 24px;
+        background-color: #3373eb;
         color: white;
         height: 40px;
     }
@@ -306,22 +316,58 @@ export const JamesInput = styled(Input)`
 `
 
 export const JamesDropdown = styled(Dropdown)`
+    /* width: 32px; */
+    &&& .menu.transition.visible {
+        border-radius: 4px;
+        border: solid 1px #8391a5;
+    }
+
+    &&& .menu.transition.visible > .item {
+        /* width: 41px; */
+        /* height: 22px; */
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: normal;
+        text-align: left;
+        color: #4280f5;
+    }
+
+    &&&:hover {
+        background-color: #e4e7ef;
+    }
+
+    &&& i.icon {
+        margin: 0;
+    }
+
     &&& i.icon:before {
-        content: url(${moreIcon});
+        content: ${props => props.customIcon ? 'url(' + props.customIcon + ')' : props.icon};
+        margin: 0;
     }
 `
 
 export const JamesModal = styled(Modal)`
-    width: 368px;
-    height: 464px;
+    /* width: 368px; */
+    /* height: 464px; */
     border-radius: 12px!important;
     box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.08)!important;
     padding: 24px;
+    width: 40%;
+
+    @media only screen and (min-width: 992px) {
+        width: 450px !important;
+        margin: 0em 0em 0em 0em;
+    }
 
     &&& .header {
         border-radius: 12px 12px 0 0 !important;
         padding-left: 0;
         padding-right: 0;
+        border-bottom-color: #f7f8fb;
     }
 
     &&& .content {  
@@ -330,3 +376,186 @@ export const JamesModal = styled(Modal)`
     }
 `
 
+export const JamesForm = styled(Form)`
+    &&& label {
+        /* width: 32px; */
+        /* height: 19px; */
+        /* font-family: SpoqaHanSans; */
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.46;
+        letter-spacing: -0.26px;
+        text-align: left;
+        color: #8391a5;
+    }
+
+    &&& input {
+        /* width: 320px; */
+        /* height: 40px; */
+        border-radius: 4px;
+        border: solid 1px #e4e7ef;
+        background-color: #ffffff;
+    }
+
+    &&& input:focus {
+        /* width: 320px; */
+        /* height: 40px; */
+        border-radius: 4px;
+        border: solid 1px #8391a5;
+        background-color: #ffffff;
+    }
+
+    &&& .field.required > label:after {
+        content: '*';
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.46;
+        letter-spacing: -0.26px;
+        text-align: left;
+        color: #8391a5;
+        margin: -0.1em 0em 0em 0.2em;
+    }
+
+    &&& .field.error > .ui.pointing.label, .ui[class*="pointing above"].label {
+        /* background: #000000 !important;  */
+        margin: 0;
+    }
+
+    &&& .field.error > .prompt {
+        background: unset !important; 
+        border: unset !important;
+        color: #fc6386 !important;
+        /* width: 160px; */
+        /* height: 19px; */
+        /* font-family: SpoqaHanSans; */
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.46;
+        letter-spacing: -0.52px;
+        text-align: left;
+        padding: 0;
+        /* padding-left: 1px; */
+    }
+
+    &&& .field.error > .pointing.label:before {
+        content: unset;
+    }
+
+    &&& .field.error > .ui.input > input {
+        /* width: 320px; */
+        /* height: 40px; */
+        border-radius: 4px;
+        border: solid 1px #fc6386;
+        background-color: #ffffff;
+    }
+
+    /* &&& .field.error > .ui.input > input::placeholder {
+        color: unset;
+    } */
+
+    &&& .field.error.input > input:focus {
+        /* width: 320px; */
+        /* height: 40px; */
+        border-radius: 4px;
+        border: solid 1px #8391a5;
+        background-color: #ffffff;
+    }
+`
+
+export const JamesDateInput = styled(Input)`
+    &&& input {
+        /* width: 240px; */
+        /* height: 40px; */
+        border-radius: 4px;
+        border: solid 1px #e4e7ef;
+        background-color: #ffffff;
+        /* width: 184px; */
+        /* height: 22px; */
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: normal;
+        text-align: left;
+        color: #2f3d50;
+    }
+
+    &&& input::placeholder {
+        /* width: 184px; */
+        /* height: 22px; */
+        opacity: 0.35;
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: -0.3px;
+        text-align: left;
+        color: #2f3d50;
+    }
+
+    &&& i.icon:before {
+        color: #8391a5;
+    }
+`
+
+export class DatePickerWrapper extends React.Component {
+    render() {
+        const Styles = styled.div`
+            button.react-datepicker__close-icon:after {
+                background-color: white;
+                color: unset;
+                content: url(${closeIcon})
+            }
+        `
+
+        return (
+            <Styles>
+                <DatePicker
+                    customInput={
+                        <JamesDateInput
+                            icon='calendar outline'
+                        />}
+                    {...this.props}
+                />
+            </Styles>
+        );
+    }
+}
+
+// export const JamesDatePicker = styled(DatePickerWrapper)`
+export const JamesDatePicker = styled(DatePicker)`
+    /* width: 240px; */
+    height: 40px;
+    border-radius: 4px;
+    border: solid 1px #e4e7ef;
+    background-color: #ffffff;
+
+    &&& input::placeholder {
+        /* width: 184px; */
+        /* height: 22px; */
+        opacity: 0.35;
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: -0.3px;
+        text-align: left;
+        color: #2f3d50;
+    }
+
+    /* &&& button {
+        background-color: #000000;
+    } */
+`

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Slider from "react-slick";
 import { Grid, Image, Container } from 'semantic-ui-react';
 import { Bar } from 'react-chartjs-2';
-import { format } from 'date-fns';
+import { parse, format } from 'date-fns';
 import constants from '../utils/constants';
 import pairwiseIcon from '../assets/images/icon_pairwise.png';
 import issuanceIcon from '../assets/images/icon_issuance.png';
@@ -255,7 +255,9 @@ class ServiceSliderView extends Component {
                             axios.get(`/api/services/${service.id}/transition`)
                                 .then(response => {
                                     response.data.result.forEach(transition => {
-                                        labels.push(format(new Date(transition.date), constants.TIME_FORMAT));
+
+
+                                        labels.push(format(parse(transition.date, constants.DATETIME_FORMAT, new Date()), constants.TIME_FORMAT));
                                         // labels.push(transition.date);
                                         issuanceData.push(transition.issuance);
                                         verificationData.push(transition.verification);
