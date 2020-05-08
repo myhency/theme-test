@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__icon_errors" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:none}.prefix__cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="prefix__icon_errors-2" data-name="icon_errors">
+        <path id="prefix__bound" d="M0 0H24V24H0z" class="prefix__cls-1"/>
+        <g id="prefix__icon" transform="translate(0 -.5)">
+            <g id="prefix__Ellipse_42" data-name="Ellipse 42" transform="translate(0 .5)" style="stroke-width:1.2px;stroke:#fc6386;fill:none">
+                <circle cx="12" cy="12" r="12" class="prefix__cls-5"/>
+                <circle cx="12" cy="12" r="11.4" class="prefix__cls-1"/>
+            </g>
+            <path id="prefix__Path_83" d="M11.867 4v7" data-name="Path 83" transform="translate(.132 2.5)" style="stroke-linecap:round;stroke-width:1.3px;stroke:#fc6386;fill:none"/>
+            <g id="prefix__Rectangle_347" data-name="Rectangle 347" style="stroke-width:1.4px;stroke:#fc6386;fill:none">
+                <path d="M0 0H2V2H0z" class="prefix__cls-5" transform="translate(11 16.5)"/>
+                <path d="M0.7 0.7H1.2999999999999998V1.2999999999999998H0.7z" class="prefix__cls-1" transform="translate(11 16.5)"/>
+            </g>
+        </g>
+    </g>
+</svg>

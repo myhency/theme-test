@@ -1,11 +1,135 @@
 import React from 'react';
-import { Container, Grid, Button, Table, Input, Dropdown, Modal, Form } from 'semantic-ui-react';
+import { Header, Container, Grid, Button, Table, Input, Dropdown, Modal, Form, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import closeIcon from '../assets/images/icon_close.png';
+import fileIcon from '../assets/images/icon_file.png';
+import { useDropzone } from 'react-dropzone';
 
+const JamesDropZoneStyles = styled.div`
+    .dropzone {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-width: 1px;
+        border-radius: 4px;
+        border-color: #e4e7ef;
+        border-style: dashed;
+        background-color: #f7f8fb;
+        color: grey;
+        font-size: 1rem;
+        outline: none;
+        transition: border .24s ease-in-out;
+        cursor: pointer;
+        min-height: 100px;
+        
+        &:hover {
+            border-color: #e4edfe;
+            background-color: #e4edfe;
+        }
+    }
+
+    .dropzone-active {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        padding: 20px;
+        border-width: 2px;
+        border-radius: 2px;
+        border-color: deeppink;
+        border-style: dashed;
+        background-color: hotpink;
+        color: grey;
+        font-size: 1rem;
+        outline: none;
+        transition: border .24s ease-in-out;
+        cursor: pointer;
+        min-height: 100px;
+    }
+
+    .thumbInner {
+        /* min-width: 0; */
+        /* min-height: 10em; */
+        /* overflow: hidden; */
+        /* border-radius: 2; */
+        /* border: 2px solid grey; */
+        /* box-sizing: border-box; */
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    };
+
+    .img {
+        display: block;
+        width: auto;
+        height: 100%;
+    };
+`
+
+export const JamesDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
+    const [files, setFiles] = React.useState([]);
+    const [thumbs, setThumbs] = React.useState('');
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: 'image/*',
+        onDrop: acceptedFiles => {
+            var reader = new FileReader();
+            var url = reader.readAsDataURL(acceptedFiles[0]);
+            reader.onloadend = (e) => {
+                setFiles([reader.result]);
+                onLoadEnd(acceptedFiles[0]);
+            }
+        }
+    });
+
+    React.useEffect(() => {
+        console.log(files.length)
+        if (files.length > 0) {
+            console.log('aaaa')
+            return setThumbs(<Image src={files[0]} centered size='small' className='img' />);
+        }
+        if (onOpen) {
+            console.log('bbbb')
+            return getLogo((logofile) => {
+                setThumbs(<Image src={'/' + logofile} centered size='small' className='img' />);
+            });
+        }
+    }, [onOpen, files]);
+
+    React.useEffect(() => () => {
+        // Make sure to revoke the data uris to avoid memory leaks
+        files.forEach(file => URL.revokeObjectURL(file));
+    }, [files]);
+
+    return (
+        <JamesDropZoneStyles>
+            <Container textAlign='center'>
+                <div {...getRootProps({ className: 'dropzone', ...(isDragActive ? { className: 'dropzone-active' } : {}) })}>
+                    <input {...getInputProps()} />
+                    
+                    <Container textAlign='center'>
+                        
+                        <Image centered src={fileIcon}/>
+                        <JamesBodyText style={{ textAlign: 'center' }}>Click here to upload an image</JamesBodyText>
+                        <div className='thumbInner'>
+                            {thumbs}
+                        </div>
+                    </Container>
+                </div>
+            </Container>
+            <Container textAlign='center' style={{ marginTop: '10px' }}>
+                <div className='thumbInner'>
+                    {thumbs}
+                </div>
+            </Container>
+        </JamesDropZoneStyles>
+    );
+}
 
 export const JamesCard = styled(Container)({
     backgroundColor: 'white',
@@ -73,7 +197,7 @@ export const JamesHeader = styled.span`
     color: #3b4a5f;
 `
 
-export const JamesBodyText = styled.span`
+export const JamesBodyText = styled.p`
     /* width: 61px; */
     /* height: 27px; */
     /* font-family: SpoqaHanSans; */
@@ -392,11 +516,37 @@ export const JamesForm = styled(Form)`
     }
 
     &&& input {
-        /* width: 320px; */
-        /* height: 40px; */
+        /* width: 240px; */
+        height: 40px;
         border-radius: 4px;
         border: solid 1px #e4e7ef;
         background-color: #ffffff;
+        /* width: 184px; */
+        /* height: 22px; */
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: normal;
+        text-align: left;
+        color: #2f3d50;
+    }
+
+    &&& input::placeholder {
+        /* width: 184px; */
+        /* height: 22px; */
+        opacity: 0.35;
+        /* font-family: SpoqaHanSans; */
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.47;
+        letter-spacing: -0.3px;
+        text-align: left;
+        color: #2f3d50;
     }
 
     &&& input:focus {
@@ -405,6 +555,10 @@ export const JamesForm = styled(Form)`
         border-radius: 4px;
         border: solid 1px #8391a5;
         background-color: #ffffff;
+    }
+
+    &&& i.icon:before {
+        color: #8391a5;
     }
 
     &&& .field.required > label:after {
@@ -470,8 +624,8 @@ export const JamesForm = styled(Form)`
 
 export const JamesDateInput = styled(Input)`
     &&& input {
-        /* width: 240px; */
-        /* height: 40px; */
+        width: 100%;
+        height: 40px;
         border-radius: 4px;
         border: solid 1px #e4e7ef;
         background-color: #ffffff;
@@ -508,13 +662,154 @@ export const JamesDateInput = styled(Input)`
     }
 `
 
-export class DatePickerWrapper extends React.Component {
+export class JamesDatePicker extends React.Component {
     render() {
+        console.log('render!!!!!!!!')
         const Styles = styled.div`
+            &&& .ui.input {
+                width: 100%;
+            }
+
+            &&& .react-datepicker-wrapper {
+                width: 100%;
+            }
+
+            &&& :focus {
+                outline: unset;
+            }
             button.react-datepicker__close-icon:after {
                 background-color: white;
                 color: unset;
                 content: url(${closeIcon})
+            }
+
+            &&& .react-datepicker {
+                border: 1px solid #8391a5;
+            }
+
+            &&& .react-datepicker__header {
+                background-color: white;
+                border-bottom: unset;
+            }
+
+            &&& .react-datepicker__navigation {
+                top: 15px;
+            }
+
+            &&& .react-datepicker__navigation--previous {
+                border-right-color: #8391a5;
+            }
+
+            &&& .react-datepicker__navigation--next {
+                border-left-color: #8391a5;
+            }
+
+            &&& .react-datepicker__current-month {
+                /* width: 65px; */
+                /* height: 22px; */
+                /* font-family: SpoqaHanSans; */
+                font-size: 15px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.47;
+                letter-spacing: normal;
+                text-align: center;
+                color: #3b4a5f;
+                margin-bottom: 27px;
+            }
+
+            &&& .react-datepicker__day-name {
+                width: 32px;
+                height: 32px;
+                /* font-family: SpoqaHanSans; */
+                font-size: 13px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.46;
+                letter-spacing: normal;
+                text-align: center;
+                color: #3b4a5f;
+                padding-top: 9px;
+            }
+
+            &&& .react-datepicker__day-names > :first-child {
+                font-size: 13px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.46;
+                letter-spacing: normal;
+                text-align: center;
+                color : #fc6386;
+                padding-top: 9px;
+            }
+
+            &&& .react-datepicker__week > :first-child {
+                font-size: 13px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.46;
+                letter-spacing: normal;
+                text-align: center;
+                color : #fc6386;
+            }
+
+            &&& .react-datepicker__day {
+                width: 32px;
+                height: 32px;
+                padding-top: 7px;
+            }
+
+            &&& .react-datepicker__day .react-datepicker__day--030 .react-datepicker__day--outside-month {
+                color : #fc6386;
+            }
+
+            &&& .react-datepicker__day, .react-datepicker__month-text, .react-datepicker__quarter-text {
+                /* width: 8px; */
+                /* height: 19px; */
+                /* font-family: SpoqaHanSans; */
+                font-size: 13px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.46;
+                letter-spacing: normal;
+                text-align: center;
+                color: #3b4a5f;
+            }
+
+            &&& .react-datepicker__day:hover, .react-datepicker__month-text:hover, .react-datepicker__quarter-text:hover {
+                /* width: 30px; */
+                /* height: 30px; */
+                border-radius: 15px;
+                background-color: #f7f8fb; 
+            }
+
+            &&& .react-datepicker__day--today {
+                background-color: #e4edfe;
+                border-radius: 15px;
+            }
+
+            /* &&& .react-datepicker__month-text--keyboard-selected {
+                background-color: #4280f5;
+                border-radius: 15px;
+            } */
+
+            &&& .react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected {
+                border-radius: 15px;
+                background-color: #4280f5;
+            }
+
+            &&& .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range {
+                border-radius: 15px;
+                background-color: #4280f5;
+            }
+
+            .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::before {
+                border-top: unset;
             }
         `
 
@@ -531,31 +826,3 @@ export class DatePickerWrapper extends React.Component {
         );
     }
 }
-
-// export const JamesDatePicker = styled(DatePickerWrapper)`
-export const JamesDatePicker = styled(DatePicker)`
-    /* width: 240px; */
-    height: 40px;
-    border-radius: 4px;
-    border: solid 1px #e4e7ef;
-    background-color: #ffffff;
-
-    &&& input::placeholder {
-        /* width: 184px; */
-        /* height: 22px; */
-        opacity: 0.35;
-        /* font-family: SpoqaHanSans; */
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.47;
-        letter-spacing: -0.3px;
-        text-align: left;
-        color: #2f3d50;
-    }
-
-    /* &&& button {
-        background-color: #000000;
-    } */
-`

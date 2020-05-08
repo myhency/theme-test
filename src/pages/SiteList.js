@@ -3,24 +3,24 @@ import { withRouter, Link } from 'react-router-dom';
 import {
     Button,
     Form,
-    Header,
     Modal,
     Grid,
-    Icon,
-    Card,
+    // Icon,
+    // Card,
     Image,
-    Dropdown,
-    Label,
-    Divider,
-    Input
+    // Dropdown,
+    // Label,
+    // Divider,
+    // Input
 } from 'semantic-ui-react';
 import LogoDropZone from '../components/LogoDropZone';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
 import constants from '../utils/constants';
 import { format, parse } from 'date-fns';
+import moreIcon from '../assets/images/btn_more.png';
 import styled from 'styled-components';
 import {
     JamesInput,
@@ -33,7 +33,8 @@ import {
     JamesEmptyCard,
     JamesModal,
     JamesHeader,
-    JamesForm
+    JamesForm,
+    JamesDatePicker
 } from '../themes/jamesStyledComponents';
 
 
@@ -85,7 +86,7 @@ class SiteList extends Component {
             //Add site modal
             addSiteModalOpen: false,
             siteNameAdded: '',
-            openDateAdded: '',
+            openDateAdded: undefined,
             logoFileNameAdded: '',
             //Modify site modal
             modifySiteModalOpen: false,
@@ -122,8 +123,8 @@ class SiteList extends Component {
     }
 
     //Add Site Event
-    handleOnChangeOpenDateAddSiteModal = (event, data) => {
-        this.setState({ openDateAdded: data.value });
+    handleOnChangeOpenDateAddSiteModal = (date) => {
+        this.setState({ openDateAdded: date });
     }
 
     //Add Site Event
@@ -315,7 +316,8 @@ class SiteList extends Component {
                                                     />
                                                 </JamesColumn>
                                                 <JamesColumn>
-                                                    <JamesDropdown style={{ float: 'right', width: '32px', height: '32px' }}>
+                                                    <JamesDropdown style={{ float: 'right', width: '32px', height: '32px' }}
+                                                        customIcon={moreIcon}>
                                                         <JamesDropdown.Menu direction='left'>
                                                             <JamesDropdown.Item
                                                                 onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
@@ -388,23 +390,26 @@ class SiteList extends Component {
                             </JamesForm.Field>
                             <JamesForm.Field required>
                                 <label>OPEN DATE</label>
-                                <JamesForm.Input
-                                    error={this.state.error ? 'error' : null}
-                                    fluid
-                                    placeholder='Site name'
-                                    onChange={this.handleOnChangeSiteNameAddSiteModal}
+                                <JamesDatePicker
+                                    isClearable
+                                    dateFormat="yyyy-MM-dd"
+                                    placeholderText='From'
+                                    selected={this.state.openDateAdded}
+                                    onChange={this.handleOnChangeOpenDateAddSiteModal}
+                                    formatWeekDay={nameOfDay => nameOfDay.substr(0, 1)}
                                 />
                             </JamesForm.Field>
                         </JamesForm>
                     </JamesModal.Description>
                     <Modal.Content>
                         <Form>
-                            <Form.Group widths='equal'>
+                            {/* <Form.Group widths='equal'>
+                                
                                 <SemanticDatepicker
                                     label='Open date'
                                     datePickerOnly={true}
                                     onChange={this.handleOnChangeOpenDateAddSiteModal} />
-                            </Form.Group>
+                            </Form.Group> */}
                             <LogoDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
                         </Form>
                     </Modal.Content>

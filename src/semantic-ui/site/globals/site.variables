@@ -5,3 +5,7 @@
 @primaryColor: #002f4e;
 @pageBackground: #eff1f7;
 @hyundaiLogoColor: #0A1654;
+
+
+@importGoogleFonts: false;
+@fontName : 'Spoqa Han Sans';

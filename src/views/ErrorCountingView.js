@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Image, Container } from 'semantic-ui-react';
 import axios from 'axios';
-import errorsIcon from '../assets/images/icon_errors.png';
+// import errorsIcon from '../assets/images/icon_errors@3x.png';
+import errorsIcon from '../assets/images/icon_errors.svg';
 import { Styles } from '../components/CountingCardStyle';
 
 const url = `/api/logs/error/count`;

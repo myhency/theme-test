@@ -2,3 +2,9 @@
          Site Overrides
 *******************************/
 
+
+@font-face {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    src:url('../../../assets/fonts/font.css');
+}
+

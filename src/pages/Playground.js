@@ -20,12 +20,9 @@ import {
     JamesModal,
     JamesForm,
     JamesDatePicker,
-    JamesDateInput,
-    DatePickerWrapper
-
+    JamesDropZone
 } from '../themes/jamesStyledComponents';
 import moreIcon from '../assets/images/btn_more.png';
-import calendarIcon from '../assets/images/icon_calendar.png';
 
 
 class Playground extends Component {
@@ -33,11 +30,13 @@ class Playground extends Component {
         super(props);
 
         this.state = {
-            error: true
+            error: true,
+            startDate: undefined
         }
     }
 
     setStartDate = (date) => {
+        console.log('setStartDate' + date);
         this.setState({
             startDate: date
         })
@@ -48,6 +47,7 @@ class Playground extends Component {
     }
 
     render() {
+        console.log(this.state.startDate)
         return (
             <JamesGrid celled>
                 <JamesRow columns={2}>
@@ -245,17 +245,22 @@ class Playground extends Component {
                         JamesDatePicker Sample
                     </JamesColumn>
                     <JamesColumn computer={8} tablet={16} mobile={16}>
-                        <DatePickerWrapper
+                        <JamesDatePicker
                             isClearable
                             dateFormat="yyyy-MM-dd"
                             placeholderText='From'
                             selected={this.state.startDate}
-                            onChange={date => this.setStartDate(date)}
+                            onChange={this.setStartDate}
                             formatWeekDay={nameOfDay => nameOfDay.substr(0, 1)}
-                        // customInput={<JamesDateInput
-                        //     icon='calendar outline'
-                        // />}
                         />
+                    </JamesColumn>
+                </JamesRow>
+                <JamesRow columns={2}>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        JamesDropZone Sample
+                    </JamesColumn>
+                    <JamesColumn computer={8} tablet={16} mobile={16}>
+                        <JamesDropZone onLoadEnd={() => console.log('loaded')}/>
                     </JamesColumn>
                 </JamesRow>
             </JamesGrid>
