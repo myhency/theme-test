@@ -6,9 +6,9 @@ import { Grid, Image, Container } from 'semantic-ui-react';
 import { Bar } from 'react-chartjs-2';
 import { parse, format } from 'date-fns';
 import constants from '../utils/constants';
-import pairwiseIcon from '../assets/images/icon_pairwise.png';
-import issuanceIcon from '../assets/images/icon_issuance.png';
-import verificationIcon from '../assets/images/icon_verification.png';
+import pairwiseIcon from '../assets/images/icon_pairwise.svg';
+import issuanceIcon from '../assets/images/icon_issuance.svg';
+import verificationIcon from '../assets/images/icon_verification.svg';
 
 const Styles = styled.div`
     .transition-column {
@@ -82,8 +82,8 @@ const Styles = styled.div`
     .statistic-card {
         background-color: white;
         border-radius: 16px;
-        box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1);
-        height: 101px!important;
+        /* box-shadow: 0 10px 15px 0 rgba(131, 145, 165, 0.1); */
+        /* height: 101px!important; */
         margin: 0!important;
         padding: 22px 24px 22px 24px;
     }
@@ -364,7 +364,7 @@ class ServiceSliderView extends Component {
                     return (
                         <Styles>
                             <Grid>
-                                <Grid.Row columns={2}>
+                                <Grid.Row columns={2} stretched>
                                     <Grid.Column width={12} className='transition-column'>
                                         <Container className='transition-card'>
                                             <Grid className='counting-card-content-box' key={index}>

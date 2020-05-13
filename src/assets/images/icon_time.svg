@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__icon_time" width="16" height="16" viewBox="0 0 16 16">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:none}
+        </style>
+    </defs>
+    <path id="prefix__bound" d="M0 0H16V16H0z" class="prefix__cls-1"/>
+    <g id="prefix__icon" transform="translate(80 5.333)">
+        <g id="prefix__Ellipse_53" data-name="Ellipse 53" transform="translate(-79.5 -4.833)" style="stroke:#8391a5;fill:none">
+            <circle cx="7.5" cy="7.5" r="7.5" style="stroke:none"/>
+            <circle cx="7.5" cy="7.5" r="7" class="prefix__cls-1"/>
+        </g>
+        <path id="prefix__Path_84" d="M-75.763-13.19l3.782-1.469 3.464 2" data-name="Path 84" transform="rotate(-120 -66.989 -5.99)" style="stroke-width:1.1px;stroke:#8391a5;fill:none"/>
+    </g>
+</svg>

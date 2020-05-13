@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__tag_ok" width="34" height="24" viewBox="0 0 34 24">
+    <rect id="prefix__bg" width="34" height="24" rx="12" style="opacity:.08;fill:#2f73f4"/>
+    <text id="prefix__OK" transform="translate(17 17)" style="font-size:13px;font-family:SpoqaHanSans-Regular,SpoqaHanSans;letter-spacing:-.01em;fill:#2f73f4">
+        <tspan x="-8.957" y="0">OK</tspan>
+    </text>
+</svg>

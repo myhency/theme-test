@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { Container, Button, Image, Header } from 'semantic-ui-react';
+import { Container, Button, Image, Header, Icon, Grid } from 'semantic-ui-react';
+import closeIcon from '../assets/images/icon_close.svg'
 
 const Styles = styled.div`
     .dropzone {
@@ -9,8 +10,8 @@ const Styles = styled.div`
         display: flex;
         flex-direction: column;
         padding: 20px;
-        border-width: 2px;
-        border-radius: 2px;
+        /* border-width: 2px; */
+        border-radius: 4px;
         border-color: grey;
         border-style: dashed;
         background-color: #fafafa;
@@ -33,11 +34,30 @@ const Styles = styled.div`
         flex-direction: column;
 
         padding: 20px;
-        border-width: 2px;
-        border-radius: 2px;
+        /* border-width: 2px; */
+        border-radius: 4px;
         border-color: deeppink;
         border-style: dashed;
         background-color: hotpink;
+        color: grey;
+        font-size: 1rem;
+        outline: none;
+        transition: border .24s ease-in-out;
+        cursor: pointer;
+        min-height: 100px;
+    }
+
+    .thumb {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-width: 2px;
+        border-radius: 4px;
+        border-color: grey;
+        /* border-style: dashed; */
+        border: solid 1px #e4e7ef;
+        background-color: #ffffff;
         color: grey;
         font-size: 1rem;
         outline: none;
@@ -62,42 +82,75 @@ const Styles = styled.div`
     };
 `
 
-const LogoDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
+const LogoDropZone = ({
+    onLoadEnd,
+    imageUrl
+}) => {
     const [files, setFiles] = React.useState([]);
-    const [thumbs, setThumbs] = React.useState('');
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: 'image/*',
-        onDrop: acceptedFiles => {
-            var reader = new FileReader();
-            var url = reader.readAsDataURL(acceptedFiles[0]);
-            reader.onloadend = (e) => {
-                setFiles([reader.result]);
+    const [fileSelected, setFileSelected] = React.useState(imageUrl ? true : false);
+    const {
+        getRootProps,
+        getInputProps,
+        isDragActive } = useDropzone({
+            accept: 'image/*',
+            onDrop: acceptedFiles => {
+                console.log(acceptedFiles)
+                setFiles(acceptedFiles.map(file => Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })));
                 onLoadEnd(acceptedFiles[0]);
+                setFileSelected(true);
             }
-        }
-    });
+        });
 
-    React.useEffect(() => {
-        console.log(files.length)
-        if (files.length > 0) {
-            console.log('aaaa')
-            return setThumbs(<Image src={files[0]} centered size='small' className='img' />);
-        }
-        if (onOpen) {
-            console.log('bbbb')
-            return getLogo((logofile) => {
-                setThumbs(<Image src={'/' + logofile} centered size='small' className='img' />);
-            });
-        }
-    }, [onOpen, files]);
+    let thumbs;
+    if (files.length > 0) { // 업로드 시, 파일을 onDrop했을 때
+        thumbs = files.map((file, key) => (
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} />
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Image src={file.preview} centered size='small' className='img' key={key} />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
 
-    React.useEffect(() => () => {
-        // Make sure to revoke the data uris to avoid memory leaks
-        files.forEach(file => URL.revokeObjectURL(file));
-    }, [files]);
+        ));
+    } else if (files.length === 0 && imageUrl !== undefined) { // 파일 onDrop하지 않고, 이미 선택된 이미지 표시할 때
+        thumbs = (
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} />
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Image src={`/${imageUrl}`} centered size='small' className='img' />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        );
+    } else { // 파일 onDrop하지 않고, 이미 선택된 파일도 없을 때
+        thumbs = null;
+    }
 
-    return (
-        <Styles>
+    let thumbsContainer;
+    if (fileSelected) {
+        thumbsContainer = (
+            <Container textAlign='center'>
+                <div className='thumb'>
+                    {thumbs}
+                </div>
+            </Container>
+
+        );
+    } else {
+        thumbsContainer = (
             <Container textAlign='center'>
                 <div {...getRootProps({ className: 'dropzone', ...(isDragActive ? { className: 'dropzone-active' } : {}) })}>
                     <input {...getInputProps()} />
@@ -107,11 +160,15 @@ const LogoDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
                     </Container>
                 </div>
             </Container>
-            <Container textAlign='center' style={{ marginTop: '10px' }}>
-                <div className='thumbInner'>
-                    {thumbs}
-                </div>
-            </Container>
+
+        );
+    }
+
+    console.log(fileSelected)
+
+    return (
+        <Styles>
+            {thumbsContainer}
         </Styles>
     );
 }

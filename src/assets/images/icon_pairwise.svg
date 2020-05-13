@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__icon_pairwise" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .prefix__cls-1,.prefix__cls-2{fill:none}.prefix__cls-2{stroke:#4280f5;stroke-width:1.2px}.prefix__cls-3{stroke:none}
+        </style>
+    </defs>
+    <path id="prefix__bound" d="M0 0H24V24H0z" class="prefix__cls-1"/>
+    <g id="prefix__icon" transform="translate(2 2)">
+        <g id="prefix__Ellipse_47" class="prefix__cls-2" data-name="Ellipse 47" transform="translate(6.5)">
+            <circle cx="3.5" cy="3.5" r="3.5" class="prefix__cls-3"/>
+            <circle cx="3.5" cy="3.5" r="2.9" class="prefix__cls-1"/>
+        </g>
+        <g id="prefix__Rectangle_285" class="prefix__cls-2" data-name="Rectangle 285" transform="translate(0 13)">
+            <rect width="7" height="7" class="prefix__cls-3" rx="1"/>
+            <rect width="5.8" height="5.8" x=".6" y=".6" class="prefix__cls-1" rx=".4"/>
+        </g>
+        <g id="prefix__Rectangle_286" class="prefix__cls-2" data-name="Rectangle 286" transform="translate(13 13)">
+            <rect width="7" height="7" class="prefix__cls-3" rx="1"/>
+            <rect width="5.8" height="5.8" x=".6" y=".6" class="prefix__cls-1" rx=".4"/>
+        </g>
+        <path id="prefix__Path_71" d="M12658 1196.013l4-4" class="prefix__cls-2" data-name="Path 71" transform="translate(-12652 -1181.66)"/>
+        <path id="prefix__Path_72" d="M12662 1196.013l-4-4" class="prefix__cls-2" data-name="Path 72" transform="translate(-12648 -1181.66)"/>
+        <path id="prefix__Path_73" d="M12661 1188.45v5" class="prefix__cls-2" data-name="Path 73" transform="translate(-12651 -1182.2)"/>
+    </g>
+</svg>

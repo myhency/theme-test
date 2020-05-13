@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__tag_error" width="46" height="24" viewBox="0 0 46 24">
+    <rect id="prefix__bg" width="46" height="24" rx="12" style="opacity:.08;fill:#fc6386"/>
+    <text id="prefix__Error" transform="translate(23 17)" style="font-size:13px;font-family:SpoqaHanSans-Regular,SpoqaHanSans;fill:#fc6386">
+        <tspan x="-15.327" y="0">Error</tspan>
+    </text>
+</svg>

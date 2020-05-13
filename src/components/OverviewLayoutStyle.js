@@ -26,6 +26,8 @@ const Styles = styled.div`
     }
 
     .clock-icon {
+        display: inline-block!important;
+        position: relative;
         width: 16px!important;
         height: 16px!important;
         object-fit: contain;

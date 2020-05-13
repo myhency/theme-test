@@ -9,6 +9,7 @@ import fileIcon from '../assets/images/icon_file.png';
 import { useDropzone } from 'react-dropzone';
 
 const JamesDropZoneStyles = styled.div`
+    position: relative;
     .dropzone {
         flex: 1;
         display: flex;
@@ -36,7 +37,6 @@ const JamesDropZoneStyles = styled.div`
         flex: 1;
         display: flex;
         flex-direction: column;
-
         padding: 20px;
         border-width: 2px;
         border-radius: 2px;
@@ -48,7 +48,25 @@ const JamesDropZoneStyles = styled.div`
         outline: none;
         transition: border .24s ease-in-out;
         cursor: pointer;
-        min-height: 100px;
+        /* max-height: 100px; */
+    }
+
+    .thumb {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-width: 2px;
+        border-radius: 4px;
+        border-color: grey;
+        border: solid 1px #e4e7ef;
+        background-color: #ffffff;
+        color: grey;
+        font-size: 1rem;
+        outline: none;
+        transition: border .24s ease-in-out;
+        cursor: pointer;
+        /* padding-bottom: 56.25%; */
     }
 
     .thumbInner {
@@ -67,76 +85,168 @@ const JamesDropZoneStyles = styled.div`
 
     .img {
         display: block;
-        width: auto;
-        height: 100%;
+        /* width: auto; */
+        /* height: auto; */
+        /* max-width: 120px!important; */
+        height: 78px!important;
+        /* max-height: 58px!important; */
+        /* object-fit: cover; */
     };
 `
 
-export const JamesDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
+export const JamesDropZone = ({
+    onLoadEnd,
+    imageUrl
+}) => {
     const [files, setFiles] = React.useState([]);
-    const [thumbs, setThumbs] = React.useState('');
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: 'image/*',
-        onDrop: acceptedFiles => {
-            var reader = new FileReader();
-            var url = reader.readAsDataURL(acceptedFiles[0]);
-            reader.onloadend = (e) => {
-                setFiles([reader.result]);
+    const [fileSelected, setFileSelected] = React.useState(imageUrl ? true : false);
+    const {
+        getRootProps,
+        getInputProps,
+        isDragActive } = useDropzone({
+            accept: 'image/*',
+            onDrop: acceptedFiles => {
+                console.log(acceptedFiles)
+                setFiles(acceptedFiles.map(file => Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })));
                 onLoadEnd(acceptedFiles[0]);
+                setFileSelected(true);
             }
-        }
-    });
+        });
 
-    React.useEffect(() => {
-        console.log(files.length)
-        if (files.length > 0) {
-            console.log('aaaa')
-            return setThumbs(<Image src={files[0]} centered size='small' className='img' />);
-        }
-        if (onOpen) {
-            console.log('bbbb')
-            return getLogo((logofile) => {
-                setThumbs(<Image src={'/' + logofile} centered size='small' className='img' />);
-            });
-        }
-    }, [onOpen, files]);
-
-    React.useEffect(() => () => {
-        // Make sure to revoke the data uris to avoid memory leaks
-        files.forEach(file => URL.revokeObjectURL(file));
-    }, [files]);
-
-    return (
-        <JamesDropZoneStyles>
-            <Container textAlign='center'>
-                <div {...getRootProps({ className: 'dropzone', ...(isDragActive ? { className: 'dropzone-active' } : {}) })}>
-                    <input {...getInputProps()} />
-                    
-                    <Container textAlign='center'>
-                        
-                        <Image centered src={fileIcon}/>
-                        <JamesBodyText style={{ textAlign: 'center' }}>Click here to upload an image</JamesBodyText>
-                        <div className='thumbInner'>
-                            {thumbs}
-                        </div>
-                    </Container>
-                </div>
+    let thumbs;
+    if (files.length > 0) { // 업로드 시, 파일을 onDrop했을 때
+        thumbs = files.map((file, key) => (
+            // <Grid>
+            //     <Grid.Row>
+            //         <Grid.Column>
+            //             <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} />
+            //         </Grid.Column>
+            //     </Grid.Row>
+            //     <Grid.Row>
+            //         <Grid.Column>
+            //             <Image src={file.preview} centered size='small' className='img' key={key} />
+            //         </Grid.Column>
+            //     </Grid.Row>
+            // </Grid>
+            <Container>
+                <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} style={{ position: 'absolute', top: '5px', right: '5px' }} />
+                <Image src={file.preview} centered className='img' key={key} />
             </Container>
-            <Container textAlign='center' style={{ marginTop: '10px' }}>
-                <div className='thumbInner'>
+        ));
+    } else if (files.length === 0 && imageUrl !== undefined) { // 파일 onDrop하지 않고, 이미 선택된 이미지 표시할 때
+        thumbs = (
+            // <Grid>
+            //     <JamesRow>
+            //         <JamesColumn>
+            //             <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} />
+            //         </JamesColumn>
+            //     </JamesRow>
+            //     <JamesRow>
+            //         <JamesColumn>
+            //             <Image src={`/${imageUrl}`} centered size='small' className='img' />
+            //         </JamesColumn>
+            //     </JamesRow>
+            // </Grid>
+            <Container>
+                <Image src={closeIcon} verticalAlign='top' floated='right' onClick={() => setFileSelected(false)} style={{ position: 'absolute', top: '5px', right: '5px' }} />
+                <Image src={`/${imageUrl}`} centered className='img' />
+            </Container>
+        );
+    } else { // 파일 onDrop하지 않고, 이미 선택된 파일도 없을 때
+        thumbs = null;
+    }
+
+    let thumbsContainer;
+    if (fileSelected) {
+        thumbsContainer = (
+            <Container textAlign='center'>
+                <div className='thumb'>
                     {thumbs}
                 </div>
             </Container>
+
+        );
+    } else {
+        thumbsContainer = (
+            <Container textAlign='center'>
+                <div {...getRootProps({ className: 'dropzone', ...(isDragActive ? { className: 'dropzone-active' } : {}) })}>
+                    <input {...getInputProps()} />
+                    <Container textAlign='center'>
+                        <Image centered src={fileIcon} />
+                        <JamesBodyText style={{ textAlign: 'center' }}>Click here to upload an image</JamesBodyText>
+                    </Container>
+                </div>
+            </Container>
+
+        );
+    }
+
+    return (
+        <JamesDropZoneStyles>
+            {thumbsContainer}
         </JamesDropZoneStyles>
     );
 }
 
-export const JamesCard = styled(Container)({
-    backgroundColor: 'white',
-    borderRadius: '16px',
-    boxShadow: '0 10px 14px 0 rgba(131, 145, 165, 0.1)',
-    padding: '24px'
-});
+// export const JamesDropZone = ({ onLoadEnd, onOpen, getLogo }) => {
+//     const [files, setFiles] = React.useState([]);
+//     const [thumbs, setThumbs] = React.useState('');
+//     const { getRootProps, getInputProps, isDragActive } = useDropzone({
+//         accept: 'image/*',
+//         onDrop: acceptedFiles => {
+//             var reader = new FileReader();
+//             var url = reader.readAsDataURL(acceptedFiles[0]);
+//             reader.onloadend = (e) => {
+//                 setFiles([reader.result]);
+//                 onLoadEnd(acceptedFiles[0]);
+//             }
+//         }
+//     });
+
+//     React.useEffect(() => {
+//         console.log(files.length)
+//         if (files.length > 0) {
+//             console.log('aaaa')
+//             return setThumbs(<Image src={files[0]} centered size='small' className='img' />);
+//         }
+//         if (onOpen) {
+//             console.log('bbbb')
+//             return getLogo((logofile) => {
+//                 setThumbs(<Image src={'/' + logofile} centered size='small' className='img' />);
+//             });
+//         }
+//     }, [onOpen, files]);
+
+//     React.useEffect(() => () => {
+//         // Make sure to revoke the data uris to avoid memory leaks
+//         files.forEach(file => URL.revokeObjectURL(file));
+//     }, [files]);
+
+//     return (
+//         <JamesDropZoneStyles>
+//             <Container textAlign='center'>
+//                 <div {...getRootProps({ className: 'dropzone', ...(isDragActive ? { className: 'dropzone-active' } : {}) })}>
+//                     <input {...getInputProps()} />
+                    
+//                     <Container textAlign='center'>
+//                         <Image centered src={fileIcon} />
+//                         <JamesBodyText style={{ textAlign: 'center' }}>Click here to upload an image</JamesBodyText>
+//                     </Container>
+//                 </div>
+//             </Container>
+//         </JamesDropZoneStyles>
+//     );
+// }
+
+export const JamesCard = styled(Container)`
+    height: ${props => props.height ? props.height : 'inherit'};
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 14px 0 rgba(131, 145, 165, 0.1);
+    padding: 24px;
+`
 
 export const JamesEmptyCard = styled(Container)`
     width: 342px;
@@ -160,15 +270,15 @@ export const JamesColumn = styled(Grid.Column)({
 export const JamesButton = styled(Button)`
     &&& {
         border-radius: 24px;
-        background-color: #4280f5;
-        color: white;
+        background-color: ${props => props.negativestyle ? 'white': '#4280f5' };
+        color: ${props => props.negativestyle ? '#4280f5' : 'white' };
         height: 40px;
     }
 
     &&&:hover {
         border-radius: 24px;
-        background-color: #3373eb;
-        color: white;
+        background-color: ${props => props.negativestyle ? 'white' : '#3373eb' };
+        color: ${props => props.negativestyle ? '#4280f5' : 'white' };
         height: 40px;
     }
 `
@@ -469,7 +579,7 @@ export const JamesDropdown = styled(Dropdown)`
     }
 
     &&& i.icon:before {
-        content: ${props => props.customIcon ? 'url(' + props.customIcon + ')' : props.icon};
+        content: ${props => props.customicon ? 'url(' + props.customicon + ')' : props.icon};
         margin: 0;
     }
 `
@@ -483,7 +593,7 @@ export const JamesModal = styled(Modal)`
     width: 40%;
 
     @media only screen and (min-width: 992px) {
-        width: 450px !important;
+        width: 368px !important;
         margin: 0em 0em 0em 0em;
     }
 

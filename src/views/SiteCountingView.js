@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Image, Container } from 'semantic-ui-react';
 import axios from 'axios';
 import { Styles } from '../components/CountingCardStyle';
-import sitesIcon from '../assets/images/icon_sites.png';
+// import sitesIcon from '../assets/images/icon_sites.png';
+import sitesIcon from '../assets/images/icon_sites.svg';
 
 class SiteCountingView extends Component {
     constructor(props) {

@@ -13,14 +13,13 @@ import {
     // Divider,
     // Input
 } from 'semantic-ui-react';
-import LogoDropZone from '../components/LogoDropZone';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 // import DatePicker from 'react-datepicker';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import axios from 'axios';
 import constants from '../utils/constants';
 import { format, parse } from 'date-fns';
-import moreIcon from '../assets/images/btn_more.png';
+import moreIcon from '../assets/images/btn_more.svg';
 import styled from 'styled-components';
 import {
     JamesInput,
@@ -34,7 +33,8 @@ import {
     JamesModal,
     JamesHeader,
     JamesForm,
-    JamesDatePicker
+    JamesDatePicker,
+    JamesDropZone
 } from '../themes/jamesStyledComponents';
 
 
@@ -129,6 +129,7 @@ class SiteList extends Component {
 
     //Add Site Event
     handleOnLoadEndAddSiteModalLogoDropZone = (value) => {
+        console.log(value)
         this.setState({ logoFileNameAdded: value });
     }
 
@@ -155,6 +156,7 @@ class SiteList extends Component {
     //Add Site Event
     handleOnClickAddSiteCloseButton = () => {
         this.setState({
+            addSiteModalOpen: false,
             siteNameAdded: '',
             openDateAdded: '',
             logoFileNameAdded: ''
@@ -176,7 +178,9 @@ class SiteList extends Component {
 
     //Modify Site Event
     handleOnLoadEndModifiedSiteModalLogoDropZone = (value) => {
+        console.log('handleOnLoadEndModifiedSiteModalLogoDropZone');
         this.setState({ logoFileNameModified: value });
+        // this.setState({ newFile: value });
     }
 
     //Modify Site Event
@@ -193,10 +197,13 @@ class SiteList extends Component {
 
     //Modify Site Event
     handleOnClickModifyButtonModifySiteModal = () => {
+
         let frm = new FormData();
         const { siteIdModified, siteNameModified, openDateModified, logoFileNameModified } = this.state;
         console.log(openDateModified)
+        console.log('logoFile', logoFileNameModified);
         frm.append('logoFile', logoFileNameModified);
+        // frm.append('logoFile', this.state.newFile);
         frm.append('name', siteNameModified);
         frm.append('openDate', format(openDateModified, constants.DATE_FORMAT));
         axios.put(`/api/sites/${siteIdModified}`, frm, {
@@ -217,6 +224,7 @@ class SiteList extends Component {
 
     //Modify Site Event
     handleOnClickModifySiteModalOpen = (currentModifyingCard, event) => {
+        console.log('onClickModify ', currentModifyingCard);
         if (event) this.setState({ modifySiteModalOpen: true, ...currentModifyingCard });
     }
 
@@ -260,6 +268,7 @@ class SiteList extends Component {
     // }
 
     render() {
+
         const {
             siteList,
             totalCount,
@@ -297,9 +306,10 @@ class SiteList extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         {siteList.map((site, index) => {
+                            console.log(site.logoFileName)
                             return (
                                 <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '24px' }} key={index}>
-                                    <JamesCard>
+                                    <JamesCard height='160px'>
                                         <Grid style={{ margin: '0' }}>
                                             <JamesRow columns={2}>
                                                 <JamesColumn>
@@ -317,7 +327,7 @@ class SiteList extends Component {
                                                 </JamesColumn>
                                                 <JamesColumn>
                                                     <JamesDropdown style={{ float: 'right', width: '32px', height: '32px' }}
-                                                        customIcon={moreIcon}>
+                                                        customicon={moreIcon}>
                                                         <JamesDropdown.Menu direction='left'>
                                                             <JamesDropdown.Item
                                                                 onClick={(currentModifyingCard, event) => this.handleOnClickModifySiteModalOpen({
@@ -361,7 +371,7 @@ class SiteList extends Component {
                         })}
                         {[...Array(16 - siteList.length).keys()].map((n, index) => {
                             return (
-                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '24px' }}>
+                                <Grid.Column mobile={16} tablet={8} computer={4} style={{ marginBottom: '24px' }} key={index}>
                                     <JamesEmptyCard />
                                 </Grid.Column>
                             )
@@ -399,18 +409,28 @@ class SiteList extends Component {
                                     formatWeekDay={nameOfDay => nameOfDay.substr(0, 1)}
                                 />
                             </JamesForm.Field>
+                            <JamesForm.Field>
+                                <label>LOGO</label>
+                                <JamesDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
+                            </JamesForm.Field>
+                            <JamesForm.Field>
+                                <JamesButton
+                                    onClick={this.handleOnClickAddSiteModalAddButton}
+                                    content='ADD'
+                                    floated='right'
+                                />
+                                <JamesButton
+                                    onClick={this.handleOnClickAddSiteCloseButton}
+                                    content='CANCEL'
+                                    floated='right'
+                                    negativestyle
+                                />
+                            </JamesForm.Field>
                         </JamesForm>
                     </JamesModal.Description>
-                    <Modal.Content>
+                    {/* <Modal.Content>
                         <Form>
-                            {/* <Form.Group widths='equal'>
-                                
-                                <SemanticDatepicker
-                                    label='Open date'
-                                    datePickerOnly={true}
-                                    onChange={this.handleOnChangeOpenDateAddSiteModal} />
-                            </Form.Group> */}
-                            <LogoDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
+                            <JamesDropZone onLoadEnd={this.handleOnLoadEndAddSiteModalLogoDropZone} />
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>
@@ -426,16 +446,16 @@ class SiteList extends Component {
                             icon='checkmark'
                             content='Add'
                         />
-                    </Modal.Actions>
+                    </Modal.Actions> */}
                 </JamesModal>
 
-                <Modal
+                <JamesModal
                     open={modifySiteModalOpen}
                     onClose={this.handleOnCloseModifySiteModal}
                     closeOnEscape={closeOnEscape}
                     closeOnDimmerClick={closeOnDimmerClick}>
-                    <Modal.Header>Modify Site</Modal.Header>
-                    <Modal.Content>
+                    <JamesModal.Header>Modify Site</JamesModal.Header>
+                    <JamesModal.Content>
                         <Form>
                             <Form.Group widths='equal'>
                                 <Form.Input
@@ -453,14 +473,13 @@ class SiteList extends Component {
                                     value={openDateModified}
                                 />
                             </Form.Group>
-                            <LogoDropZone
+                            <JamesDropZone
                                 onLoadEnd={this.handleOnLoadEndModifiedSiteModalLogoDropZone}
-                                onOpen={modifySiteModalOpen}
-                                getLogo={(callback) => this.getLogoFileName(callback)}
+                                imageUrl={this.state.logoFileNameModified}
                             />
                         </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
+                    </JamesModal.Content>
+                    <JamesModal.Actions>
                         <Button
                             negative
                             content='Close'
@@ -473,8 +492,8 @@ class SiteList extends Component {
                             content='Modify'
                             onClick={this.handleOnClickModifyButtonModifySiteModal}
                         />
-                    </Modal.Actions>
-                </Modal>
+                    </JamesModal.Actions>
+                </JamesModal>
             </Styles>
         )
     }
