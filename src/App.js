@@ -7,6 +7,7 @@ import ScrollToTop from './utils/ScrollToTop';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NotFound from './pages/NotFound';
+import Playground from "./pages/Playground";
 
 const App = (props) => {
 
@@ -17,6 +18,7 @@ const App = (props) => {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/home/overview"/>}/> 
             <Route path="/home" component={MainLayout} />
+            <Route path="/playground" component={Playground} />
             <Route component={NotFound} />
           </Switch>
         </div>

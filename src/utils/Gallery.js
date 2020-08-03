@@ -4,8 +4,10 @@ import shinhanLogo from '../assets/images/shinhan-logo.jpg';
 import kmiLogo from '../assets/images/kmi-logo.jpeg';
 import green from '../assets/images/green.svg';
 import red from '../assets/images/red.svg';
-import error from '../assets/images/tag_error.png';
-import ok from '../assets/images/tag_ok.png';
+// import error from '../assets/images/tag_error.png';
+// import ok from '../assets/images/tag_ok.png';
+import error from '../assets/images/tag_error.svg';
+import ok from '../assets/images/tag_ok.svg';
 import createReactClass from 'create-react-class';
 
 

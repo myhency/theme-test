@@ -8,6 +8,7 @@ import InstanceDetails from "../../pages/InstanceDetails";
 import LogList from "../../pages/LogList";
 import LogoDropZone from "../../components/LogoDropZone";
 
+
 const contextPath = '/home/';
 
 const mainRoutes = [
@@ -71,7 +72,7 @@ const mainRoutes = [
         name: 'InstanceDetails',
         component: InstanceDetails,
         topMenu: false
-    }
+    },
 ]
 
 export default mainRoutes;

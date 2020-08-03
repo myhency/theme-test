@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Image, Container } from 'semantic-ui-react';
 import axios from 'axios';
 import { Styles } from '../components/CountingCardStyle';
-import servicesIcon from '../assets/images/icon_services.png';
+// import servicesIcon from '../assets/images/icon_services.png';
+import servicesIcon from '../assets/images/icon_services.svg';
 
 const url = `/api/services/count`;
 

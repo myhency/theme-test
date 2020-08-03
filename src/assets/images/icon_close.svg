@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__icon_close" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .prefix__cls-2{fill:none;stroke:#8391a5;stroke-linecap:round;stroke-width:1.1px}
+        </style>
+    </defs>
+    <path id="prefix__Rectangle_441" d="M0 0H24V24H0z" data-name="Rectangle 441" style="fill:none"/>
+    <g id="prefix__Group_472" data-name="Group 472" transform="translate(-323.395 -55.84)">
+        <path id="prefix__Path_110" d="M330.395 62.84l10 10" class="prefix__cls-2" data-name="Path 110"/>
+        <path id="prefix__Path_111" d="M340.395 62.84l-10 10" class="prefix__cls-2" data-name="Path 111"/>
+    </g>
+</svg>

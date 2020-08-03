@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__icon_issuance" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .prefix__cls-1,.prefix__cls-2{fill:none}.prefix__cls-2{stroke:#4280f5;stroke-width:1.2px}
+        </style>
+    </defs>
+    <path id="prefix__bound" d="M0 0H24V24H0z" class="prefix__cls-1"/>
+    <g id="prefix__icon" transform="translate(3.001 2)">
+        <g id="prefix__Rectangle_287" class="prefix__cls-2" data-name="Rectangle 287" transform="translate(2.999)">
+            <rect width="16" height="16" rx="2" style="stroke:none"/>
+            <rect width="14.8" height="14.8" x=".6" y=".6" class="prefix__cls-1" rx="1.4"/>
+        </g>
+        <path id="prefix__Path_74" d="M12693 1180v14h14" data-name="Path 74" transform="translate(-12693.001 -1175)" style="stroke-linejoin:round;stroke:#4280f5;stroke-width:1.2px;fill:none"/>
+        <path id="prefix__Path_75" d="M0 7.5h4.5V0" class="prefix__cls-2" data-name="Path 75" transform="rotate(45 3.737 15.85)"/>
+    </g>
+</svg>
